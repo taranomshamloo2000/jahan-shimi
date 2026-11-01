@@ -5,7 +5,7 @@
 /* Tari's interactive pull-chain lamp */
 #tari-lamp-glow{position:fixed;inset:0;z-index:80;pointer-events:none;opacity:0;transition:opacity .65s ease;background:radial-gradient(ellipse 390px 520px at 58px 95px,var(--lamp-glow,rgba(255,205,112,.24)),transparent 72%),radial-gradient(ellipse at 50% 0%,var(--lamp-glow-soft,rgba(255,190,90,.08)),transparent 55%)}
 body.tari-lamp-on #tari-lamp-glow{opacity:1}
-#tari-pull-lamp{position:fixed;top:0;left:8px;z-index:1000;width:76px;height:190px;display:flex;align-items:center;flex-direction:column;transform:scale(.68);transform-origin:top left;filter:drop-shadow(0 3px 7px #0006);user-select:none;-webkit-user-select:none}
+#tari-pull-lamp{position:fixed;top:0;left:clamp(14px,4vw,48px);z-index:1000;width:76px;height:190px;display:flex;align-items:center;flex-direction:column;filter:drop-shadow(0 4px 10px #0005);user-select:none;-webkit-user-select:none}
 #tari-pull-lamp .lamp-ceiling{width:34px;height:5px;border-radius:0 0 5px 5px;background:linear-gradient(90deg,#d9dce3,#ffffff 48%,#c8ced8)}
 #tari-pull-lamp .lamp-stem{width:3px;height:13px;background:linear-gradient(90deg,#d5d9e1,#ffffff,#c5cbd5)}
 #tari-pull-lamp .lamp-shade{width:70px;height:34px;position:relative;background:linear-gradient(160deg,#ffffff 0%,#f8f9fc 58%,#dce1e9 100%);clip-path:polygon(17% 0,83% 0,100% 100%,0 100%);border-radius:4px 4px 12px 12px}
@@ -20,7 +20,7 @@ body.tari-lamp-on #tari-pull-lamp .lamp-bulb{background:var(--lamp-bulb,#fff4b4)
 #tari-pull-lamp.swinging .lamp-cord{animation:tari-cord-swing .65s ease-out}
 @keyframes tari-cord-swing{0%{transform:rotate(0)}25%{transform:rotate(9deg)}55%{transform:rotate(-6deg)}78%{transform:rotate(3deg)}100%{transform:rotate(0)}}
 #tari-lamp-hint{position:fixed;top:224px;left:clamp(7px,3vw,34px);z-index:999;color:#f3d99e;background:#111a35d9;border:1px solid #f3d99e55;border-radius:9px;padding:4px 8px;font:11px Vazirmatn,Tahoma,sans-serif;opacity:.85;pointer-events:none;white-space:nowrap}
-#tari-lamp-colors{position:fixed;top:190px;left:8px;right:auto;transform:none;z-index:999;display:flex;gap:6px;padding:6px 8px;background:#111a35eF;border:1px solid #dce3ef88;border-radius:20px;box-shadow:0 3px 12px #0003}
+#tari-lamp-colors{position:fixed;top:190px;left:clamp(7px,3vw,34px);right:auto;transform:none;z-index:999;display:flex;gap:6px;padding:6px 8px;background:#111a35eF;border:1px solid #dce3ef88;border-radius:20px;box-shadow:0 3px 12px #0003}
 #tari-lamp-colors button{width:17px;height:17px;padding:0;border-radius:50%;border:2px solid #ffffffaa;cursor:pointer;box-shadow:0 1px 4px #0006}
 #tari-lamp-colors button[aria-pressed="true"]{outline:2px solid #fff;outline-offset:2px}
 body[data-lamp-color="blue"]{--lamp-glow:rgba(90,165,255,.28);--lamp-glow-soft:rgba(90,165,255,.11);--lamp-bulb:#d9edff;--lamp-glow-solid:#5aa5ff}
