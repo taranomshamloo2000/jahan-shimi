@@ -264,7 +264,7 @@ body>header,body>main,body>footer{position:relative;z-index:3}
 اینجام که هم کمکت کنم درس‌هات رو جمع‌وجور کنی، هم وقتی استرس داری باهم برنامه بچینیم.
 خب عزیزدلم، امروز چه خبر؟ امتحان داری یا یه درس حسابی کلافه‌ات کرده؟</div></div>
 <div class="t-guide-suggestions"><button>فردا امتحان دارم!</button><button>برام برنامه‌ریزی کن</button><button>حوصله درس ندارم</button><button>ازم آزمون بگیر</button></div>
-<div class="t-guide-note">نسخهٔ آزمایشی: پاسخ‌ها فعلاً از راهنمای داخلی سایت هستند. برای پاسخ‌گویی هوشمند و آزاد به همهٔ سؤال‌ها، باید سرویس هوش مصنوعی امن به سایت متصل شود.</div>
+<div class="t-guide-note">حالت آفلاین: راهنمای داخلی فعال است. با راه‌اندازی سرور هوش مصنوعی، پاسخ‌گویی آزاد و گفت‌وگوی پیوسته هم فعال می‌شود. برای موضوعات فوری پزشکی یا امنیتی، از بزرگسال قابل اعتماد و خدمات تخصصی کمک بگیر.</div>
 <form class="t-guide-compose" id="t-guide-form"><textarea id="t-guide-input" rows="1" placeholder="حرفتو بزن عزیزدلم..."></textarea><button type="submit">بفرست ↗</button></form>
 </section></div>
 <script src="chemistry-knowledge.js"></script>
@@ -307,7 +307,23 @@ const answer=q=>{
  if(has('دوستت دارم','عاشقتم'))return 'منم خیلی خوشحالم که هم‌صحبتتم، نابغه! 💙 حالا بیا باهم یه قدم به هدف‌هات نزدیک‌تر بشیم.';
  return pick(['عزیزدلم، دارم گوش می‌دم! 💙 یکم بیشتر توضیح بده تا درست راهنماییت کنم.','هوممم، این موضوع ارزش فکرکردن داره! 😌 می‌تونی یه مثال یا جزئیات بیشتر بگی؟','من اینجام که کمکت کنم، نابغه. ✨ اگر سؤال درسیه، اسم درس و پایه رو هم بنویس؛ اگر موضوع دیگه‌ایه، از اول برام تعریف کن.','باشه عزیزدلم، قدم‌به‌قدم حلش می‌کنیم. فقط بگو دقیقاً کجاش برات سؤال شده؟']);
 }
-const send=q=>{const v=(q||input.value).trim();if(!v)return;add(v,'user');input.value='';setTimeout(()=>add(answer(v),'bot'),250)};
+const AI_ENDPOINT = window.TARI_AI_ENDPOINT || "";
+const conversation=[];
+const send=async q=>{
+ const v=(q||input.value).trim();if(!v)return;
+ add(v,'user');input.value='';
+ conversation.push({role:'user',content:v});
+ const pending=document.createElement('div');pending.className='t-guide-msg bot';pending.textContent='دارم با دقت فکر می‌کنم… 💙';chat.appendChild(pending);chat.scrollTop=chat.scrollHeight;
+ try{
+  if(AI_ENDPOINT){
+   const response=await fetch(AI_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:conversation.slice(-12)})});
+   if(!response.ok)throw new Error('AI service unavailable');
+   const data=await response.json();const reply=String(data.reply||'').trim();if(!reply)throw new Error('Empty response');
+   conversation.push({role:'assistant',content:reply});pending.textContent=reply;
+  }else{pending.textContent=answer(v);}
+ }catch(error){pending.textContent='فعلاً اتصال هوشمند در دسترس نیست؛ می‌تونم با راهنمای آفلاین کمکت کنم.\n\n'+answer(v);}
+ chat.scrollTop=chat.scrollHeight;
+};
 open.addEventListener('click',()=>{modal.classList.add('open');document.getElementById('tari-lamp-menu-panel').hidden=true;document.getElementById('tari-lamp-menu-button').setAttribute('aria-expanded','false');input.focus()});
 close.addEventListener('click',()=>modal.classList.remove('open'));modal.addEventListener('click',e=>{if(e.target===modal)modal.classList.remove('open')});document.addEventListener('keydown',e=>{if(e.key==='Escape')modal.classList.remove('open')});
 form.addEventListener('submit',e=>{e.preventDefault();send()});modal.querySelectorAll('.t-guide-suggestions button').forEach(b=>b.addEventListener('click',()=>send(b.textContent)));
