@@ -12,12 +12,19 @@
 .recipe{border-bottom:1px solid #ffffff22;padding:8px 2px;font-size:11px;line-height:1.8}.recipe strong{color:#a9efd5}.toolGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}.tool{background:#263c3e;border:1px solid #9fcfc455;border-radius:9px;padding:7px;font-size:11px}
 #dockTabs{display:flex;gap:5px}#dockTabs button{flex:1;padding:8px 4px;font-size:11px}
 @media(max-width:700px){#labDock{top:72px;bottom:155px;width:44vw;right:5px}.elementGrid{grid-template-columns:repeat(4,1fr)}#labDock .panel{padding:7px}.el{padding:5px 1px}.el b{font-size:14px}.el small{font-size:8px}}
-<style>
+</style><style>
 #reactivityCard{margin-top:8px;padding:9px;border-radius:10px;background:#132b30;border:1px solid #a9efd566;font-size:11px;line-height:1.9}
 #reactivityCard .meter{height:8px;background:#3b5050;border-radius:8px;overflow:hidden;margin:5px 0}
 #reactivityCard .meter i{display:block;height:100%;background:linear-gradient(90deg,#75dcae,#f1d36a,#ff765f)}
 #reactivityCard strong{color:#a9efd5}
-</style></style></head><body>
+</style><style>
+#labDock{width:min(340px,39vw)}
+.dockBody{background:#10232bea}
+.tool{cursor:pointer;transition:.15s}.tool:active{transform:scale(.97);border-color:#a9efd5}
+#elementFactsExtra{margin-top:7px;padding:8px;border-radius:9px;background:#203b3b;font-size:11px;line-height:1.8}
+.labTag{font-size:10px;color:#d4eee4}
+@media(max-width:700px){#labDock{width:47vw;bottom:140px}.tool{font-size:10px;padding:6px}}
+</style></head><body>
 <div id="view"></div><div class="cross">＋</div><div class="toast" id="toast"></div>
 <div class="hud"><div class="row"><div class="panel brandbox"><div class="brand">جهان شیمی | آزمایشگاه تعاملی</div><div class="muted">محیط سه‌بعدی اول‌شخص • بردار، جابه‌جا کن، ترکیب کن</div></div><div class="buttons"><button id="help">راهنما</button><button id="reset">شروع دوباره</button><button id="back">بازگشت به بازی‌ها</button></div></div>
 <div class="bottom"><div class="panel mission"><b id="task">آزمایش ۱: ساخت آب</b><div class="muted" id="desc">بطری هیدروژن و اکسیژن را روی میز کنار ارلن بکش؛ سپس دکمهٔ ترکیب را بزن.</div><div class="meter"><i id="progress"></i></div><div class="muted" id="status">۰ از ۳ مرحله</div></div><div class="hint">ماوس/انگشت: بطری را بکش و رها کن<br>W A S D: حرکت در آزمایشگاه • کشیدن فضای خالی: نگاه</div></div></div>
@@ -27,7 +34,7 @@
   <div class="dockHead"><b style="color:#a9efd5">انبار و دفتر آزمایشگاه</b><span class="muted" id="selectedElement">عنصری انتخاب نشده</span></div>
   <div id="dockTabs"><button data-tab="elements" class="primary">۱۱۸ عنصر</button><button data-tab="recipes">ترکیب‌های پیشنهادی</button><button data-tab="tools">وسایل</button></div>
  </div>
- <div class="panel dockBody" id="elementsPane"><div class="muted">روی نماد هر عنصر بزن تا اطلاعات و ویال آن را ببینی.</div><div id="reactivityCard">یک عنصر را انتخاب کن تا واکنش‌پذیری آن نمایش داده شود.</div><div class="elementGrid" id="elementGrid"></div></div>
+ <div class="panel dockBody" id="elementsPane"><div class="muted">روی نماد هر عنصر بزن تا اطلاعات و ویال آن را ببینی.</div><div id="reactivityCard">یک عنصر را انتخاب کن تا واکنش‌پذیری آن نمایش داده شود.</div><div id="elementFactsExtra">فراوانی پوستهٔ زمین برای عناصر اصلی: اکسیژن ۴۶٫۶٪، سیلیسیم ۲۷٫۷٪، آلومینیم ۸٫۱٪، آهن ۵٪، کلسیم ۳٫۶٪، سدیم ۲٫۸٪، پتاسیم ۲٫۶٪، منیزیم ۲٫۱٪. درصدها تقریبی و مربوط به پوستهٔ زمین‌اند.</div><div class="elementGrid" id="elementGrid"></div></div>
  <div class="panel dockBody" id="recipesPane" style="display:none"><b style="color:#a9efd5">تابلوی ترکیب‌های پیشنهادی</b><div class="muted">این‌ها مدل‌های آموزشی‌اند؛ فقط ترکیب‌های مشخص‌شده در شبیه‌ساز اجرا می‌شوند.</div><div id="recipeList"></div></div>
  <div class="panel dockBody" id="toolsPane" style="display:none"><b style="color:#a9efd5">تجهیزات آزمایشگاه</b><div class="toolGrid" id="toolGrid"></div></div>
 </div><div class="touchpad" id="pad"><div class="knob" id="knob"></div></div>
@@ -55,7 +62,34 @@ makeBottle('H','هیدروژن','#d8f5ff',-3.8);makeBottle('O','اکسیژن','#
 let stand=mesh(new THREE.CylinderGeometry(.34,.42,.12,32),mats('#465c59'),2.4,1.25,-1.1);beaker=new THREE.Group();scene.add(beaker);beaker.position.set(2.4,1.3,-1.1);let bm=new THREE.MeshPhysicalMaterial({color:'#d9f4ee',transparent:true,opacity:.28,roughness:.08,side:THREE.DoubleSide});mesh(new THREE.CylinderGeometry(.34,.26,.85,32,1,true),bm,0,.45,0,beaker);mesh(new THREE.CylinderGeometry(.26,.26,.04,32),bm,0,.03,0,beaker);liquid=mesh(new THREE.CylinderGeometry(.24,.24,.03,32),mats('#7edbd2',.2),0,.12,0,beaker);liquid.visible=false;
 label('HYDROGEN',-3.8,2.25,-1.1);label('OXYGEN',-1.1,2.25,-1.1);label('REACTION STATION',2.4,2.35,-1.1);
 let board=mesh(new THREE.BoxGeometry(5,1.4,.12),mats('#294344'),0,2.5,-10.7);label('CHEMISTRY LAB',0,2.55,-10.58);
-ray=new THREE.Raycaster();plane=new THREE.Plane(new THREE.Vector3(0,1,0),-1.16);clock=new THREE.Clock();animate();
+
+function addBench(x,z,w=4){
+ mesh(new THREE.BoxGeometry(w,.22,2.1),mats('#40585a',.3,.25),x,1.05,z);
+ mesh(new THREE.BoxGeometry(w,.08,2.1),mats('#d6e1d8',.22,.1),x,1.2,z);
+ for(let dx of [-w/2+.15,w/2-.15])mesh(new THREE.BoxGeometry(.14,1.1,.14),mats('#263b3c'),x+dx,.48,z);
+}
+function wallPoster(title,lines,x,z){
+ let canvas=document.createElement('canvas');canvas.width=1024;canvas.height=512;let ctx=canvas.getContext('2d');
+ ctx.fillStyle='#102a2d';ctx.fillRect(0,0,1024,512);ctx.strokeStyle='#9cebd0';ctx.lineWidth=9;ctx.strokeRect(12,12,1000,488);
+ ctx.fillStyle='#b7f4da';ctx.font='bold 42px Tahoma';ctx.textAlign='center';ctx.fillText(title,512,72);
+ ctx.fillStyle='#f1fff8';ctx.font='bold 30px Tahoma';lines.forEach((s,i)=>ctx.fillText(s,512,145+i*58));
+ let tex=new THREE.CanvasTexture(canvas);let p=mesh(new THREE.PlaneGeometry(5.3,2.65),new THREE.MeshBasicMaterial({map:tex}),x,2.65,z);p.rotation.y=0;
+}
+function buildExpandedLab(){
+ // Independent work islands and specialist stations
+ addBench(-7,-2,3.4);addBench(7,-2,3.4);addBench(-7,-7,3.4);addBench(7,-7,3.4);
+ // storage racks
+ for(let x of [-8.2,8.2]){mesh(new THREE.BoxGeometry(2.8,2.8,.35),mats('#344d4d'),x,1.65,-9.8);for(let y of [.8,1.65,2.5])mesh(new THREE.BoxGeometry(2.7,.08,.55),mats('#aabbb0'),x,y,-9.45)}
+ // large wall formula posters
+ wallPoster('فرمول‌های پایهٔ شیمی',['H₂ + O₂ → H₂O','酸 + باز → نمک + آب','PV = nRT  |  قانون گازها','pH = −log[H⁺]'],0,-10.55);
+ wallPoster('قوانین و محاسبات',['n = m / M  |  مول','C = n / V  |  غلظت مولار','قانون پایستگی جرم','ΔH < 0 : گرماده  |  ΔH > 0 : گرماگیر'],-6.5,-10.45);
+ wallPoster('جدول و روندهای تناوبی',['شعاع اتمی: روند کلی ←','انرژی یونش: روند کلی ↑','الکترونگاتیوی: روند کلی ↑','فلزها | نافلزها | شبه‌فلزها'],6.5,-10.45);
+ // overhead light bars and floor markings
+ for(let x of [-8,-4,0,4,8])mesh(new THREE.BoxGeometry(2.6,.06,.45),mats('#fff0c7',.2),x,4,-3);
+ for(let x of [-5,0,5])mesh(new THREE.BoxGeometry(.045,.012,15),mats('#d8c99b'),x,.005,0);
+}
+
+buildExpandedLab();ray=new THREE.Raycaster();plane=new THREE.Plane(new THREE.Vector3(0,1,0),-1.16);clock=new THREE.Clock();animate();
 renderer.domElement.addEventListener('pointerdown',down);renderer.domElement.addEventListener('pointermove',movePointer);renderer.domElement.addEventListener('pointerup',up);renderer.domElement.addEventListener('pointercancel',up);
 }
 function pointerRay(e){let r=renderer.domElement.getBoundingClientRect();ray.setFromCamera(new THREE.Vector2((e.clientX-r.left)/r.width*2-1,-((e.clientY-r.top)/r.height)*2+1),camera)}
@@ -117,7 +151,24 @@ function showElementFacts(sym){
  $('selectedElement').textContent='عنصر انتخابی: '+sym;
 }
 
-function renderInventory(){let g=$('elementGrid');g.innerHTML=periodic.map(([s,n])=>'<button class="el" data-el="'+s+'"><b>'+s+'</b><small>'+n+'</small></button>').join('');g.querySelectorAll('[data-el]').forEach(b=>b.onclick=()=>{showElementFacts(b.dataset.el);spawnElement(b.dataset.el)});$('recipeList').innerHTML=recipeBook.map(r=>'<div class="recipe"><strong>'+r.title+'</strong><br><b dir="ltr">'+r.formula+'</b><br>'+r.note+'</div>').join('');$('toolGrid').innerHTML=toolNames.map((n,i)=>'<div class="tool">'+['⚗️','🧪','📏','🧫','▦','💧','🧪','〰️','🔻','◉','／','⚖️','🌡️','♨️','△','▤','⚙️','⌁','▧','🚿','♧','🥽','🧤','🧯'][i]+' '+n+'</div>').join('');}
+function renderInventory(){let g=$('elementGrid');g.innerHTML=periodic.map(([s,n])=>'<button class="el" data-el="'+s+'"><b>'+s+'</b><small>'+n+'</small></button>').join('');g.querySelectorAll('[data-el]').forEach(b=>b.onclick=()=>{showElementFacts(b.dataset.el);spawnElement(b.dataset.el)});$('recipeList').innerHTML=recipeBook.map(r=>'<div class="recipe"><strong>'+r.title+'</strong><br><b dir="ltr">'+r.formula+'</b><br>'+r.note+'</div>').join('');$('toolGrid').innerHTML=toolNames.map((n,i)=>'<button class="tool" data-tool="'+i+'">'+['⚗️','🧪','📏','🧫','▦','💧','🧪','〰️','🔻','◉','／','⚖️','🌡️','♨️','△','▤','⚙️','⌁','▧','🚿','♧','🥽','🧤','🧯'][i]+' '+n+'</button>').join('');gTools();}
+
+const equipmentObjects=[];
+function addEquipment3D(name,index){
+ if(!scene)return;
+ let x=[-7,7,-7,7][index%4],z=[-2,-2,-7,-7][index%4];
+ let g=new THREE.Group();g.position.set(x,1.28,z);scene.add(g);
+ let glass=new THREE.MeshPhysicalMaterial({color:'#b9e8e0',transparent:true,opacity:.48,roughness:.12});
+ if(index%6===0){mesh(new THREE.CylinderGeometry(.38,.28,.75,24,1,true),glass,0,.4,0,g);mesh(new THREE.CylinderGeometry(.29,.29,.04,24),glass,0,.04,0,g)}
+ else if(index%6===1){mesh(new THREE.CylinderGeometry(.3,.3,.62,24,1,true),glass,0,.34,0,g);mesh(new THREE.CylinderGeometry(.14,.14,.38,20),glass,0,.82,0,g)}
+ else if(index%6===2){mesh(new THREE.CylinderGeometry(.09,.09,1,16,1,true),glass,0,.5,0,g);mesh(new THREE.CylinderGeometry(.16,.16,.04,16),mats('#b9d8d0'),0,.03,0,g)}
+ else if(index%6===3){mesh(new THREE.BoxGeometry(.55,.55,.55),mats('#4e6b68'),0,.28,0,g);mesh(new THREE.BoxGeometry(.4,.08,.4),mats('#9cebd0'),0,.58,0,g)}
+ else if(index%6===4){mesh(new THREE.CylinderGeometry(.32,.32,.12,24),mats('#647a76'),0,.06,0,g);for(let a=0;a<3;a++){let bar=mesh(new THREE.BoxGeometry(.06,.7,.06),mats('#c5d8ce'),Math.cos(a*2.09)*.25,.4,Math.sin(a*2.09)*.25,g)}}
+ else {mesh(new THREE.BoxGeometry(.65,.55,.42),mats('#d0d8ce'),0,.28,0,g);mesh(new THREE.CylinderGeometry(.12,.12,.2,16),mats('#718d85'),0,.65,0,g)}
+ label(name,x,2.35,z);equipmentObjects.push(g);toast('وسیلهٔ '+name+' به میز تخصصی اضافه شد.');
+}
+
+function gTools(){document.querySelectorAll('[data-tool]').forEach(b=>b.onclick=()=>addEquipment3D(toolNames[+b.dataset.tool],+b.dataset.tool))}
 function spawnElement(sym){if(!scene)return;let item=periodic.find(x=>x[0]===sym);if(!item)return;if(bottles[sym]){toast('ویال '+sym+' از قبل در آزمایشگاه وجود دارد؛ همان را جابه‌جا کن.');return}let color=new THREE.Color().setHSL((periodic.findIndex(x=>x[0]===sym)*.618)%1,.48,.62);let hex='#'+color.getHexString();let x=-4.8+(Object.keys(bottles).length%8)*1.25,z=-3.0+Math.floor(Object.keys(bottles).length/8)*.75;makeBottle(sym,item[1],hex,x);bottles[sym].position.z=z;$('selectedElement').textContent='ویال '+sym+' اضافه شد';toast('ویال '+item[1]+' روی میز قرار گرفت؛ آن را بکش و جابه‌جا کن.');}
 function showDockTab(tab){['elements','recipes','tools'].forEach(t=>{$(t+'Pane').style.display=t===tab?'block':'none'});document.querySelectorAll('#dockTabs button').forEach(b=>b.classList.toggle('primary',b.dataset.tab===tab))}
 document.querySelectorAll('#dockTabs button').forEach(b=>b.onclick=()=>showDockTab(b.dataset.tab));
