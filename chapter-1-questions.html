@@ -41,33 +41,6 @@ body[data-lamp-color="gold"]{--lamp-glow:rgba(255,205,112,.24);--lamp-glow-soft:
 #tari-lamp-colors{position:static;transform:none;display:flex;justify-content:center;gap:8px;padding:0;background:transparent;border:0;box-shadow:none}
 #tari-lamp-colors button{width:19px;height:19px;flex:0 0 19px}
 
-/* Calm, non-intrusive chemistry drift layer */
-#chem-float-layer{position:absolute;top:0;left:0;width:100%;height:100%;min-height:100%;z-index:4;pointer-events:none;overflow:visible;direction:ltr}
-body>header,body>main,body>footer{position:relative;z-index:3}
-.chem-float{position:absolute;width:40px;height:40px;border:1px solid #9beaff17;border-radius:50%;background:#8beaff05;color:#b8eaff38;font:800 13px Vazirmatn,Tahoma,sans-serif;display:grid;place-items:center;pointer-events:auto;touch-action:none;cursor:grab;user-select:none;box-shadow:0 0 18px #5bdcff05;animation:chem-drift var(--duration,24s) ease-in-out infinite alternate;transition:background .35s,border-color .35s,color .35s,box-shadow .35s}
-.chem-float:hover,.chem-float:focus-visible{color:#c8f6ffb0;border-color:#8beaff66;background:#4dd9ff10;outline:none}
-.chem-float.dragging{animation:none;z-index:8;transform:scale(1.12);color:#d8faff;border-color:#8beaffaa;background:#12334dcc;box-shadow:0 8px 28px #0007}
-@keyframes chem-drift{0%{translate:0 -5px}50%{translate:0 10px}100%{translate:0 -7px}}
-@media(max-width:600px){.chem-float{width:32px;height:32px;font-size:11px;opacity:.75}}
-#chem-info-modal{position:fixed;inset:0;z-index:1200;display:none;place-items:center;padding:18px;background:#030817c9;backdrop-filter:blur(7px);direction:rtl;font-family:Vazirmatn,Tahoma,sans-serif}
-#chem-info-modal.open{display:grid}
-.chem-info-card{width:min(390px,100%);padding:22px;border:1px solid #70ddff55;border-radius:22px;background:linear-gradient(145deg,#18284a,#0b1329);color:#f4f7ff;text-align:center;box-shadow:0 20px 70px #0009}
-.chem-info-card h3{margin:8px 0 4px;font-size:23px}.chem-info-card p{color:#b8c7e4;line-height:1.9;margin:7px 0}
-.chem-atom{width:112px;height:112px;margin:8px auto 12px;position:relative;display:grid;place-items:center}
-.chem-atom .nucleus{width:24px;height:24px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#69dfff 45%,#5078ff);box-shadow:0 0 22px #58dfff88;z-index:2}
-.chem-atom .orbit{position:absolute;width:94px;height:40px;border:1.5px solid #8eeaff99;border-radius:50%;transform:rotate(var(--r))}
-.chem-atom .orbit:after{content:"";position:absolute;width:8px;height:8px;right:8px;top:3px;border-radius:50%;background:#c7f7ff;box-shadow:0 0 10px #67dfff}
-.chem-close{margin-top:8px;border:0;border-radius:11px;padding:9px 20px;background:#536fe0;color:white;font:700 14px Vazirmatn,Tahoma,sans-serif;cursor:pointer}
-#chem-reaction-toast{position:fixed;left:50%;bottom:22px;z-index:1150;transform:translate(-50%,20px);opacity:0;pointer-events:none;width:min(440px,calc(100vw - 28px));padding:15px 18px;border:1px solid #76eaff77;border-radius:18px;background:#101c36f2;color:#f4f8ff;text-align:center;font:14px/1.9 Vazirmatn,Tahoma,sans-serif;box-shadow:0 12px 40px #0008;transition:.3s}
-#chem-reaction-toast.show{opacity:1;transform:translate(-50%,0)}
-#chem-reaction-toast strong{display:block;color:#9ff5ff;font-size:17px}
-#chem-reaction-toast .equation{direction:ltr;display:block;font-weight:900;letter-spacing:1px;color:#fff;margin-top:4px}
-#chem-reaction-flash{position:fixed;inset:0;z-index:1100;pointer-events:none;opacity:0;background:radial-gradient(circle at 50% 50%,#e8ffffaa,transparent 38%)}
-#chem-reaction-flash.burst{animation:chem-burst .85s ease-out}
-@keyframes chem-burst{0%{opacity:0}18%{opacity:.85}100%{opacity:0}}
-@media(prefers-reduced-motion:reduce){.chem-float{animation:none}#chem-reaction-flash.burst{animation:none;opacity:.25}}
-@media(max-width:600px){.chem-float{width:46px;height:46px;font-size:14px}}
-
 </style></head><body><header><div class="wrap"><a href="index.html">← جهان شیمی</a></div></header><main class="wrap"><section class="hero"><span class="tag">بانک سوالات · شیمی دهم · فصل اول</span><h1>کیهان، زادگاه الفبای هستی</h1><p>بانک تمرین‌های مفهومی، محاسباتی و چهارگزینه‌ای برای مرور و آمادگی آزمون.</p><p class="hint">این صفحه برای تمرین فصل اول آماده شده است. انتساب تست‌ها به کنکورهای سال‌های مشخص یا کتاب‌های کمک‌آموزشی، بدون بررسی منبع اصلی قابل تأیید نیست؛ بنابراین آن‌ها را فعلاً پرسش‌های تمرینی بدان.</p></section><div class="note" style="padding:14px;border:1px solid #50e3e633;border-radius:14px;background:#50e3e610;color:#dceeff;line-height:2">📌 فصل اول در دسترس است. فصل‌های بعدی به‌زودی به بانک سوالات اضافه می‌شوند.</div><div class="status-toolbar" id="statusFilters"><button class="active" data-status="all">همهٔ سؤال‌ها</button><button data-status="unsolved">حل‌نشده‌ها</button><button data-status="solved">حل‌شده‌ها</button></div><div class="progress-line" id="progressLine" aria-live="polite">۰ سؤال از ۱۲ سؤال حل شده است.</div><div class="toolbar" id="filters"><button class="active" data-filter="all">همهٔ سؤال‌ها</button><button data-filter="concept">مفهومی</button><button data-filter="calc">محاسباتی</button><button data-filter="test">چهارگزینه‌ای</button></div><section id="questions">
 <article class="q" data-type="concept"><h3>۱) چرا دانشمندان برای شناخت ترکیب ستارگان و اجرام آسمانی از نور آن‌ها استفاده می‌کنند؟</h3><div class="q-tools"><button class="mark-solved" type="button" aria-pressed="false">✓ علامت‌گذاری به‌عنوان حل‌شده</button><span class="q-state">هنوز حل نشده</span></div><button class="reveal">نمایش پاسخ تشریحی</button><div class="answer">نور گسیل‌شده یا جذب‌شده از ماده دارای طول موج‌های مشخصی است. بررسی طیف نور به دانشمندان کمک می‌کند نوع عنصرهای موجود در ستاره و برخی ویژگی‌های فیزیکی آن را شناسایی کنند.</div></article>
 <article class="q" data-type="test"><h3>۲) کدام گزینه دربارهٔ پیدایش عنصرها درست‌تر است؟</h3><div class="q-tools"><button class="mark-solved" type="button" aria-pressed="false">✓ علامت‌گذاری به‌عنوان حل‌شده</button><span class="q-state">هنوز حل نشده</span></div><div class="opts"><label><input type="radio" name="q2"> همهٔ عنصرها در زمین ساخته شده‌اند.</label><label><input type="radio" name="q2"> هیدروژن و هلیم از عنصرهای فراوان آغازین کیهان‌اند.</label><label><input type="radio" name="q2"> ستاره‌ها فقط هیدروژن مصرف می‌کنند و عنصر تازه‌ای نمی‌سازند.</label><label><input type="radio" name="q2"> عنصرهای سنگین‌تر هیچ ارتباطی با ستاره‌ها ندارند.</label></div><button class="reveal">نمایش پاسخ تشریحی</button><div class="answer">گزینهٔ دوم. در مراحل آغازین کیهان بیشتر هیدروژن و هلیم پدید آمدند؛ بسیاری از عنصرهای دیگر در فرایندهای هسته‌ای ستاره‌ها و رویدادهای کیهانی ساخته شدند.</div></article>
@@ -85,64 +58,6 @@ body>header,body>main,body>footer{position:relative;z-index:3}
 const progressKey='jahanShimiChapter1Solved';let solved=new Set();try{const saved=JSON.parse(localStorage.getItem(progressKey)||'[]');if(Array.isArray(saved))solved=new Set(saved.map(String));}catch{}let activeType='all',activeStatus='all';const cards=[...document.querySelectorAll('.q')],progressLine=document.getElementById('progressLine'),emptyState=document.createElement('div');emptyState.className='empty-state';emptyState.textContent='در این دسته هنوز سؤالی وجود ندارد.';document.getElementById('questions').after(emptyState);function saveProgress(){try{localStorage.setItem(progressKey,JSON.stringify([...solved]));}catch{progressLine.textContent='ذخیره‌سازی در این مرورگر در دسترس نیست.';}}function renderProgress(){let count=0;cards.forEach((q,i)=>{const id=String(i+1),isSolved=solved.has(id),typeMatch=activeType==='all'||q.dataset.type===activeType,statusMatch=activeStatus==='all'||(activeStatus==='solved'&&isSolved)||(activeStatus==='unsolved'&&!isSolved);q.hidden=!(typeMatch&&statusMatch);if(isSolved)count++;q.classList.toggle('is-solved',isSolved);const mark=q.querySelector('.mark-solved'),state=q.querySelector('.q-state');mark.textContent=isSolved?'✓ حل‌شده · بازگرداندن به حل‌نشده':'✓ علامت‌گذاری به‌عنوان حل‌شده';mark.setAttribute('aria-pressed',String(isSolved));state.textContent=isSolved?'این سؤال حل شده است':'هنوز حل نشده';});progressLine.textContent=count.toLocaleString('fa-IR')+' سؤال از '+cards.length.toLocaleString('fa-IR')+' سؤال حل شده است.';emptyState.style.display=cards.some(q=>!q.hidden)?'none':'block';}cards.forEach((q,i)=>q.querySelector('.mark-solved').addEventListener('click',()=>{const id=String(i+1);if(solved.has(id))solved.delete(id);else solved.add(id);saveProgress();renderProgress();}));document.querySelectorAll('.reveal').forEach(b=>b.addEventListener('click',()=>{const q=b.closest('.q');q.classList.toggle('show');b.textContent=q.classList.contains('show')?'بستن پاسخ':'نمایش پاسخ تشریحی'}));document.querySelectorAll('#filters button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('#filters button').forEach(x=>x.classList.remove('active'));b.classList.add('active');activeType=b.dataset.filter;renderProgress();}));document.querySelectorAll('#statusFilters button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('#statusFilters button').forEach(x=>x.classList.remove('active'));b.classList.add('active');activeStatus=b.dataset.status;renderProgress();}));renderProgress();
 </script>
 
-<div id="chem-float-layer" aria-label="عناصر شناور آزمایشگاه؛ برای اطلاعات لمس کن و برای ترکیب بکش"></div>
-<div id="chem-info-modal" role="dialog" aria-modal="true" aria-label="اطلاعات عنصر"><div class="chem-info-card"><div class="chem-atom"><i class="orbit" style="--r:0deg"></i><i class="orbit" style="--r:60deg"></i><i class="orbit" style="--r:-60deg"></i><i class="nucleus"></i></div><h3 id="chem-info-name"></h3><p id="chem-info-desc"></p><p id="chem-info-number"></p><button class="chem-close" type="button">بستن</button></div></div>
-<div id="chem-reaction-flash"></div><div id="chem-reaction-toast" role="status" aria-live="polite"></div>
-<script>
-(()=> {
- const data={
- H:{name:'هیدروژن',z:1,desc:'سبک‌ترین عنصر؛ در آب و بسیاری از ترکیب‌های شیمیایی وجود دارد.'},
- O:{name:'اکسیژن',z:8,desc:'نافلزی مهم و یکی از اجزای اصلی مولکول آب؛ در بسیاری از واکنش‌های سوختن شرکت می‌کند.'},
- Na:{name:'سدیم',z:11,desc:'فلزی قلیایی و بسیار واکنش‌پذیر؛ در ترکیب نمک خوراکی حضور دارد.'},
- Cl:{name:'کلر',z:17,desc:'نافلز هالوژن؛ در ترکیب سدیم کلرید (نمک خوراکی) وجود دارد.'},
- Mg:{name:'منیزیم',z:12,desc:'فلزی سبک که هنگام واکنش با اکسیژن نور سفید درخشانی تولید می‌کند.'}, C:{name:'کربن',z:6,desc:'عنصری نافلز و پایهٔ اصلی ترکیب‌های آلی.'}, N:{name:'نیتروژن',z:7,desc:'گازی که بخش بزرگی از هوای زمین را تشکیل می‌دهد.'}, Fe:{name:'آهن',z:26,desc:'فلزی پرکاربرد در ساخت آلیاژها و فولاد.'}, Au:{name:'طلا',z:79,desc:'فلزی ارزشمند و کم‌واکنش با رسانایی بالا.'}, He:{name:'هلیم',z:2,desc:'گازی نجیب، سبک و کم‌واکنش.'}, Ca:{name:'کلسیم',z:20,desc:'فلزی که ترکیب‌های آن در استخوان‌ها و سنگ آهک یافت می‌شود.'}, S:{name:'گوگرد',z:16,desc:'نافلزی زردرنگ که در ترکیب‌های گوناگون وجود دارد.'}, K:{name:'پتاسیم',z:19,desc:'فلزی قلیایی و واکنش‌پذیر.'}, Ne:{name:'نئون',z:10,desc:'گاز نجیب که در لامپ‌های تبلیغاتی به‌کار می‌رود.'}, Cu:{name:'مس',z:29,desc:'فلزی رسانا و پرکاربرد در سیم‌های برق.'}, Ag:{name:'نقره',z:47,desc:'فلزی با رسانایی الکتریکی بسیار بالا.'}, P:{name:'فسفر',z:15,desc:'نافلزی مهم در ساختار DNA و ترکیب‌های زیستی.'}, Si:{name:'سیلیسیم',z:14,desc:'شبه‌فلزی مهم در ساخت تراشه‌ها و قطعات الکترونیکی.'}
- };
- const reactions={
- 'H+O':{title:'آب تشکیل شد! 💧',equation:'2H₂ + O₂ → 2H₂O',desc:'هیدروژن و اکسیژن در شرایط مناسب واکنش می‌دهند و آب می‌سازند.',kind:'glow'},
- 'Na+Cl':{title:'نمک خوراکی ساخته شد! ✨',equation:'2Na + Cl₂ → 2NaCl',desc:'سدیم و کلر ترکیب یونی سدیم کلرید را تشکیل می‌دهند.',kind:'spark'},
- 'Mg+O':{title:'اکسید منیزیم تشکیل شد! ☀️',equation:'2Mg + O₂ → 2MgO',desc:'واکنش منیزیم با اکسیژن با نور سفید بسیار درخشانی همراه است.',kind:'flash'}, 'C+O':{title:'کربن اکسید شد! 🔥',equation:'C + O₂ → CO₂',desc:'در سوختن کامل کربن، کربن‌دی‌اکسید تشکیل می‌شود.',kind:'flash'}
- };
- const layer=document.getElementById('chem-float-layer'),modal=document.getElementById('chem-info-modal'),toast=document.getElementById('chem-reaction-toast'),flash=document.getElementById('chem-reaction-flash');
- if(!layer||!modal||!toast||!flash)return;
- const symbols=['H','O','Na','Cl','Mg','C','N','Fe','Au','He','Ca','S','K','Ne','Cu','Ag','P','Si'];
- const layout=()=>{layer.style.height=Math.max(document.documentElement.scrollHeight,document.body.scrollHeight)+'px';layer.innerHTML='';symbols.forEach((s,i)=>{const el=document.createElement('button');el.className='chem-float';el.dataset.el=s;el.textContent=s;el.setAttribute('aria-label',data[s]?.name||s);const side=i%2===0?'1.2%':'auto';el.style.left=side;el.style.right=i%2===0?'auto':'1.2%';const pageH=Math.max(document.documentElement.scrollHeight,document.body.scrollHeight);el.style.top=(110+i*Math.max(115,(pageH-220)/symbols.length))+'px';el.style.setProperty('--duration',(22+(i%5)*3)+'s');layer.appendChild(el);});};
- layout();window.addEventListener('resize',layout);
- let toastTimer,dragged=false;
- const showInfo=s=>{const d=data[s];document.getElementById('chem-info-name').textContent=d.name;document.getElementById('chem-info-desc').textContent=d.desc;document.getElementById('chem-info-number').textContent='عدد اتمی: '+d.z.toLocaleString('fa-IR');modal.classList.add('open')};
- modal.querySelector('.chem-close').addEventListener('click',()=>modal.classList.remove('open'));
- modal.addEventListener('click',e=>{if(e.target===modal)modal.classList.remove('open')});
- document.addEventListener('keydown',e=>{if(e.key==='Escape')modal.classList.remove('open')});
- const showReaction=(a,b)=>{
-   const key=[a,b].sort().join('+'),r=reactions[key];if(!r)return;
-   toast.innerHTML='<strong>'+r.title+'</strong>'+r.desc+'<span class="equation">'+r.equation+'</span>';
-   toast.classList.add('show');flash.classList.remove('burst');void flash.offsetWidth;flash.classList.add('burst');
-   clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove('show'),4800);
- };
- layer.querySelectorAll('.chem-float').forEach(node=>{
-   let sx=0,sy=0,ox=0,oy=0,moved=false;
-   node.addEventListener('pointerdown',e=>{
-     sx=e.clientX;sy=e.clientY;const r=node.getBoundingClientRect();ox=r.left;oy=r.top;moved=false;dragged=false;
-     node.classList.add('dragging');node.style.left=ox+'px';node.style.top=oy+'px';node.style.setProperty('--x',ox+'px');node.style.setProperty('--y',oy+'px');node.style.animation='none';node.setPointerCapture(e.pointerId);e.preventDefault();
-   });
-   node.addEventListener('pointermove',e=>{
-     if(!node.classList.contains('dragging'))return;
-     const dx=e.clientX-sx,dy=e.clientY-sy;if(Math.abs(dx)+Math.abs(dy)>7){moved=true;dragged=true}
-     node.style.left=Math.max(0,Math.min(innerWidth-node.offsetWidth,ox+dx))+'px';
-     node.style.top=Math.max(0,Math.min(innerHeight-node.offsetHeight,oy+dy))+'px';
-   });
-   node.addEventListener('pointerup',()=>{
-     if(!node.classList.contains('dragging'))return;
-     node.classList.remove('dragging');
-     if(moved){
-       const r=node.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;
-       const other=[...layer.querySelectorAll('.chem-float')].find(n=>n!==node&&(()=>{const q=n.getBoundingClientRect();return cx>q.left-24&&cx<q.right+24&&cy>q.top-24&&cy<q.bottom+24})());
-       if(other)showReaction(node.dataset.el,other.dataset.el);
-     }else showInfo(node.dataset.el);
-   });
-   node.addEventListener('click',e=>{if(dragged){e.preventDefault();dragged=false}});
- });
-})();
-</script>
 <div id="tari-lamp-glow" aria-hidden="true"></div>
 <div id="tari-pull-lamp" aria-label="چراغ آویز؛ زنجیر را پایین بکش تا روشن یا خاموش شود">
  <div class="lamp-ceiling"></div><div class="lamp-stem"></div><div class="lamp-shade"></div><div class="lamp-bulb"></div>
