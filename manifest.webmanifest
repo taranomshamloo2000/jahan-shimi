@@ -1,0 +1,16 @@
+{
+  "id": "/jahan-shimi/",
+  "name": "جهان شیمی | Tari World",
+  "short_name": "جهان شیمی",
+  "description": "آموزش شیمی، بازی‌های علمی و بانک سوالات",
+  "lang": "fa",
+  "dir": "rtl",
+  "start_url": "/jahan-shimi/",
+  "scope": "/jahan-shimi/",
+  "display": "standalone",
+  "background_color": "#080d20",
+  "theme_color": "#080d20",
+  "icons": [
+    {"src": "icons/tari-world.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any"}
+  ]
+}
