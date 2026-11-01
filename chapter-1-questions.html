@@ -42,7 +42,7 @@ body[data-lamp-color="gold"]{--lamp-glow:rgba(255,205,112,.24);--lamp-glow-soft:
 #tari-lamp-colors button{width:19px;height:19px;flex:0 0 19px}
 
 /* Floating chemistry lab */
-#chem-float-layer{position:fixed;inset:0;z-index:2;pointer-events:none;overflow:hidden;direction:ltr}
+#chem-float-layer{position:fixed;inset:0;z-index:4;pointer-events:none;overflow:hidden;direction:ltr}
 body>header,body>main,body>footer{position:relative;z-index:3}
 .chem-float{position:absolute;left:var(--x);top:var(--y);width:58px;height:58px;border:1px solid #9beaff22;border-radius:50%;background:#8beaff08;color:#b8eaff55;font:800 17px Vazirmatn,Tahoma,sans-serif;display:grid;place-items:center;pointer-events:auto;touch-action:none;cursor:grab;user-select:none;box-shadow:0 0 24px #5bdcff08;animation:chem-drift var(--duration,16s) ease-in-out infinite alternate;transition:background .2s,border-color .2s,color .2s,box-shadow .2s}
 .chem-float:active{cursor:grabbing}.chem-float:hover,.chem-float:focus-visible{color:#c8f6ffcc;border-color:#8beaff88;background:#4dd9ff18;outline:none;box-shadow:0 0 22px #55dfff22}
