@@ -24,12 +24,16 @@
 #elementFactsExtra{margin-top:7px;padding:8px;border-radius:9px;background:#203b3b;font-size:11px;line-height:1.8}
 .labTag{font-size:10px;color:#d4eee4}
 @media(max-width:700px){#labDock{width:min(58vw,330px);bottom:140px}.tool{font-size:10px;padding:6px}}
-#dockToggle{position:fixed;right:10px;top:82px;z-index:6;min-width:118px;background:#167b70;border-color:#a9efd5;box-shadow:0 5px 18px #0007}\n#labDock.collapsed{display:none}\n@media(max-width:700px){#dockToggle{top:74px;right:7px;padding:8px 10px}}\n</style></head><body>
+#dockToggle{position:fixed;right:10px;top:82px;z-index:6;min-width:118px;background:#167b70;border-color:#a9efd5;box-shadow:0 5px 18px #0007}
+#labDock.collapsed{display:none}
+@media(max-width:700px){#dockToggle{top:74px;right:7px;padding:8px 10px}}
+</style></head><body>
 <div id="view"></div><div class="cross">＋</div><div class="toast" id="toast"></div>
 <div class="hud"><div class="row"><div class="panel brandbox"><div class="brand">جهان شیمی | آزمایشگاه تعاملی</div><div class="muted">محیط سه‌بعدی اول‌شخص • بردار، جابه‌جا کن، ترکیب کن</div></div><div class="buttons"><button id="help">راهنما</button><button id="reset">شروع دوباره</button><button id="back">بازگشت به بازی‌ها</button></div></div>
 <div class="bottom"><div class="panel mission"><b id="task">آزمایش ۱: ساخت آب</b><div class="muted" id="desc">بطری هیدروژن و اکسیژن را روی میز کنار ارلن بکش؛ سپس دکمهٔ ترکیب را بزن.</div><div class="meter"><i id="progress"></i></div><div class="muted" id="status">۰ از ۳ مرحله</div></div><div class="hint">ماوس/انگشت: بطری را بکش و رها کن<br>W A S D: حرکت در آزمایشگاه • کشیدن فضای خالی: نگاه</div></div></div>
 
-<button id="dockToggle" aria-expanded="true">▾ بستن انبار</button>\n<div id="labDock">
+<button id="dockToggle" aria-expanded="true">▾ بستن انبار</button>
+<div id="labDock">
  <div class="panel">
   <div class="dockHead"><b style="color:#a9efd5">انبار و دفتر آزمایشگاه</b><span class="muted" id="selectedElement">عنصری انتخاب نشده</span></div>
   <div id="dockTabs"><button data-tab="elements" class="primary">۱۱۸ عنصر</button><button data-tab="recipes">ترکیب‌های پیشنهادی</button><button data-tab="tools">وسایل</button></div>
@@ -177,7 +181,8 @@ function addEquipment3D(name,index){
 }
 function spawnElement(sym){if(!scene)return;let item=periodic.find(x=>x[0]===sym);if(!item)return;if(bottles[sym]){toast('ویال '+sym+' از قبل در آزمایشگاه وجود دارد؛ همان را جابه‌جا کن.');return}let color=new THREE.Color().setHSL((periodic.findIndex(x=>x[0]===sym)*.618)%1,.48,.62);let hex='#'+color.getHexString();let x=-4.8+(Object.keys(bottles).length%8)*1.25,z=-3.0+Math.floor(Object.keys(bottles).length/8)*.75;makeBottle(sym,item[1],hex,x);bottles[sym].position.z=z;$('selectedElement').textContent='ویال '+sym+' اضافه شد';toast('ویال '+item[1]+' روی میز قرار گرفت؛ آن را بکش و جابه‌جا کن.');}
 function showDockTab(tab){['elements','recipes','tools'].forEach(t=>{$(t+'Pane').style.display=t===tab?'block':'none'});document.querySelectorAll('#dockTabs button').forEach(b=>b.classList.toggle('primary',b.dataset.tab===tab))}
-document.querySelectorAll('#dockTabs button').forEach(b=>b.onclick=()=>showDockTab(b.dataset.tab));\nconst dockToggle=$('dockToggle'),labDock=$('labDock');dockToggle.onclick=()=>{const closed=labDock.classList.toggle('collapsed');dockToggle.textContent=closed?'▴ نمایش انبار':'▾ بستن انبار';dockToggle.setAttribute('aria-expanded',String(!closed));};
+document.querySelectorAll('#dockTabs button').forEach(b=>b.onclick=()=>showDockTab(b.dataset.tab));
+const dockToggle=$('dockToggle'),labDock=$('labDock');dockToggle.onclick=()=>{const closed=labDock.classList.toggle('collapsed');dockToggle.textContent=closed?'▴ نمایش انبار':'▾ بستن انبار';dockToggle.setAttribute('aria-expanded',String(!closed));};
 renderInventory();
 
 
@@ -194,6 +199,15 @@ function mix(){let near=Object.keys(bottles).filter(k=>bottles[k].position.dista
 const mixBtn=document.createElement('button');mixBtn.className='primary';mixBtn.textContent='⚗ ترکیب مواد';mixBtn.onclick=mix;document.querySelector('.buttons').insertBefore(mixBtn,$('help'));
 addEventListener('keydown',e=>keys[e.code]=true);addEventListener('keyup',e=>keys[e.code]=false);
 $('pad').addEventListener('pointerdown',e=>{$('pad').setPointerCapture(e.pointerId);padMove(e)});$('pad').addEventListener('pointermove',e=>{if(e.buttons)padMove(e)});function padMove(e){let r=$('pad').getBoundingClientRect(),dx=e.clientX-r.left-r.width/2,dy=e.clientY-r.top-r.height/2,k=Math.min(1,48/(Math.hypot(dx,dy)||1));pad={x:dx*k/48,y:-dy*k/48};$('knob').style.transform='translate('+dx*k+'px,'+dy*k+'px)'}['pointerup','pointercancel','lostpointercapture'].forEach(ev=>$('pad').addEventListener(ev,()=>{pad={x:0,y:0};$('knob').style.transform=''}));
-$('help').onclick=()=>$('guide').style.display='grid';$('close').onclick=()=>$('guide').style.display='none';$('reset').onclick=()=>{completed=false;Object.keys(bottles).forEach((k,i)=>{bottles[k].position.set(-4.8+(i%8)*1.25,1.16,-3+Math.floor(i/8)*.75)});liquid.visible=false;beaker.rotation.z=0;$('task').textContent='آزمایش ۱: ساخت آب';$('desc').textContent='بطری هیدروژن و اکسیژن را روی میز کنار ارلن بکش؛ سپس دکمهٔ ترکیب را بزن.';$('progress').style.width='0';$('status').textContent='۰ از ۳ مرحله';toast('آزمایشگاه آماده شد.')};$('back').onclick=()=>location.href='periodic-world.html';addEventListener('resize',()=>{if(camera&&renderer){camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)}});init();setTimeout(()=>$('guide').style.display='grid',500);
+$('help').onclick=()=>$('guide').style.display='grid';$('close').onclick=()=>$('guide').style.display='none';$('reset').onclick=()=>{completed=false;Object.keys(bottles).forEach((k,i)=>{bottles[k].position.set(-4.8+(i%8)*1.25,1.16,-3+Math.floor(i/8)*.75)});liquid.visible=false;beaker.rotation.z=0;$('task').textContent='آزمایش ۱: ساخت آب';$('desc').textContent='بطری هیدروژن و اکسیژن را روی میز کنار ارلن بکش؛ سپس دکمهٔ ترکیب را بزن.';$('progress').style.width='0';$('status').textContent='۰ از ۳ مرحله';toast('آزمایشگاه آماده شد.')};$('back').onclick=()=>location.href='periodic-world.html';addEventListener('resize',()=>{if(camera&&renderer){camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)}});try{
+ if(typeof THREE==='undefined')throw new Error('کتابخانهٔ سه‌بعدی بارگذاری نشد');
+ init();
+ setTimeout(()=>$('guide').style.display='grid',700);
+}catch(err){
+ console.error('Lab startup error:',err);
+ $('toast').textContent='بارگذاری آزمایشگاه ناموفق بود. اینترنت را بررسی کن و دوباره تلاش کن.';
+ $('toast').style.display='block';
+ const retry=document.createElement('button');retry.textContent='تلاش دوباره';retry.className='primary';retry.style.position='fixed';retry.style.left='50%';retry.style.top='58%';retry.style.transform='translateX(-50%)';retry.style.zIndex='8';retry.onclick=()=>location.reload();document.body.appendChild(retry);
+}
 })();
 </script></body></html>
