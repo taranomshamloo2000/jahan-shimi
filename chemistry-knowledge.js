@@ -95,7 +95,7 @@ function find(query){
  if(!q)return null;
  let best=null,score=0;
  for(const e of entries){let s=0;for(const k of e.keys){const key=k.toLowerCase();if(q.includes(key))s=Math.max(s,key.length+4);else if(key.includes(q)&&q.length>2)s=Math.max(s,q.length);}if(s>score){score=s;best=e;}}
- if(best&&score>=4)return "📘 "+best.q+"\n"+best.a+"\n\nاگر صورت سؤال یا عددهای تمرینت رو بفرستی، دقیقاً همون مسئله رو مرحله‌به‌مرحله حل می‌کنم.";
+ if(best&&score>=4)return best.type==="support" ? best.a : "📘 "+best.q+"\n"+best.a+"\n\nاگر صورت سؤال یا عددهای تمرینت رو بفرستی، دقیقاً همون مسئله رو مرحله‌به‌مرحله حل می‌کنم.";
  if(q.includes("فرمول")||q.includes("فرمول نامه"))return "🧮 فرمول‌نامه سریع شیمی:\n"+formulas.map(x=>"• "+x[0]+": "+x[1]).join("\n")+"\n\nبگو کدام فرمول را با مثال توضیح بدهم.";
  for(const grade of Object.keys(chapters)){if(q.includes(grade)||q.includes("فصل"))return "📚 نقشه راه فصل‌های شیمی "+grade+":\n"+chapters[grade].join("\n")+'\n\nعنوان فصل یا تمرین را بفرست تا آموزش همان بخش را شروع کنیم.';}
  if(q.includes("حل")||q.includes("مسئله")||q.includes("تمرین"))return "صورت کامل سؤال، داده‌ها و واحدها را بفرست. اول داده‌ها و خواسته را جدا می‌کنم، بعد فرمول مناسب، جایگذاری، محاسبه و کنترل واحد را می‌نویسم.";
