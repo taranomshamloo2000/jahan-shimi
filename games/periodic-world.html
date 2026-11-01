@@ -1,0 +1,249 @@
+<!DOCTYPE html><html lang="fa" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>PERIODIC WORLD | جهان عناصر</title>
+
+<style>
+:root{color-scheme:dark;--bg:#070b1f;--p:#101840;--p2:#1a2255;--tx:#e8ecff;--mu:#8e9acb;--ac:#2de2e6;--vi:#8b5cf6;--bl:#3b82f6;--wa:#ffb347;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:radial-gradient(circle at 20% 0,#1b1260 0,transparent 45%),radial-gradient(circle at 90% 90%,#07406b 0,transparent 40%),var(--bg);color:var(--tx);font-family:Vazirmatn,Tahoma,sans-serif;min-height:100vh}
+button{font:inherit;cursor:pointer;color:var(--tx);background:var(--p2);border:1px solid #3a4690;border-radius:10px;padding:8px 14px}
+button:hover{border-color:var(--ac)}button.pr{background:linear-gradient(135deg,var(--vi),var(--bl));border:0;font-weight:800;box-shadow:0 0 18px #6d5cf688}
+input,select{font:inherit;background:var(--p);color:var(--tx);border:1px solid #3a4690;border-radius:10px;padding:8px;max-width:100%}
+#start{position:fixed;inset:0;z-index:50;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:radial-gradient(circle at 50% 40%,#231a78,#070b1f 70%);padding:20px}
+#start h1{font-family:Orbitron,sans-serif;font-weight:900;font-size:clamp(28px,8vw,64px);margin:0;background:linear-gradient(90deg,var(--ac),var(--vi),var(--bl));-webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:3px;direction:ltr}
+#start h2{font-family:'Aref Ruqaa',serif;font-size:clamp(24px,5vw,40px);margin:6px 0 20px;color:var(--ac)}
+#start .cr{margin-top:28px;color:var(--mu);font-size:14px;line-height:2}#start .cr b{color:var(--tx);font-family:'Aref Ruqaa',serif;font-size:20px}
+.big{font-size:20px;padding:14px 46px;border-radius:40px;animation:pu 2s infinite}@keyframes pu{50%{box-shadow:0 0 38px #2de2e6aa}}
+header{display:flex;align-items:center;gap:10px;padding:10px 14px;flex-wrap:wrap;border-bottom:1px solid #2a3475;background:#0b1130cc;position:sticky;top:env(safe-area-inset-top,0px);z-index:20;backdrop-filter:blur(8px)}
+header .lg{font-family:Orbitron,sans-serif;font-weight:900;color:var(--ac);direction:ltr}
+nav{display:flex;gap:6px;flex-wrap:wrap}nav button.on{background:var(--vi);border-color:var(--vi)}
+#sc{margin-inline-start:auto;color:var(--wa);font-size:14px}
+main{padding:14px;max-width:1200px;margin:auto}.v{display:none}.v.on{display:block}
+.card{background:linear-gradient(160deg,var(--p),#0c1236);border:1px solid #2c3880;border-radius:16px;padding:14px;margin-bottom:12px}
+.tw{overflow-x:auto;padding-bottom:8px}#pt{display:grid;grid-template-columns:repeat(18,minmax(40px,1fr));gap:3px;min-width:760px;direction:ltr}
+.el{aspect-ratio:1/1.05;border-radius:6px;padding:2px 3px;font-size:9px;cursor:pointer;border:1px solid #fff2;transition:.2s;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.1;color:#fff;text-shadow:0 1px 2px #000a}
+.el b{font-size:15px}.el:hover{transform:scale(1.25);z-index:5;box-shadow:0 0 14px currentColor}.el.sel{outline:2px solid #fff;box-shadow:0 0 16px #fff}.el.dim{opacity:.15}
+.ak{background:#d6453d}.ae{background:#d97a2b}.tm{background:#3a78c9}.pt{background:#2e9a8f}.ml{background:#7a8f2a}.nm{background:#2f9e5b}.hl{background:#a23fbf}.ng{background:#6a4fd1}.ln{background:#c24f84}.ac{background:#8c3a5c}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.chip{background:var(--p2);border:1px solid var(--ac);border-radius:20px;padding:4px 10px;display:inline-flex;gap:6px;align-items:center;font-size:14px}.chip i{cursor:pointer;color:#ff7b7b;font-style:normal}
+.lg2{display:flex;gap:6px;flex-wrap:wrap;font-size:12px;margin:8px 0}.lg2 span{padding:2px 8px;border-radius:10px;color:#fff;cursor:pointer}
+#modal{position:fixed;inset:0;background:#000b;z-index:40;display:none;align-items:center;justify-content:center;padding:14px}#modal.on{display:flex}
+#mc{background:var(--p);border:1px solid var(--ac);border-radius:20px;padding:20px;max-width:440px;width:100%;max-height:88vh;overflow:auto;animation:zi .3s}@keyframes zi{from{transform:scale(.6);opacity:0}}
+#mc .sy{font-family:Orbitron,sans-serif;font-size:56px;font-weight:900;direction:ltr;text-align:center}
+table.t{width:100%;border-collapse:collapse;font-size:14px}table.t td,table.t th{border-bottom:1px solid #2a3475;padding:5px;text-align:start}
+canvas{width:100%;max-width:560px;display:block;margin:auto;border-radius:14px;background:#050818;border:1px solid #2c3880}
+.eq{font-size:20px;direction:ltr;text-align:center;padding:8px;color:var(--ac)}.tag{font-size:12px;padding:2px 8px;border-radius:8px;background:#2a3475;margin:2px}.wn{background:#4a2a10;border:1px solid var(--wa);border-radius:10px;padding:8px;color:#ffd9a8;font-size:14px}
+#ld{display:none;text-align:center;padding:30px}.sp{width:50px;height:50px;border:4px solid #2a3475;border-top-color:var(--ac);border-radius:50%;margin:auto;animation:r 1s linear infinite}@keyframes r{to{transform:rotate(360deg)}}
+.lib{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}.lib .card{cursor:pointer;margin:0}
+footer{text-align:center;color:var(--mu);font-size:13px;padding:18px;border-top:1px solid #2a3475}footer a{color:var(--ac)}
+.ok{color:#5df29a}.bad{color:#ff7b7b}.tab{margin:2px}.tab.on{background:var(--bl)}input.cf{width:46px;text-align:center}
+</style></head><body>
+<div id="start"><h1>PERIODIC WORLD</h1><h2>جهان عناصر</h2><p style="color:var(--mu);max-width:420px">آزمایشگاه مجازی جدول تناوبی؛ ۱۱۸ عنصر، ده‌ها واکنش مستند و شبیه‌سازی تصویری</p><button class="pr big" onclick="go()">شروع</button>
+<div class="cr">ساخته‌شده توسط <b>ترنم شاملو</b> • <b>اسرا کرمی</b> • <b>ستایش روشن</b><br>پژوهش گروهی شیمی<br><a style="color:var(--ac)" href="mailto:taranomshamloo2000@gmail.com">taranomshamloo2000@gmail.com</a></div></div>
+<header><span class="lg">PERIODIC WORLD</span><nav id="nav"></nav><span id="sc"></span></header>
+<main>
+<section class="v on" id="v-t"><div class="card"><div class="row"><input id="q" placeholder="جست‌وجوی نام یا نماد..." oninput="filt()"><select id="fg" onchange="filt()"><option value="">همه دسته‌ها</option></select><button onclick="sel=[];draw()">پاک‌کردن انتخاب‌ها</button><button class="pr" onclick="show('l')">رفتن به آزمایشگاه ⚗</button></div><div class="lg2" id="lgd"></div><div id="tray"></div></div><div class="card tw"><div id="pt"></div></div></section>
+
+<section class="v" id="v-l"><div class="card"><b>مواد انتخاب‌شده</b><div id="tray2" style="margin:8px 0"></div>
+<div class="row"><select id="sb"><option value="">+ افزودن ترکیب / شرایط...</option></select><button onclick="addSub()">افزودن</button><button onclick="show('t')">انتخاب عنصر از جدول</button></div>
+<p style="font-size:13px;color:var(--mu)">هر تعداد ماده را می‌توان انتخاب کرد. موتور همهٔ واکنش‌های مستندی را که واکنش‌دهنده‌هایشان زیرمجموعهٔ انتخاب شماست پیدا می‌کند (واکنش‌های چندمرحله‌ای و هم‌زمان). «گرما»، «جریان برق» و «کاتالیزور» شرایط واکنش هستند.</p>
+<button class="pr" onclick="run()">شروع واکنش ⚡</button></div>
+<div class="card"><b>💡 ترکیبات پیشنهادی</b><div id="sg" style="margin-top:8px"></div></div><div id="ld"><div class="sp"></div><p id="ldt">در حال بررسی ترکیب در پایگاه داده...</p></div><div id="res"></div></section>
+
+<section class="v" id="v-b"><div class="card"><div class="row"><input id="bq" placeholder="جست‌وجو در واکنش‌ها (نام، فرمول، نوع)..." oninput="lib()"><select id="bt" onchange="lib()"></select><span id="bn" style="color:var(--mu)"></span></div></div><div class="lib" id="lb"></div></section>
+
+<section class="v" id="v-g"><div class="card"><div class="row"><button class="pr" onclick="quiz()">حدس محصول</button><button class="pr" onclick="balg()">موازنه معادله</button></div><div id="gm" style="margin-top:12px"></div></div>
+<div class="card"><b>مأموریت‌ها و نشان‌ها</b><div id="ms"></div></div></section>
+
+<section class="v" id="v-h"><div class="card"><div class="row"><b>دفتر آزمایشگاه</b><button onclick="if(confirm('تاریخچه پاک شود؟')){H=[];sv();hist()}">پاک‌کردن</button></div><div id="hl"></div></div><div class="card"><b>⭐ علاقه‌مندی‌ها</b><div id="fl"></div></div></section>
+
+<section class="v" id="v-a"><div class="card"><h3>راهنمای علمی</h3><p>عنصر، ماده‌ای خالص با یک نوع اتم است؛ ترکیب از پیوند شیمیایی اتم‌های مختلف پدید می‌آید؛ مخلوط فقط آمیختگی فیزیکی است. در واکنش شیمیایی پیوندها شکسته و تشکیل می‌شوند و شمار اتم‌های هر عنصر ثابت می‌ماند (پایستگی جرم). گرمازا یعنی انرژی آزاد می‌شود و گرماگیر یعنی انرژی جذب می‌شود. تغییر فیزیکی (مثل تبلور) ترکیب شیمیایی را عوض نمی‌کند.</p>
+<p>اگر ترکیبی در پایگاه داده نباشد، برنامه واکنش جعلی نمی‌سازد و «اطلاعات معتبر در دسترس نیست» نشان می‌دهد. تمام جلوه‌ها فقط شبیه‌سازی آموزشی‌اند و دستور اجرای آزمایش نیستند.</p></div>
+<div class="card"><h3>دربارهٔ بازی</h3><p><b>PERIODIC WORLD | جهان عناصر</b><br>طراحی و ساخت: <span style="font-family:'Aref Ruqaa',serif;font-size:18px">ترنم شاملو</span> • <span style="font-family:'Aref Ruqaa',serif;font-size:18px">اسرا کرمی</span> • <span style="font-family:'Aref Ruqaa',serif;font-size:18px">ستایش روشن</span><br>پژوهش گروهی شیمی<br>ایمیل: <a style="color:var(--ac)" href="mailto:taranomshamloo2000@gmail.com">taranomshamloo2000@gmail.com</a><br><span style="color:var(--mu);font-size:13px">کار آفلاین است؛ هیچ سرویس خارجی لازم نیست (فقط فونت‌ها از اینترنت بارگذاری می‌شوند). منابع: داده‌های درسی استاندارد شیمی عمومی و آلی/معدنی مقدماتی.</span></p></div></section>
+</main>
+<footer>© PERIODIC WORLD — ترنم شاملو | اسرا کرمی | ستایش روشن | پژوهش گروهی شیمی | <a href="mailto:taranomshamloo2000@gmail.com">taranomshamloo2000@gmail.com</a></footer>
+<div id="modal" onclick="if(event.target==this)this.classList.remove('on')"><div id="mc"></div></div>
+<script>
+const $=id=>document.getElementById(id);
+const CT={ak:'فلزات قلیایی',ae:'قلیایی خاکی',tm:'فلزات واسطه',pt:'پس‌واسطه',ml:'شبه‌فلزات',nm:'نافلزات',hl:'هالوژن‌ها',ng:'گازهای نجیب',ln:'لانتانیدها',ac:'اکتینیدها'};
+const RAW="H|هیدروژن|1.008;He|هلیوم|4.003;Li|لیتیم|6.94;Be|برلیم|9.012;B|بور|10.81;C|کربن|12.011;N|نیتروژن|14.007;O|اکسیژن|15.999;F|فلوئور|18.998;Ne|نئون|20.18;Na|سدیم|22.99;Mg|منیزیم|24.305;Al|آلومینیوم|26.982;Si|سیلیسیم|28.085;P|فسفر|30.974;S|گوگرد|32.06;Cl|کلر|35.45;Ar|آرگون|39.948;K|پتاسیم|39.098;Ca|کلسیم|40.078;Sc|اسکاندیم|44.956;Ti|تیتانیم|47.867;V|وانادیم|50.942;Cr|کروم|51.996;Mn|منگنز|54.938;Fe|آهن|55.845;Co|کبالت|58.933;Ni|نیکل|58.693;Cu|مس|63.546;Zn|روی|65.38;Ga|گالیم|69.723;Ge|ژرمانیم|72.63;As|آرسنیک|74.922;Se|سلنیم|78.971;Br|برم|79.904;Kr|کریپتون|83.798;Rb|روبیدیم|85.468;Sr|استرانسیم|87.62;Y|ایتریم|88.906;Zr|زیرکونیم|91.224;Nb|نیوبیم|92.906;Mo|مولیبدن|95.95;Tc|تکنسیم|98;Ru|روتنیم|101.07;Rh|رودیم|102.906;Pd|پالادیم|106.42;Ag|نقره|107.868;Cd|کادمیم|112.414;In|ایندیم|114.818;Sn|قلع|118.71;Sb|آنتیموان|121.76;Te|تلوریم|127.6;I|ید|126.904;Xe|زنون|131.293;Cs|سزیم|132.905;Ba|باریم|137.327;La|لانتان|138.905;Ce|سریم|140.116;Pr|پرازئودیمیم|140.908;Nd|نئودیمیم|144.242;Pm|پرومتیم|145;Sm|ساماریم|150.36;Eu|اروپیم|151.964;Gd|گادولینیم|157.25;Tb|تربیم|158.925;Dy|دیسپروزیم|162.5;Ho|هولمیم|164.93;Er|اربیم|167.259;Tm|تولیم|168.934;Yb|ایتربیم|173.045;Lu|لوتتیم|174.967;Hf|هافنیم|178.49;Ta|تانتال|180.948;W|تنگستن|183.84;Re|رنیم|186.207;Os|اسمیم|190.23;Ir|ایریدیم|192.217;Pt|پلاتین|195.084;Au|طلا|196.967;Hg|جیوه|200.592;Tl|تالیم|204.38;Pb|سرب|207.2;Bi|بیسموت|208.98;Po|پولونیم|209;At|آستات|210;Rn|رادون|222;Fr|فرانسیم|223;Ra|رادیم|226;Ac|اکتینیم|227;Th|توریم|232.038;Pa|پروتاکتینیم|231.036;U|اورانیم|238.029;Np|نپتونیم|237;Pu|پلوتونیم|244;Am|آمریسیم|243;Cm|کوریم|247;Bk|برکلیم|247;Cf|کالیفرنیم|251;Es|اینشتینیم|252;Fm|فرمیم|257;Md|مندلویم|258;No|نوبلیم|259;Lr|لارنسیم|266;Rf|رادرفوردیم|267;Db|دوبنیم|268;Sg|سیبورگیم|269;Bh|بوریم|270;Hs|هاسیم|277;Mt|مایتنریم|278;Ds|دارمشتادیم|281;Rg|رونتگنیم|282;Cn|کوپرنیسیم|285;Nh|نیهونیم|286;Fl|فلروویم|289;Mc|مسکوویم|290;Lv|لیورموریم|293;Ts|تنسین|294;Og|اوگانسون|294";
+const inS=(a,z)=>a.includes(z);
+function cat(z){if(inS([3,11,19,37,55,87],z))return'ak';if(inS([4,12,20,38,56,88],z))return'ae';if(inS([9,17,35,53,85,117],z))return'hl';if(inS([2,10,18,36,54,86,118],z))return'ng';if(inS([5,14,32,33,51,52],z))return'ml';if(inS([1,6,7,8,15,16,34],z))return'nm';if(z>=57&&z<=71)return'ln';if(z>=89&&z<=103)return'ac';if(inS([13,31,49,50,81,82,83,84,113,114,115,116],z))return'pt';return'tm'}
+function pos(z){if(z==1)return[1,1];if(z==2)return[1,18];if(z<=4)return[2,z-2];if(z<=10)return[2,z+8];if(z<=12)return[3,z-10];if(z<=18)return[3,z];if(z<=36)return[4,z-18];if(z<=54)return[5,z-36];if(z<=56)return[6,z-54];if(z<=71)return[9,z-54];if(z<=86)return[6,z-68];if(z<=88)return[7,z-86];if(z<=103)return[10,z-86];return[7,z-100]}
+const EL=RAW.split(';').map((s,i)=>{const[a,n,m]=s.split('|'),z=i+1;return{z,s:a,n,m:+m,c:cat(z),p:pos(z),g:(z>=57&&z<=71)||(z>=89&&z<=103)?'—':pos(z)[1],pr:z<=2?1:z<=10?2:z<=18?3:z<=36?4:z<=54?5:z<=86?6:7}});
+const MM={};EL.forEach(e=>MM[e.s]=e.m);
+const GAS=[1,2,7,8,9,10,17,18,36,54,86],LIQ=[35,80];
+const TOX={4:'بریلیم و ترکیباتش بسیار سمی‌اند.',33:'آرسنیک و ترکیباتش سمی و سرطان‌زا هستند.',48:'کادمیم سمی است.',80:'جیوه و بخارش سمی است.',81:'تالیم بسیار سمی است.',82:'سرب سمی است و در بدن تجمع می‌یابد.',9:'فلوئور گازی بسیار خورنده و سمی است.',17:'گاز کلر تنفس را آسیب می‌زند.',35:'برم مایعی سمی و خورنده است.'};
+function info(e){const st=GAS.includes(e.z)?'گاز':LIQ.includes(e.z)?'مایع':'جامد',rad=e.z==43||e.z==61||e.z>=84&&e.z!=86||e.z==86?'پرتوزا':'',w=[];if(TOX[e.z])w.push(TOX[e.z]);if(e.c=='ak')w.push('با آب شدیداً واکنش می‌دهد؛ دور از رطوبت نگهداری می‌شود.');if(e.z>83||e.z==43||e.z==61)w.push('پرتوزا: عنصر ناپایدار و خطرناک.');
+const re={ak:'بسیار بالا',ae:'بالا',hl:'بسیار بالا (اکسنده)',ng:'تقریباً بی‌اثر',nm:'متوسط',tm:'متوسط تا کم',pt:'کم تا متوسط',ml:'متوسط',ln:'بالا',ac:'بالا (پرتوزا)'}[e.c];return{st,re,w}}
+function show(id){document.querySelectorAll('.v').forEach(v=>v.classList.toggle('on',v.id=='v-'+id));document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.i==id));if(id=='h')hist();if(id=='g')miss();scrollTo(0,0)}
+[['t','جدول تناوبی'],['l','آزمایشگاه'],['b','کتابخانه واکنش‌ها'],['g','بازی و مأموریت'],['h','تاریخچه'],['a','راهنما / درباره']].forEach(([i,n])=>{const b=document.createElement('button');b.textContent=n;b.dataset.i=i;b.onclick=()=>show(i);$('nav').appendChild(b)});
+let sel=[],cur=null;
+function go(){$('start').style.display='none';show('t')}
+const SUB={H2O:'آب',CO2:'دی‌اکسید کربن (یخ خشک)',HCl:'هیدروکلریک اسید',NaOH:'سدیم هیدروکسید',H2SO4:'سولفوریک اسید',AgNO3:'نقره نیترات',NaCl:'نمک خوراکی',Fe2O3:'اکسید آهن III',CuSO4:'مس(II) سولفات',CaCO3:'کلسیم کربنات',CH4:'متان',H2O2:'هیدروژن پراکسید',NH3:'آمونیاک',C6H12O6:'گلوکز',C2H5OH:'اتانول',NaC2H3O2:'سدیم استات (محلول فوق‌اشباع)',ICE:'یخ / آب سرد',HEAT:'شرایط: گرما',ELEC:'شرایط: جریان برق',CAT:'شرایط: کاتالیزور'};
+const nm=x=>{const e=EL.find(e=>e.s==x);return e?e.s+' ('+e.n+')':(SUB[x]?fm(x)+' — '+SUB[x]:x)};
+function fm(eq){return eq.split(/([+=])/).map(t=>t=='='?' ⟶ ':t=='+'?' + ':t.replace(/^(\d*)(.*)$/,(m,c,f)=>c+f.replace(/(\D)(\d+)/g,'$1<sub>$2</sub>'))).join('')}
+function tray(){const h=sel.length?sel.map(x=>`<span class="chip">${nm(x)}<i onclick="rm('${x}')">✕</i></span>`).join(' '):'<span style="color:var(--mu)">هنوز چیزی انتخاب نشده</span>';$('tray').innerHTML=h;$('tray2').innerHTML=h}
+function rm(x){sel=sel.filter(s=>s!=x);draw()}
+function draw(){tray();sugg();document.querySelectorAll('.el').forEach(d=>d.classList.toggle('sel',sel.includes(d.dataset.s)))}
+function build(){const pt=$('pt');EL.forEach(e=>{const d=document.createElement('div');d.className='el '+e.c;d.dataset.s=e.s;d.style.gridRow=e.p[0];d.style.gridColumn=e.p[1];d.innerHTML=`<span>${e.z}</span><b>${e.s}</b><span>${e.n}</span>`;d.onclick=()=>card(e);pt.appendChild(d)});
+Object.keys(CT).forEach(k=>{$('fg').innerHTML+=`<option value="${k}">${CT[k]}</option>`;$('lgd').innerHTML+=`<span class="${k}" onclick="$('fg').value='${k}';filt()">${CT[k]}</span>`});
+Object.keys(SUB).forEach(k=>$('sb').innerHTML+=`<option value="${k}">${SUB[k]}</option>`)}
+function filt(){const q=$('q').value.trim().toLowerCase(),g=$('fg').value;document.querySelectorAll('.el').forEach(d=>{const e=EL[+d.firstChild.textContent-1];d.classList.toggle('dim',!((!q||e.s.toLowerCase().includes(q)||e.n.includes(q)||String(e.z)==q)&&(!g||e.c==g)))})}
+function card(e){const i=info(e),p=e.z;$('mc').innerHTML=`<div class="el ${e.c}" style="width:100px;height:100px;margin:auto;font-size:12px;cursor:default"><span>${e.z}</span><b style="font-size:34px">${e.s}</b></div><h2 style="text-align:center;margin:8px">${e.n}</h2>
+<table class="t"><tr><td>عدد اتمی / پروتون</td><td>${p}</td></tr><tr><td>الکترون (اتم خنثی)</td><td>${p}</td></tr><tr><td>نوترون (فراوان‌ترین ایزوتوپ، تقریبی)</td><td>${Math.round(e.m)-p}</td></tr><tr><td>جرم اتمی</td><td>${e.m}</td></tr><tr><td>گروه / دوره</td><td>${e.g} / ${e.pr}</td></tr><tr><td>دسته</td><td>${CT[e.c]}</td></tr><tr><td>حالت فیزیکی (اتاق)</td><td>${i.st}</td></tr><tr><td>واکنش‌پذیری</td><td>${i.re}</td></tr></table>
+${i.w.map(w=>`<div class="wn" style="margin-top:8px">⚠ ${w}</div>`).join('')}<div class="row" style="margin-top:12px"><button class="pr" onclick="tog('${e.s}')">${sel.includes(e.s)?'حذف از آزمایشگاه':'افزودن به آزمایشگاه'}</button><button onclick="$('modal').classList.remove('on')">بستن</button></div>`;$('modal').classList.add('on')}
+function tog(s){sel=sel.includes(s)?sel.filter(x=>x!=s):[...sel,s];draw();$('modal').classList.remove('on')}
+function addSub(){const v=$('sb').value;if(v&&!sel.includes(v)){sel.push(v);draw()}}
+// ---- chemistry engine
+function atoms(f){f=f.replace(/\((aq|s|l|g)\)/g,'');const st=[{}],re=/([A-Z][a-z]?)(\d*)|\(|\)(\d*)/g;let m;while(m=re.exec(f)){if(m[1]){const o=st[st.length-1];o[m[1]]=(o[m[1]]||0)+(+m[2]||1)}else if(m[0]=='(')st.push({});else{const o=st.pop(),k=+m[3]||1,p=st[st.length-1];for(const e in o)p[e]=(p[e]||0)+o[e]*k}}return st[0]}
+const side=s=>s.split('+').map(t=>{const m=t.match(/^(\d*)(.+)$/);return{c:+m[1]||1,f:m[2].replace(/\((aq|s|l|g)\)/,'')}});
+function tot(sd){const o={};sd.forEach(x=>{const a=atoms(x.f);for(const k in a)o[k]=(o[k]||0)+a[k]*x.c});return o}
+function parse(eq){const[a,b]=eq.split('=');return{L:side(a),R:side(b)}}
+const same=(a,b)=>{const k=new Set([...Object.keys(a),...Object.keys(b)]);return[...k].every(x=>a[x]==b[x])};
+const bal=eq=>{const p=parse(eq);return same(tot(p.L),tot(p.R))};
+const mm=f=>{const a=atoms(f);return Object.keys(a).reduce((s,k)=>s+a[k]*(MM[k]||0),0)};
+const R=(n,t,r,eq,en,fx,c,d,w,st)=>({n,t,r:r.split(','),eq,en,fx,c,d,w,st});
+const DB=[
+R('تشکیل آب','ترکیب','H,O','2H2+O2=2H2O(g)','exo','flame','جرقه یا کاتالیزور','هیدروژن اکسید می‌شود و آب پدید می‌آید؛ پایهٔ سلول‌های سوختی.','مخلوط هیدروژن و اکسیژن انفجاری است؛ فقط شبیه‌سازی.'),
+R('سدیم و آب','فلز + آب','Na,H2O','2Na+2H2O=2NaOH(aq)+H2(g)','exo','gas','دمای اتاق','سدیم الکترون از دست می‌دهد و هیدروژن آزاد می‌شود؛ محلول قلیایی می‌شود.','واکنش شدید و خطرناک؛ آزمایش واقعی ممنوع.'),
+R('پتاسیم و آب','فلز + آب','K,H2O','2K+2H2O=2KOH(aq)+H2(g)','exo','flame','دمای اتاق','شدیدتر از سدیم؛ هیدروژن آزادشده با شعلهٔ بنفش می‌سوزد.','بسیار خطرناک.'),
+R('لیتیم و آب','فلز + آب','Li,H2O','2Li+2H2O=2LiOH(aq)+H2(g)','exo','gas','دمای اتاق','آرام‌ترین فلز قلیایی در واکنش با آب.','خورنده و آتش‌زا.'),
+R('کلسیم و آب','فلز + آب','Ca,H2O','Ca+2H2O=Ca(OH)2(aq)+H2(g)','exo','gas','دمای اتاق','حباب‌های هیدروژن و آب‌آهک تشکیل می‌شود.'),
+R('سوختن منیزیم','فلز + اکسیژن','Mg,O','2Mg+O2=2MgO(s)','exo','flame','شروع با گرما','شعلهٔ سفید درخشان و پودر اکسید منیزیم.','نور شدید به چشم آسیب می‌زند.'),
+R('منیزیم و یخ خشک','اکسایش و کاهش','Mg,CO2','2Mg+CO2=2MgO(s)+C(s)','exo','flame','منیزیم داغ','منیزیم (کاهنده) اکسیژن را از CO₂ می‌گیرد: منیزیم اکسید می‌شود و کربن کاهیده می‌شود. شبیه‌سازی نظری.','دستور اجرایی ارائه نمی‌شود؛ آتش منیزیم با CO₂ خاموش نمی‌شود.'),
+R('ترمیت','اکسایش و کاهش','Fe2O3,Al','Fe2O3+2Al=2Fe(l)+Al2O3(s)','exo','flame','شروع با گرمای بسیار زیاد','آلومینیوم کاهنده‌ای قوی‌تر از آهن است و آهن مذاب پدید می‌آورد؛ انرژی بسیار زیاد آزاد می‌شود.','دمای بیش از ۲۵۰۰°C؛ فقط شبیه‌سازی، بدون دستور ساخت.'),
+R('ترمیت و یخ (سناریوی ایمنی)','سناریوی ایمنی','Fe2O3,Al,ICE','','sc','','','مواد بسیار داغ با آب یا یخ تماس بگیرند، آب ناگهان تبخیر می‌شود و می‌تواند پاشش یا انفجار بخار ایجاد کند. نتیجهٔ دقیق قابل پیش‌بینی نیست، پس شبیه‌سازی نشان داده نمی‌شود.','هرگز آب روی مواد مذاب نریزید.'),
+R('سدیم و کلر','ترکیب','Na,Cl','2Na+Cl2=2NaCl(s)','exo','flame','دمای اتاق/گرم','نمک خوراکی از دو ماده خطرناک پدید می‌آید؛ پیوند یونی.','کلر سمی است.'),
+R('سوختن کربن','سوختن','C,O','C+O2=CO2(g)','exo','flame','گرمای اولیه','سوختن کامل کربن.'),
+R('سوختن گوگرد','سوختن','S,O','S+O2=SO2(g)','exo','flame','گرمای اولیه','شعلهٔ آبی و گاز SO₂ (عامل باران اسیدی).','گاز تحریک‌کنندهٔ تنفسی.'),
+R('فرایند هابر','تعادلی / کاتالیزوری','N,H','N2+3H2=2NH3(g)','exo','gas','فشار زیاد، دما، کاتالیزور آهن','تولید صنعتی آمونیاک؛ واکنش تعادلی است.'),
+R('خنثی‌سازی HCl با NaOH','اسید و باز','HCl,NaOH','HCl+NaOH=NaCl(aq)+H2O(l)','exo','glow','دمای اتاق','اسید و باز نمک و آب می‌سازند.'),
+R('خنثی‌سازی H₂SO₄ با NaOH','اسید و باز','H2SO4,NaOH','H2SO4+2NaOH=Na2SO4(aq)+2H2O(l)','exo','glow','دمای اتاق','خنثی‌سازی دوپروتونی.','اسید غلیظ بسیار خورنده است.'),
+R('رسوب نقره کلرید','رسوبی / جانشینی دوگانه','AgNO3,NaCl','AgNO3+NaCl=AgCl(s)+NaNO3(aq)','exo','ppt','محلول آبی','رسوب سفید ماست‌مانند AgCl.'),
+R('رسوب مس هیدروکسید','رسوبی','CuSO4,NaOH','CuSO4+2NaOH=Cu(OH)2(s)+Na2SO4(aq)','exo','ppt','محلول آبی','رسوب آبی ژلاتینی.','ترکیبات مس سمی‌اند.'),
+R('آهن و مس سولفات','جانشینی','Fe,CuSO4','Fe+CuSO4=FeSO4(aq)+Cu(s)','exo','ppt','محلول آبی','آهن فعال‌تر است و مس را جابه‌جا می‌کند؛ رنگ آبی کم‌رنگ می‌شود.'),
+R('روی و مس سولفات','جانشینی','Zn,CuSO4','Zn+CuSO4=ZnSO4(aq)+Cu(s)','exo','ppt','محلول آبی','پایهٔ پیل دانیل.'),
+R('مس و نقره نیترات','جانشینی','Cu,AgNO3','Cu+2AgNO3=Cu(NO3)2(aq)+2Ag(s)','exo','ppt','محلول آبی','بلورهای نقره (درخت نقره)، محلول آبی‌رنگ می‌شود.','نقره نیترات لکه‌گذار و خورنده است.'),
+R('روی و HCl','فلز + اسید','Zn,HCl','Zn+2HCl=ZnCl2(aq)+H2(g)','exo','gas','دمای اتاق','حباب‌های گاز هیدروژن.'),
+R('منیزیم و HCl','فلز + اسید','Mg,HCl','Mg+2HCl=MgCl2(aq)+H2(g)','exo','gas','دمای اتاق','واکنش سریع و گرمازا.'),
+R('آلومینیوم و HCl','فلز + اسید','Al,HCl','2Al+6HCl=2AlCl3(aq)+3H2(g)','exo','gas','دمای اتاق','لایهٔ اکسیدی ابتدا واکنش را کند می‌کند.'),
+R('کلسیم کربنات و HCl','تشکیل گاز / اسید و باز','CaCO3,HCl','CaCO3+2HCl=CaCl2(aq)+H2O(l)+CO2(g)','exo','gas','دمای اتاق','جوشش ناشی از CO₂؛ آزمون کربنات‌ها.'),
+R('تجزیهٔ حرارتی سنگ آهک','تجزیه حرارتی','CaCO3,HEAT','CaCO3=CaO(s)+CO2(g)','endo','gas','حدود ۹۰۰°C','پایهٔ تولید آهک و سیمان.'),
+R('الکترولیز آب','الکتروشیمیایی / تجزیه','H2O,ELEC','2H2O=2H2(g)+O2(g)','endo','gas','جریان مستقیم و الکترولیت','هیدروژن در کاتد و اکسیژن در آند با نسبت حجمی ۲ به ۱.'),
+R('زنگ‌زدن آهن','فلز + اکسیژن','Fe,O','4Fe+3O2=2Fe2O3(s)','exo','ph','رطوبت (بسیار کند)','خوردگی؛ واکنشی کند و خودبه‌خودی.'),
+R('اکسید آلومینیوم','فلز + اکسیژن','Al,O','4Al+3O2=2Al2O3(s)','exo','flame','پودر ریز و گرما','لایهٔ اکسیدی محافظ روی آلومینیوم.'),
+R('سوختن متان','سوختن','CH4,O','CH4+2O2=CO2(g)+2H2O(g)','exo','flame','جرقه','سوخت گاز طبیعی.','قابل انفجار با هوا.'),
+R('سوختن اتانول','سوختن','C2H5OH,O','C2H5OH+3O2=2CO2(g)+3H2O(g)','exo','flame','شعله','شعلهٔ آبی کم‌دود.','قابل اشتعال.'),
+R('سوختن گلوکز (تنفس سلولی)','اکسایش و کاهش','C6H12O6,O','C6H12O6+6O2=6CO2(g)+6H2O(l)','exo','glow','آنزیم‌ها در بدن','منبع انرژی سلول‌ها.'),
+R('اکسید مس','فلز + اکسیژن','Cu,O,HEAT','2Cu+O2=2CuO(s)','exo','glow','گرما','مس سرخ سیاه می‌شود.'),
+R('تجزیهٔ هیدروژن پراکسید','تجزیه / کاتالیزوری','H2O2,CAT','2H2O2=2H2O(l)+O2(g)','exo','gas','کاتالیزور MnO₂ یا یدید','کف و اکسیژن فراوان.','غلیظ آن خورنده است.'),
+R('تشکیل هیدروژن کلرید','ترکیب','H,Cl','H2+Cl2=2HCl(g)','exo','flame','نور یا جرقه','واکنش زنجیره‌ای رادیکالی.','انفجاری و سمی.'),
+R('آهن و گوگرد','ترکیب','Fe,S,HEAT','Fe+S=FeS(s)','exo','glow','گرما','آهن(II) سولفید؛ ترکیب شیمیایی با خواص متفاوت (مخلوط جدا از ترکیب است).'),
+R('منیزیم نیترید','ترکیب','Mg,N,HEAT','3Mg+N2=Mg3N2(s)','exo','glow','دمای زیاد','منیزیم در نیتروژن هم می‌سوزد.'),
+R('لیتیم نیترید','ترکیب','Li,N','6Li+N2=2Li3N(s)','exo','glow','دمای اتاق','تنها فلز قلیایی که مستقیم با N₂ واکنش می‌دهد.'),
+R('دود سفید آمونیاک و HCl','ترکیب / گازی','NH3,HCl','NH3+HCl=NH4Cl(s)','exo','gas','دمای اتاق','دود سفید NH₄Cl.'),
+R('انحلال CO₂ در آب','تعادلی','CO2,H2O','CO2+H2O=H2CO3(aq)','exo','glow','دمای اتاق','کربنیک اسید ضعیف؛ تعادلی و برگشت‌پذیر.'),
+R('تبلور فوق‌سریع سدیم استات (یخ داغ)','تغییر فیزیکی','NaC2H3O2','NaC2H3O2(aq)=NaC2H3O2(s)','exo','crys','محلول فوق‌اشباع + هستهٔ بلور','تغییر فیزیکی است نه واکنش جدید؛ بلورها با آزاد شدن گرمای تبلور به سرعت رشد می‌کنند.'),
+R('چرخهٔ استوالد (چندمرحله‌ای)','چندمرحله‌ای','N,H,O','N2+3H2+4O2=2HNO3(aq)+2H2O(l)','exo','gas','کاتالیزور، دما و فشار','مسیر صنعتی تولید نیتریک اسید.','نیتریک اسید و NO₂ سمی/خورنده‌اند.',['N2+3H2=2NH3','4NH3+5O2=4NO+6H2O','2NO+O2=2NO2','3NO2+H2O=2HNO3+NO']),
+R('فرایند سولوی (چهارجزئی)','چندمرحله‌ای / رسوبی','NaCl,NH3,CO2,H2O','NaCl+NH3+CO2+H2O=NaHCO3(s)+NH4Cl(aq)','exo','ppt','محلول سرد','مسیر صنعتی سودا؛ NaHCO₃ کم‌محلول رسوب می‌کند.')
+];
+// ---- reactions run
+const colr=f=>{const o={Fe:'#9fb0c0',Cu:'#e07a3a',Al:'#cfd6e0',Mg:'#e8ecf0',C:'#333',Ag:'#dfe6ee'}[f];if(o)return o;let h=0;for(const c of f)h=(h*31+c.charCodeAt(0))%360;return`hsl(${h},75%,60%)`};
+const uni=f=>f.replace(/\d/g,d=>'₀₁₂₃₄₅₆₇₈₉'[d]);
+function match(){const S=new Set(sel);return DB.filter(r=>r.r.every(x=>S.has(x))).sort((a,b)=>b.r.length-a.r.length)}
+function run(){if(!sel.length){$('res').innerHTML='<div class="card wn">ابتدا حداقل یک ماده انتخاب کنید.</div>';return}
+$('res').innerHTML='';$('ld').style.display='block';const m=['در حال بررسی ترکیب در پایگاه داده...','بررسی موازنهٔ معادله‌ها...','آماده‌سازی شبیه‌سازی...'];let i=0;$('ldt').textContent=m[0];const iv=setInterval(()=>$('ldt').textContent=m[++i%3],500);setTimeout(()=>{clearInterval(iv);$('ld').style.display='none';result(match())},1500)}
+function result(L){if(!L.length){const pts=1;score(pts);save({sel:[...sel],eq:'—',t:'بدون واکنش شناخته‌شده',p:pts});const single=sel.length==1;$('res').innerHTML=`<div class="card"><h3>اطلاعات معتبر در دسترس نیست</h3><p>برای این ترکیب واکنش مستندی در پایگاه داده نیست. این به معنای «عدم واکنش قطعی» نیست؛ ممکن است ${single?'یک عنصر به‌تنهایی':'ترکیب'} نیازمند شرایط خاص، کند یا غیرخودبه‌خودی باشد، یا فقط مخلوط فیزیکی تشکیل شود. برنامه به‌جای ساختن واکنش جعلی، این پیام را نشان می‌دهد. ${single?'نکته: یک عنصر تنها واکنش‌دهنده‌ای ندارد؛ ماده یا شرایط دیگری اضافه کنید.':''}</p></div>`;return}
+cur=L;const ex=L.filter(r=>r.r.length==new Set(sel).size).length;
+const used=new Set(L.flatMap(r=>r.r)),un=sel.filter(x=>!used.has(x));
+const types=[...new Set(L.map(r=>r.t))];const ex1=L.filter(r=>r.en=='exo').length,en1=L.filter(r=>r.en=='endo').length;
+const best=L[0],newOne=!disc().includes(best.n);const pts=newOne?20:10;score(pts);save({sel:[...sel],eq:best.eq,t:best.t,p:pts,n:best.n});
+$('res').innerHTML=`<div class="card"><div class="row">${L.map((r,i)=>`<button class="tab ${i?'':'on'}" onclick="showR(${i},this)">${r.n}</button>`).join('')}</div><div id="rd"></div></div>
+<div class="card"><h3>نتیجه‌گیری و فرمولاسیون</h3><p>از ${sel.length} مادهٔ انتخابی، <b>${L.length}</b> واکنش مستند یافت شد (${ex?'تطابق کامل با یک یا چند واکنش':'تطابق جزئی: بخشی از مواد در واکنش‌ها شرکت می‌کنند'}). انواع: ${types.join('، ')}. ${ex1} واکنش گرمازا و ${en1} واکنش گرماگیر. ${un.length?'مواد بدون واکنش شناخته‌شده در این ترکیب: '+un.map(nm).join('، ')+'.':'همهٔ مواد در حداقل یک واکنش شرکت دارند.'}</p>
+<p>معادلهٔ اصلی: <span style="direction:ltr;display:inline-block;color:var(--ac)">${best.eq?fm(best.eq):'—'}</span> ${best.eq&&bal(best.eq)?'<span class="ok">✓ موازنه</span>':''}</p><p style="color:var(--mu)">امتیاز این آزمایش: ${pts}${newOne?' (کشف جدید!)':''}</p></div>`;showR(0)}
+function showR(i,b){const r=cur[i];if(b){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));b.classList.add('on')}
+const en={exo:'گرمازا',endo:'گرماگیر',sc:'هشدار'}[r.en]||'';
+let h=`<h3>${r.n}</h3><span class="tag">${r.t}</span><span class="tag">${en}</span><button onclick="fav('${r.n}')">⭐</button>`;
+if(r.eq){const p=parse(r.eq),ok=bal(r.eq);h+=`<div class="eq">${fm(r.eq)}</div><div style="text-align:center" class="${ok?'ok':'bad'}">${ok?'✓ معادله موازنه است':'✗ نامتوازن'}</div>
+<canvas id="cv" width="360" height="260"></canvas><div class="row" style="justify-content:center;margin:8px 0"><button onclick="A.play=true;if(A.t>=1)A.t=0">▶</button><button onclick="A.play=false">⏸</button><button onclick="A.t=0;A.play=true">↻</button><button onclick="A.sp=Math.max(.25,A.sp/2)">🐢</button><button onclick="A.sp=Math.min(4,A.sp*2)">🐇</button><input type="range" id="sl" min="0" max="100" value="0" oninput="A.play=false;A.t=this.value/100"></div><div id="stg" style="text-align:center;color:var(--ac)"></div>
+<table class="t"><tr><th>اتم</th><th>پیش از واکنش</th><th>پس از واکنش</th></tr>${Object.keys(tot(p.L)).map(k=>`<tr><td>${k}</td><td>${tot(p.L)[k]}</td><td>${tot(p.R)[k]||0}</td></tr>`).join('')}</table>`;
+if(r.st)h+=`<p><b>مراحل:</b></p>`+r.st.map((s,j)=>`<div class="eq" style="font-size:16px">${j+1}) ${fm(s)} ${bal(s)?'':'(نشان‌دهندهٔ مرحله، با بازیافت)'}</div>`).join('')}
+h+=`<p>${r.d}</p>${r.c?`<p><b>شرایط:</b> ${r.c}</p>`:''}${r.eq?`<p><b>انرژی:</b> ${en?en+(r.en=='exo'?' — انرژی آزاد می‌شود (به‌صورت گرما/نور)':r.en=='endo'?' — انرژی جذب می‌شود':''):''}</p>`:''}${r.w?`<div class="wn">⚠ ${r.w}</div>`:''}`;
+if(r.eq&&!r.w&&r.t!='تغییر فیزیکی'){const p=parse(r.eq);h+=`<p><b>فرمولاسیون جرمی نظری (استوکیومتری):</b> `+p.L.map(x=>`${x.c}×${x.f} = ${(x.c*mm(x.f)).toFixed(1)} g/mol`).join(' + ')+` ⟶ `+p.R.map(x=>`${x.c}×${x.f} = ${(x.c*mm(x.f)).toFixed(1)}`).join(' + ')+`</p><p style="font-size:12px;color:var(--mu)">نسبت نظری برای درک پایستگی جرم است، نه دستور آزمایش.</p>`}
+else if(r.w&&r.eq)h+='<p style="font-size:12px;color:var(--mu)">نسبت‌های عملیاتی برای واکنش‌های خطرناک عمداً نمایش داده نمی‌شود.</p>';
+$('rd').innerHTML=h;if(r.eq)setup(r)}
+// ---- animation
+const A={t:0,play:true,sp:1,r:null,M:[],P:[]};const ST=['ورود مواد','هر ماده با رنگ خود','نزدیک شدن ذرات','برخورد و شکستن پیوندها','تشکیل محصولات'];
+function setup(r){const p=parse(r.eq);A.r=r;A.t=0;A.play=true;const mk=(sd,k)=>{const o=[];sd.forEach(x=>{for(let i=0;i<Math.min(x.c,5);i++)o.push({f:x.f,c:colr(x.f),a:Math.random()*6.28,x0:30+Math.random()*300,y0:20+Math.random()*220})});return o};A.M=mk(p.L);A.P=mk(p.R);A.P.forEach((m,i)=>{m.dx=Math.cos(i*2.4)*(70+i%3*30);m.dy=Math.sin(i*2.4)*(50+i%3*20)})}
+const es=x=>x<0?0:x>1?1:x*x*(3-2*x);
+function mol(g,x,y,m,al){g.globalAlpha=al;const gr=g.createRadialGradient(x-5,y-5,2,x,y,19);gr.addColorStop(0,'#fff');gr.addColorStop(.35,m.c);gr.addColorStop(1,'#000');g.fillStyle=gr;g.shadowColor=m.c;g.shadowBlur=14;g.beginPath();g.arc(x,y,18,0,7);g.fill();g.shadowBlur=0;g.fillStyle='#fff';g.font='bold 10px sans-serif';g.textAlign='center';g.fillText(uni(m.f).slice(0,6),x,y+3.5);g.globalAlpha=1}
+function loop(){requestAnimationFrame(loop);const cv=$('cv');if(!cv||!A.r)return;if(A.play){A.t+=.003*A.sp;if(A.t>=1){A.t=1;A.play=false}}const t=A.t,g=cv.getContext('2d');g.fillStyle='#050818';g.fillRect(0,0,360,260);const cx=180,cy=130;
+const f=Math.max(0,1-Math.abs(t-.5)*7);if(f>0){const gr=g.createRadialGradient(cx,cy,0,cx,cy,120);gr.addColorStop(0,'rgba(255,255,255,'+f+')');gr.addColorStop(1,'rgba(45,226,230,0)');g.fillStyle=gr;g.fillRect(0,0,360,260)}
+A.M.forEach((m,i)=>{const k=es(t/.45),x=m.x0+(cx+Math.cos(i*1.7)*28-m.x0)*k+Math.sin(t*20+i)*3,y=m.y0+(cy+Math.sin(i*1.7)*28-m.y0)*k+Math.cos(t*20+i)*3;mol(g,x,y,m,Math.max(0,Math.min(1,1-(t-.45)/.1)))});
+A.P.forEach(m=>{const k=es((t-.55)/.45);mol(g,cx+m.dx*k,cy+m.dy*k,m,Math.max(0,Math.min(1,(t-.5)/.1)))});
+if(t>.5){const u=t-.5,fx=A.r.fx;for(let i=0;i<36;i++){const a=i*2.4,d=u*260*(.3+(i%6)/6);let x,y;g.globalAlpha=Math.max(0,1-u*1.6);
+if(fx=='flame'||fx=='glow'){x=cx+Math.cos(a)*d;y=cy+Math.sin(a)*d+u*u*90;g.fillStyle=i%2?'#ffb347':'#fff3a0';g.beginPath();g.arc(x,y,fx=='glow'?1.5:2.5,0,7);g.fill()}
+else if(fx=='gas'){x=cx+Math.cos(a)*60+Math.sin(i)*20;y=260-u*500*(.4+(i%5)/6)%260;g.strokeStyle='#bfe9ff';g.beginPath();g.arc(x,(y+260)%260,3+i%4,0,7);g.stroke()}
+else if(fx=='ppt'){x=30+(i*9)%300;y=Math.min(250,cy+u*500*(.3+(i%4)/5));g.fillStyle='#eaf0ff';g.beginPath();g.arc(x,y,2.5,0,7);g.fill()}
+else if(fx=='crys'){g.strokeStyle='#fff';g.globalAlpha=1;const L=u*140*(.4+(i%5)/5);g.beginPath();g.moveTo(cx,cy);g.lineTo(cx+Math.cos(a)*L,cy+Math.sin(a)*L);g.stroke()}g.globalAlpha=1}}
+const s=Math.min(4,Math.floor(t*5));$('stg').textContent=`مرحله ${s+1}: ${ST[s]} ${A.play?'':''}`;$('sl').value=t*100}
+loop();
+function loadSel(s,m){const a=s.split(',');sel=m?[...new Set([...sel,...a])]:a;draw()}
+function sugg(){const S=new Set(sel),bt=(r,m,x)=>`<button style="margin:3px" onclick="loadSel('${r.r.join(',')}',${m})">${r.n}${x||''}</button>`;let h='';
+if(S.size){const now=match().length;h+=now?`<p class="ok">✓ انتخاب فعلی شما ${now} واکنش مستند دارد؛ «شروع واکنش» را بزنید.</p>`:'<p style="color:var(--mu)">انتخاب فعلی هنوز واکنش مستندی ندارد.</p>';
+const p=DB.filter(r=>r.r.some(x=>S.has(x))&&!r.r.every(x=>S.has(x))).slice(0,8);if(p.length)h+='<p>برای کامل‌شدن این واکنش‌ها، مادهٔ مشخص‌شده را اضافه کنید:</p>'+p.map(r=>bt(r,true,' ← +'+r.r.filter(x=>!S.has(x)).map(x=>EL.find(e=>e.s==x)?x:fm(x)).join('، '))).join('')}
+else h+='<p>چند ترکیب جذاب برای شروع:</p>'+[1,6,7,15,DB.length-3,DB.length-2,DB.length-1].map(i=>bt(DB[i],false)).join('');
+h+='<details style="margin-top:8px"><summary>همهٔ ترکیب‌های ممکن در پایگاه داده ('+DB.length+')</summary>'+DB.map(r=>bt(r,false,' <small style="color:var(--mu)">('+r.r.length+' جزء)</small>')).join('')+'</details>';$('sg').innerHTML=h}
+// ---- library, history, games
+const TY=[...new Set(DB.map(r=>r.t))];
+function libInit(){
+  const typeBox=$('bt');
+  if(!typeBox || !$('bq') || !$('lb') || !$('bn')) return;
+  typeBox.innerHTML='<option value="">همه انواع</option>'+TY.map(t=>`<option>${t}</option>`).join('');
+  lib();
+}
+function lib(){
+  const q=($('bq')?.value||'').trim().toLowerCase(),t=$('bt')?.value||'';
+  const L=DB.filter(r=>(!t||r.t==t)&&(!q||(r.n+r.t+(r.eq||'')+r.r.join(' ')).toLowerCase().includes(q)));
+  if($('bn')) $('bn').textContent=L.length+' واکنش';
+  if($('lb')) $('lb').innerHTML=L.length?L.map(r=>`<div class="card" onclick="openR('${r.n}')"><b>${r.n}</b><div class="eq" style="font-size:15px">${r.eq?fm(r.eq):'سناریوی ایمنی'}</div><span class="tag">${r.t}</span><span class="tag">اعتبار: درسی استاندارد</span></div>`).join(''):'<div class="card">موردی در کتابخانه پیدا نشد. عبارت جست‌وجو را تغییر بده.</div>';
+}
+function openR(n){
+  const r=DB.find(x=>x.n==n);
+  if(!r){
+    if($('res')) $('res').innerHTML='<div class="card">این واکنش در نسخهٔ فعلی کتابخانه پیدا نشد. صفحه را تازه‌سازی کن و دوباره امتحان کن.</div>';
+    return;
+  }
+  sel=[...new Set(r.r||[])];draw();show('l');cur=[r];
+  $('res').innerHTML='<div class="card"><div id="rd"></div></div>';showR(0);
+}
+let H=[],F=[],S=0;
+try{
+  H=JSON.parse(localStorage.getItem('pw_h')||'[]');
+  F=JSON.parse(localStorage.getItem('pw_f')||'[]');
+  S=+localStorage.getItem('pw_s')||0;
+  if(!Array.isArray(H)) H=[];
+  if(!Array.isArray(F)) F=[];
+}catch(e){H=[];F=[];S=0;}
+function sv(){
+  try{
+    localStorage.setItem('pw_h',JSON.stringify(H.slice(-200)));
+    localStorage.setItem('pw_f',JSON.stringify(F));
+    localStorage.setItem('pw_s',S);
+  }catch(e){/* Storage may be disabled by the browser; gameplay still works for this session. */}
+  if($('sc')) $('sc').textContent=`⭐ ${S} امتیاز | سطح ${Math.floor(S/50)+1}`;
+}
+function score(p){S+=p;sv()}function save(o){o.d=new Date().toLocaleString('fa-IR');H.push(o);sv()}
+function fav(n){if(!DB.some(r=>r.n===n))return;if(!F.includes(n))F.push(n);sv();alert('به علاقه‌مندی‌ها افزوده شد')}
+const disc=()=>[...new Set(H.map(h=>h.n).filter(Boolean))];
+function hist(){$('hl').innerHTML=H.length?[...H].reverse().map(h=>`<div class="card"><small>${h.d}</small><br>${h.sel.map(nm).join('، ')}<div class="eq" style="font-size:15px">${h.eq&&h.eq!='—'?fm(h.eq):'—'}</div><span class="tag">${h.t}</span> <span class="tag">+${h.p}</span></div>`).join(''):'<p style="color:var(--mu)">هنوز آزمایشی ثبت نشده.</p>';$('fl').innerHTML=F.filter(n=>DB.some(r=>r.n===n)).map(n=>`<span class="chip" onclick="openR('${n}')">${n}</span>`).join(' ')||'<span style="color:var(--mu)">خالی</span>'}
+function miss(){const d=disc().map(n=>DB.find(r=>r.n==n)).filter(Boolean);const M=[['یک واکنش گرمازا پیدا کن',d.some(r=>r.en=='exo')],['یک واکنش رسوبی پیدا کن',d.some(r=>r.t.includes('رسوبی'))],['یک واکنش اسید و باز پیدا کن',d.some(r=>r.t.includes('اسید و باز'))],['یک واکنش چندمرحله‌ای پیدا کن',d.some(r=>r.t.includes('چندمرحله'))],['تفاوت تغییر فیزیکی و شیمیایی: سدیم استات را بیازمای',d.some(r=>r.t=='تغییر فیزیکی')],['۱۰ واکنش مختلف کشف کن',d.length>=10]];
+$('ms').innerHTML=M.map(m=>`<div>${m[1]?'✅':'⬜'} ${m[0]}</div>`).join('')+`<p>نشان‌ها: ${[S>=10?'🥉 آزمایشگر':'',S>=100?'🥈 شیمی‌دان':'',S>=300?'🥇 استاد عناصر':'',d.length>=10?'🔭 کاشف':''].filter(Boolean).join(' ')||'—'}</p>`}
+const real=()=>DB.filter(r=>r.eq&&bal(r.eq));
+function quiz(){const L=real(),r=L[Math.random()*L.length|0],ps=x=>x.eq.split('=')[1];const o=[...new Set([ps(r),...L.sort(()=>Math.random()-.5).slice(0,5).map(ps)])].slice(0,4).sort(()=>Math.random()-.5);
+$('gm').innerHTML=`<p>محصول این واکنش‌دهنده‌ها چیست؟</p><div class="eq">${fm(r.eq.split('=')[0])}</div>`+o.map(x=>`<button style="margin:4px" onclick="ans(this,${x==ps(r)})">${fm(x)}</button>`).join('')+'<div id="fb"></div>'}
+function ans(b,ok){$('fb').innerHTML=ok?'<p class="ok">درست! +10</p><button onclick="quiz()">بعدی</button>':'<p class="bad">نادرست؛ دوباره تلاش کن.</p>';if(ok)score(10)}
+let BQ=null;
+function balg(){const L=real().filter(r=>!r.st);BQ=L[Math.random()*L.length|0];const p=parse(BQ.eq),sp=(sd,s)=>sd.map((x,i)=>`<input class="cf" id="${s}${i}" type="number" min="1" value="1">${fm(x.f)}`).join(' + ');
+$('gm').innerHTML=`<p>ضریب‌ها را طوری بگذارید که معادله موازنه شود:</p><div class="eq" style="font-size:16px">${sp(p.L,'l')} ⟶ ${sp(p.R,'r')}</div><button class="pr" onclick="chk()">بررسی</button><div id="fb"></div>`}
+function chk(){const p=parse(BQ.eq),g=(sd,s)=>sd.map((x,i)=>({c:+$(s+i).value||1,f:x.f}));const ok=same(tot(g(p.L,'l')),tot(g(p.R,'r')));$('fb').innerHTML=ok?'<p class="ok">عالی! موازنه درست است. +15</p><button onclick="balg()">بعدی</button>':'<p class="bad">هنوز تعداد اتم‌ها برابر نیست.</p>';if(ok)score(15)}
+build();libInit();sv();draw();
+</script></body></html>
