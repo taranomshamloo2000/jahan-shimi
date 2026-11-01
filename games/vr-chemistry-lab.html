@@ -5,13 +5,13 @@
 @media(max-width:700px){.hud{padding:8px}.brandbox .muted{display:none}.mission{max-width:72%;padding:9px}.mission .muted{font-size:10px}.touchpad{display:block}.hint{max-width:120px;font-size:10px}.buttons button{padding:8px;font-size:11px}}
 </style>
 <style>
-#labDock{position:fixed;right:10px;top:82px;bottom:145px;width:min(300px,43vw);z-index:3;pointer-events:auto;display:flex;flex-direction:column;gap:8px;overflow:hidden}
+#labDock{position:fixed;right:10px;top:124px;bottom:145px;width:min(300px,43vw);z-index:3;pointer-events:auto;display:flex;flex-direction:column;gap:8px;overflow:hidden}
 .dockHead{display:flex;gap:6px;flex-wrap:wrap}.dockHead button{flex:1}
 .dockBody{overflow:auto;min-height:0;scrollbar-width:thin}.elementGrid{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin-top:8px}
 .el{padding:7px 2px;text-align:center;border-radius:8px;background:#21383d;border:1px solid #9ccfc455;cursor:pointer}.el b{display:block;font-size:16px;color:#b8f4d9}.el small{display:block;font-size:9px;color:#d0dfdc}.el.active{outline:2px solid #fff}.el:nth-child(10n+1){border-color:#72d8ef}.el:nth-child(10n+2){border-color:#a88cff}.el:nth-child(10n+3){border-color:#ffbf69}.el:nth-child(10n+4){border-color:#83e6b7}.el:nth-child(10n+5){border-color:#f18cb7}
 .recipe{border-bottom:1px solid #ffffff22;padding:8px 2px;font-size:11px;line-height:1.8}.recipe strong{color:#a9efd5}.toolGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}.tool{background:#263c3e;border:1px solid #9fcfc455;border-radius:9px;padding:7px;font-size:11px}
 #dockTabs{display:flex;gap:5px}#dockTabs button{flex:1;padding:8px 4px;font-size:11px}
-@media(max-width:700px){#labDock{top:72px;bottom:155px;width:44vw;right:5px}.elementGrid{grid-template-columns:repeat(4,1fr)}#labDock .panel{padding:7px}.el{padding:5px 1px}.el b{font-size:14px}.el small{font-size:8px}}
+@media(max-width:700px){#labDock{top:112px;bottom:155px;width:44vw;right:5px}.elementGrid{grid-template-columns:repeat(4,1fr)}#labDock .panel{padding:7px}.el{padding:5px 1px}.el b{font-size:14px}.el small{font-size:8px}}
 </style><style>
 #reactivityCard{margin-top:8px;padding:9px;border-radius:10px;background:#132b30;border:1px solid #a9efd566;font-size:11px;line-height:1.9}
 #reactivityCard .meter{height:8px;background:#3b5050;border-radius:8px;overflow:hidden;margin:5px 0}
@@ -24,12 +24,12 @@
 #elementFactsExtra{margin-top:7px;padding:8px;border-radius:9px;background:#203b3b;font-size:11px;line-height:1.8}
 .labTag{font-size:10px;color:#d4eee4}
 @media(max-width:700px){#labDock{width:min(58vw,330px);bottom:140px}.tool{font-size:10px;padding:6px}}
-</style></head><body>
+#dockToggle{position:fixed;right:10px;top:82px;z-index:6;min-width:118px;background:#167b70;border-color:#a9efd5;box-shadow:0 5px 18px #0007}\n#labDock.collapsed{display:none}\n@media(max-width:700px){#dockToggle{top:74px;right:7px;padding:8px 10px}}\n</style></head><body>
 <div id="view"></div><div class="cross">＋</div><div class="toast" id="toast"></div>
 <div class="hud"><div class="row"><div class="panel brandbox"><div class="brand">جهان شیمی | آزمایشگاه تعاملی</div><div class="muted">محیط سه‌بعدی اول‌شخص • بردار، جابه‌جا کن، ترکیب کن</div></div><div class="buttons"><button id="help">راهنما</button><button id="reset">شروع دوباره</button><button id="back">بازگشت به بازی‌ها</button></div></div>
 <div class="bottom"><div class="panel mission"><b id="task">آزمایش ۱: ساخت آب</b><div class="muted" id="desc">بطری هیدروژن و اکسیژن را روی میز کنار ارلن بکش؛ سپس دکمهٔ ترکیب را بزن.</div><div class="meter"><i id="progress"></i></div><div class="muted" id="status">۰ از ۳ مرحله</div></div><div class="hint">ماوس/انگشت: بطری را بکش و رها کن<br>W A S D: حرکت در آزمایشگاه • کشیدن فضای خالی: نگاه</div></div></div>
 
-<div id="labDock">
+<button id="dockToggle" aria-expanded="true">▾ بستن انبار</button>\n<div id="labDock">
  <div class="panel">
   <div class="dockHead"><b style="color:#a9efd5">انبار و دفتر آزمایشگاه</b><span class="muted" id="selectedElement">عنصری انتخاب نشده</span></div>
   <div id="dockTabs"><button data-tab="elements" class="primary">۱۱۸ عنصر</button><button data-tab="recipes">ترکیب‌های پیشنهادی</button><button data-tab="tools">وسایل</button></div>
@@ -177,7 +177,7 @@ function addEquipment3D(name,index){
 }
 function spawnElement(sym){if(!scene)return;let item=periodic.find(x=>x[0]===sym);if(!item)return;if(bottles[sym]){toast('ویال '+sym+' از قبل در آزمایشگاه وجود دارد؛ همان را جابه‌جا کن.');return}let color=new THREE.Color().setHSL((periodic.findIndex(x=>x[0]===sym)*.618)%1,.48,.62);let hex='#'+color.getHexString();let x=-4.8+(Object.keys(bottles).length%8)*1.25,z=-3.0+Math.floor(Object.keys(bottles).length/8)*.75;makeBottle(sym,item[1],hex,x);bottles[sym].position.z=z;$('selectedElement').textContent='ویال '+sym+' اضافه شد';toast('ویال '+item[1]+' روی میز قرار گرفت؛ آن را بکش و جابه‌جا کن.');}
 function showDockTab(tab){['elements','recipes','tools'].forEach(t=>{$(t+'Pane').style.display=t===tab?'block':'none'});document.querySelectorAll('#dockTabs button').forEach(b=>b.classList.toggle('primary',b.dataset.tab===tab))}
-document.querySelectorAll('#dockTabs button').forEach(b=>b.onclick=()=>showDockTab(b.dataset.tab));
+document.querySelectorAll('#dockTabs button').forEach(b=>b.onclick=()=>showDockTab(b.dataset.tab));\nconst dockToggle=$('dockToggle'),labDock=$('labDock');dockToggle.onclick=()=>{const closed=labDock.classList.toggle('collapsed');dockToggle.textContent=closed?'▴ نمایش انبار':'▾ بستن انبار';dockToggle.setAttribute('aria-expanded',String(!closed));};
 renderInventory();
 
 
