@@ -64,14 +64,14 @@ body[data-lamp-color="gold"]{--lamp-glow:rgba(255,205,112,.24);--lamp-glow-soft:
 #tari-lamp-colors{position:static;transform:none;display:flex;justify-content:center;gap:8px;padding:0;background:transparent;border:0;box-shadow:none}
 #tari-lamp-colors button{width:19px;height:19px;flex:0 0 19px}
 
-/* Calm, non-intrusive chemistry drift layer */
-#chem-float-layer{position:absolute;top:0;left:0;width:100%;height:100%;min-height:100%;z-index:4;pointer-events:none;overflow:visible;direction:ltr}
+/* Living chemistry particles: gently animated, page-attached, kept behind content */
+#chem-float-layer{position:absolute;top:0;left:0;width:100%;height:100%;min-height:100%;z-index:2;pointer-events:none;overflow:visible;direction:ltr}
 body>header,body>main,body>footer{position:relative;z-index:3}
-.chem-float{position:absolute;width:40px;height:40px;border:1px solid #9beaff17;border-radius:50%;background:#8beaff05;color:#b8eaff38;font:800 13px Vazirmatn,Tahoma,sans-serif;display:grid;place-items:center;pointer-events:auto;touch-action:none;cursor:grab;user-select:none;box-shadow:0 0 18px #5bdcff05;animation:chem-drift var(--duration,24s) ease-in-out infinite alternate;transition:background .35s,border-color .35s,color .35s,box-shadow .35s}
+.chem-float{position:absolute;width:28px;height:28px;border:1px solid #9beaff20;border-radius:50%;background:#8beaff07;color:#b8eaff55;font:800 11px Vazirmatn,Tahoma,sans-serif;display:grid;place-items:center;pointer-events:auto;touch-action:none;cursor:grab;user-select:none;box-shadow:0 0 14px #5bdcff08;animation:chem-drift var(--duration,19s) ease-in-out var(--delay,0s) infinite alternate;will-change:transform;transition:background .35s,border-color .35s,color .35s,box-shadow .35s}
 .chem-float:hover,.chem-float:focus-visible{color:#c8f6ffb0;border-color:#8beaff66;background:#4dd9ff10;outline:none}
-.chem-float.dragging{animation:none;z-index:8;transform:scale(1.12);color:#d8faff;border-color:#8beaffaa;background:#12334dcc;box-shadow:0 8px 28px #0007}
-@keyframes chem-drift{0%{translate:0 -5px}50%{translate:0 10px}100%{translate:0 -7px}}
-@media(max-width:600px){.chem-float{width:32px;height:32px;font-size:11px;opacity:.75}}
+.chem-float.dragging{animation:none!important;z-index:8;transform:scale(1.15);color:#d8faff;border-color:#8beaffaa;background:#12334dcc;box-shadow:0 8px 28px #0007}
+@keyframes chem-drift{0%{transform:translate3d(0,-12px,0) rotate(-5deg)}50%{transform:translate3d(var(--sway,9px),9px,0) rotate(4deg)}100%{transform:translate3d(0,19px,0) rotate(-3deg)}}
+@media(max-width:600px){.chem-float{width:24px;height:24px;font-size:10px;opacity:.8;animation-duration:var(--duration,22s)}}
 #chem-info-modal{position:fixed;inset:0;z-index:1200;display:none;place-items:center;padding:18px;background:#030817c9;backdrop-filter:blur(7px);direction:rtl;font-family:Vazirmatn,Tahoma,sans-serif}
 #chem-info-modal.open{display:grid}
 .chem-info-card{width:min(390px,100%);padding:22px;border:1px solid #70ddff55;border-radius:22px;background:linear-gradient(145deg,#18284a,#0b1329);color:#f4f7ff;text-align:center;box-shadow:0 20px 70px #0009}
@@ -88,9 +88,7 @@ body>header,body>main,body>footer{position:relative;z-index:3}
 #chem-reaction-flash{position:fixed;inset:0;z-index:1100;pointer-events:none;opacity:0;background:radial-gradient(circle at 50% 50%,#e8ffffaa,transparent 38%)}
 #chem-reaction-flash.burst{animation:chem-burst .85s ease-out}
 @keyframes chem-burst{0%{opacity:0}18%{opacity:.85}100%{opacity:0}}
-@media(prefers-reduced-motion:reduce){.chem-float{animation:none}#chem-reaction-flash.burst{animation:none;opacity:.25}}
-@media(max-width:600px){.chem-float{width:46px;height:46px;font-size:14px}}
-
+@media(prefers-reduced-motion:reduce){.chem-float{animation-duration:36s!important}#chem-reaction-flash.burst{animation:none;opacity:.25}}
 </style>
 </head>
 <body>
@@ -139,52 +137,88 @@ body>header,body>main,body>footer{position:relative;z-index:3}
  O:{name:'اکسیژن',z:8,desc:'نافلزی مهم و یکی از اجزای اصلی مولکول آب؛ در بسیاری از واکنش‌های سوختن شرکت می‌کند.'},
  Na:{name:'سدیم',z:11,desc:'فلزی قلیایی و بسیار واکنش‌پذیر؛ در ترکیب نمک خوراکی حضور دارد.'},
  Cl:{name:'کلر',z:17,desc:'نافلز هالوژن؛ در ترکیب سدیم کلرید (نمک خوراکی) وجود دارد.'},
- Mg:{name:'منیزیم',z:12,desc:'فلزی سبک که هنگام واکنش با اکسیژن نور سفید درخشانی تولید می‌کند.'}, C:{name:'کربن',z:6,desc:'عنصری نافلز و پایهٔ اصلی ترکیب‌های آلی.'}, N:{name:'نیتروژن',z:7,desc:'گازی که بخش بزرگی از هوای زمین را تشکیل می‌دهد.'}, Fe:{name:'آهن',z:26,desc:'فلزی پرکاربرد در ساخت آلیاژها و فولاد.'}, Au:{name:'طلا',z:79,desc:'فلزی ارزشمند و کم‌واکنش با رسانایی بالا.'}, He:{name:'هلیم',z:2,desc:'گازی نجیب، سبک و کم‌واکنش.'}, Ca:{name:'کلسیم',z:20,desc:'فلزی که ترکیب‌های آن در استخوان‌ها و سنگ آهک یافت می‌شود.'}, S:{name:'گوگرد',z:16,desc:'نافلزی زردرنگ که در ترکیب‌های گوناگون وجود دارد.'}, K:{name:'پتاسیم',z:19,desc:'فلزی قلیایی و واکنش‌پذیر.'}, Ne:{name:'نئون',z:10,desc:'گاز نجیب که در لامپ‌های تبلیغاتی به‌کار می‌رود.'}, Cu:{name:'مس',z:29,desc:'فلزی رسانا و پرکاربرد در سیم‌های برق.'}, Ag:{name:'نقره',z:47,desc:'فلزی با رسانایی الکتریکی بسیار بالا.'}, P:{name:'فسفر',z:15,desc:'نافلزی مهم در ساختار DNA و ترکیب‌های زیستی.'}, Si:{name:'سیلیسیم',z:14,desc:'شبه‌فلزی مهم در ساخت تراشه‌ها و قطعات الکترونیکی.'}
+ Mg:{name:'منیزیم',z:12,desc:'فلزی سبک که هنگام واکنش با اکسیژن نور سفید درخشانی تولید می‌کند.'},
+ C:{name:'کربن',z:6,desc:'عنصری نافلز و پایهٔ اصلی ترکیب‌های آلی.'},N:{name:'نیتروژن',z:7,desc:'گازی که بخش بزرگی از هوای زمین را تشکیل می‌دهد.'},
+ Fe:{name:'آهن',z:26,desc:'فلزی پرکاربرد در ساخت آلیاژها و فولاد.'},Au:{name:'طلا',z:79,desc:'فلزی ارزشمند و کم‌واکنش با رسانایی بالا.'},
+ He:{name:'هلیم',z:2,desc:'گازی نجیب، سبک و کم‌واکنش.'},Ca:{name:'کلسیم',z:20,desc:'فلزی که ترکیب‌های آن در استخوان‌ها و سنگ آهک یافت می‌شود.'},
+ S:{name:'گوگرد',z:16,desc:'نافلزی زردرنگ که در ترکیب‌های گوناگون وجود دارد.'},K:{name:'پتاسیم',z:19,desc:'فلزی قلیایی و واکنش‌پذیر.'},
+ Ne:{name:'نئون',z:10,desc:'گاز نجیب که در لامپ‌های تبلیغاتی به‌کار می‌رود.'},Cu:{name:'مس',z:29,desc:'فلزی رسانا و پرکاربرد در سیم‌های برق.'},
+ Ag:{name:'نقره',z:47,desc:'فلزی با رسانایی الکتریکی بسیار بالا.'},P:{name:'فسفر',z:15,desc:'نافلزی مهم در ساختار DNA و ترکیب‌های زیستی.'},
+ Si:{name:'سیلیسیم',z:14,desc:'شبه‌فلزی مهم در ساخت تراشه‌ها و قطعات الکترونیکی.'},
+ Al:{name:'آلومینیم',z:13,desc:'فلزی سبک و پرکاربرد در ساخت وسایل و سازه‌ها.'},Zn:{name:'روی',z:30,desc:'فلزی که برای پوشش ضدزنگ آهن و ساخت آلیاژها به‌کار می‌رود.'},
+ Li:{name:'لیتیم',z:3,desc:'فلزی سبک که در باتری‌های قابل شارژ کاربرد دارد.'},F:{name:'فلوئور',z:9,desc:'نافلزی بسیار واکنش‌پذیر از خانواده هالوژن‌ها.'},
+ Br:{name:'برم',z:35,desc:'نافلز هالوژن که در دمای اتاق مایع است.'},I:{name:'ید',z:53,desc:'عنصر هالوژن که در ترکیب‌های موردنیاز بدن نقش دارد.'}
  };
  const reactions={
- 'H+O':{title:'آب تشکیل شد! 💧',equation:'2H₂ + O₂ → 2H₂O',desc:'هیدروژن و اکسیژن در شرایط مناسب واکنش می‌دهند و آب می‌سازند.',kind:'glow'},
- 'Na+Cl':{title:'نمک خوراکی ساخته شد! ✨',equation:'2Na + Cl₂ → 2NaCl',desc:'سدیم و کلر ترکیب یونی سدیم کلرید را تشکیل می‌دهند.',kind:'spark'},
- 'Mg+O':{title:'اکسید منیزیم تشکیل شد! ☀️',equation:'2Mg + O₂ → 2MgO',desc:'واکنش منیزیم با اکسیژن با نور سفید بسیار درخشانی همراه است.',kind:'flash'}, 'C+O':{title:'کربن اکسید شد! 🔥',equation:'C + O₂ → CO₂',desc:'در سوختن کامل کربن، کربن‌دی‌اکسید تشکیل می‌شود.',kind:'flash'}
+ 'H+O':{title:'آب تشکیل شد! 💧',equation:'2H₂ + O₂ → 2H₂O',desc:'هیدروژن و اکسیژن در شرایط مناسب واکنش می‌دهند و آب می‌سازند.'},
+ 'Na+Cl':{title:'نمک خوراکی ساخته شد! ✨',equation:'2Na + Cl₂ → 2NaCl',desc:'سدیم و کلر ترکیب یونی سدیم کلرید را تشکیل می‌دهند.'},
+ 'Mg+O':{title:'اکسید منیزیم تشکیل شد! ☀️',equation:'2Mg + O₂ → 2MgO',desc:'واکنش منیزیم با اکسیژن با نور سفید بسیار درخشانی همراه است.'},
+ 'C+O':{title:'کربن اکسید شد! 🔥',equation:'C + O₂ → CO₂',desc:'در سوختن کامل کربن، کربن‌دی‌اکسید تشکیل می‌شود.'},
+ 'N+H':{title:'آمونیاک تشکیل شد! 💨',equation:'N₂ + 3H₂ ⇌ 2NH₃',desc:'نیتروژن و هیدروژن در شرایط صنعتی مناسب آمونیاک می‌سازند.'},
+ 'S+O':{title:'دی‌اکسید گوگرد تشکیل شد!',equation:'S + O₂ → SO₂',desc:'گوگرد هنگام سوختن در اکسیژن، دی‌اکسید گوگرد تولید می‌کند.'},
+ 'Fe+O':{title:'اکسید آهن تشکیل شد! ⚙️',equation:'4Fe + 3O₂ → 2Fe₂O₃',desc:'آهن در واکنش با اکسیژن می‌تواند اکسید آهن بسازد.'},
+ 'Si+O':{title:'سیلیسیم‌دی‌اکسید تشکیل شد!',equation:'Si + O₂ → SiO₂',desc:'سیلیسیم در واکنش با اکسیژن، سیلیسیم‌دی‌اکسید می‌سازد.'},
+ 'Ca+O':{title:'اکسید کلسیم تشکیل شد!',equation:'2Ca + O₂ → 2CaO',desc:'کلسیم در واکنش با اکسیژن اکسید کلسیم تولید می‌کند.'},
+ 'K+Cl':{title:'پتاسیم کلرید تشکیل شد!',equation:'2K + Cl₂ → 2KCl',desc:'پتاسیم و کلر یک ترکیب یونی به نام پتاسیم کلرید می‌سازند.'},
+ 'Cu+O':{title:'اکسید مس تشکیل شد!',equation:'2Cu + O₂ → 2CuO',desc:'مس در شرایط مناسب با اکسیژن واکنش می‌دهد و اکسید مس می‌سازد.'},
+ 'Al+O':{title:'اکسید آلومینیم تشکیل شد!',equation:'4Al + 3O₂ → 2Al₂O₃',desc:'سطح آلومینیم در تماس با اکسیژن لایه‌ای نازک از اکسید محافظ می‌سازد.'},
+ 'Zn+O':{title:'اکسید روی تشکیل شد!',equation:'2Zn + O₂ → 2ZnO',desc:'روی در واکنش با اکسیژن اکسید روی تشکیل می‌دهد.'},
+ 'Li+O':{title:'اکسید لیتیم تشکیل شد!',equation:'4Li + O₂ → 2Li₂O',desc:'لیتیم در واکنش با اکسیژن اکسید لیتیم می‌سازد.'}
  };
  const layer=document.getElementById('chem-float-layer'),modal=document.getElementById('chem-info-modal'),toast=document.getElementById('chem-reaction-toast'),flash=document.getElementById('chem-reaction-flash');
  if(!layer||!modal||!toast||!flash)return;
- const symbols=['H','O','Na','Cl','Mg','C','N','Fe','Au','He','Ca','S','K','Ne','Cu','Ag','P','Si'];
- const layout=()=>{layer.style.height=Math.max(document.documentElement.scrollHeight,document.body.scrollHeight)+'px';layer.innerHTML='';symbols.forEach((s,i)=>{const el=document.createElement('button');el.className='chem-float';el.dataset.el=s;el.textContent=s;el.setAttribute('aria-label',data[s]?.name||s);const side=i%2===0?'1.2%':'auto';el.style.left=side;el.style.right=i%2===0?'auto':'1.2%';const pageH=Math.max(document.documentElement.scrollHeight,document.body.scrollHeight);el.style.top=(110+i*Math.max(115,(pageH-220)/symbols.length))+'px';el.style.setProperty('--duration',(22+(i%5)*3)+'s');layer.appendChild(el);});};
- layout();window.addEventListener('resize',layout);
- let toastTimer,dragged=false;
- const showInfo=s=>{const d=data[s];document.getElementById('chem-info-name').textContent=d.name;document.getElementById('chem-info-desc').textContent=d.desc;document.getElementById('chem-info-number').textContent='عدد اتمی: '+d.z.toLocaleString('fa-IR');modal.classList.add('open')};
+ const symbols=['H','O','Na','Cl','Mg','C','N','Fe','Au','He','Ca','S','K','Ne','Cu','Ag','P','Si','Al','Zn','Li','F','Br','I','O','H','C','N','S','Fe','Mg','Cl','Ca','K','Si','Cu','Al','Zn','P','Ag'];
+ const makeAtoms=()=>{
+   const pageH=Math.max(document.documentElement.scrollHeight,document.body.scrollHeight,innerHeight);
+   layer.style.height=pageH+'px';layer.innerHTML='';
+   symbols.forEach((sym,i)=>{
+     const el=document.createElement('button');el.type='button';el.className='chem-float';el.dataset.el=sym;el.textContent=sym;
+     el.setAttribute('aria-label',(data[sym]?.name||sym)+'؛ برای اطلاعات لمس کن و برای ترکیب بکش');
+     const left=i%2===0;el.style.left=left?'1px':'auto';el.style.right=left?'auto':'1px';
+     el.style.top=(90+i*(Math.max(1,pageH-180)/(symbols.length-1)))+'px';
+     el.style.setProperty('--duration',(17+(i%7)*2.7)+'s');
+     el.style.setProperty('--delay',(-1*(i%11)*1.8)+'s');
+     el.style.setProperty('--sway',(left?1:-1)*(5+(i%5)*2)+'px');
+     layer.appendChild(el);
+     let sx=0,sy=0,ox=0,oy=0,moved=false,dragged=false;
+     el.addEventListener('pointerdown',e=>{
+       const r=el.getBoundingClientRect();sx=e.clientX;sy=e.clientY;ox=r.left+scrollX;oy=r.top+scrollY;moved=false;dragged=false;
+       el.classList.add('dragging');el.style.left=Math.max(0,Math.min(innerWidth-el.offsetWidth, r.left))+'px';el.style.right='auto';
+       el.style.top=(r.top+scrollY)+'px';el.setPointerCapture(e.pointerId);e.preventDefault();
+     });
+     el.addEventListener('pointermove',e=>{
+       if(!el.classList.contains('dragging'))return;
+       const dx=e.clientX-sx,dy=e.clientY-sy;if(Math.abs(dx)+Math.abs(dy)>6)moved=true;
+       el.style.left=Math.max(0,Math.min(innerWidth-el.offsetWidth,e.clientX-el.offsetWidth/2))+'px';
+       el.style.top=Math.max(0,Math.min(layer.offsetHeight-el.offsetHeight,oy+dy))+'px';
+     });
+     const finish=()=>{
+       if(!el.classList.contains('dragging'))return;
+       el.classList.remove('dragging');
+       if(moved){
+         const r=el.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;
+         const other=[...layer.querySelectorAll('.chem-float')].find(n=>n!==el&&(()=>{const q=n.getBoundingClientRect();return cx>q.left-30&&cx<q.right+30&&cy>q.top-30&&cy<q.bottom+30})());
+         if(other)showReaction(el.dataset.el,other.dataset.el);
+         dragged=true;
+       }else showInfo(el.dataset.el);
+     };
+     el.addEventListener('pointerup',finish);el.addEventListener('pointercancel',finish);
+     el.addEventListener('click',e=>{if(dragged){e.preventDefault();dragged=false}});
+   });
+ };
+ let toastTimer;
+ const showInfo=s=>{const d=data[s];if(!d)return;document.getElementById('chem-info-name').textContent=d.name;document.getElementById('chem-info-desc').textContent=d.desc;document.getElementById('chem-info-number').textContent='عدد اتمی: '+d.z.toLocaleString('fa-IR');modal.classList.add('open')};
  modal.querySelector('.chem-close').addEventListener('click',()=>modal.classList.remove('open'));
  modal.addEventListener('click',e=>{if(e.target===modal)modal.classList.remove('open')});
  document.addEventListener('keydown',e=>{if(e.key==='Escape')modal.classList.remove('open')});
- const showReaction=(a,b)=>{
-   const key=[a,b].sort().join('+'),r=reactions[key];if(!r)return;
+ function showReaction(a,b){
+   const r=reactions[[a,b].sort().join('+')];if(!r)return;
    toast.innerHTML='<strong>'+r.title+'</strong>'+r.desc+'<span class="equation">'+r.equation+'</span>';
    toast.classList.add('show');flash.classList.remove('burst');void flash.offsetWidth;flash.classList.add('burst');
    clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove('show'),4800);
- };
- layer.querySelectorAll('.chem-float').forEach(node=>{
-   let sx=0,sy=0,ox=0,oy=0,moved=false;
-   node.addEventListener('pointerdown',e=>{
-     sx=e.clientX;sy=e.clientY;const r=node.getBoundingClientRect();ox=r.left;oy=r.top;moved=false;dragged=false;
-     node.classList.add('dragging');node.style.left=ox+'px';node.style.top=oy+'px';node.style.setProperty('--x',ox+'px');node.style.setProperty('--y',oy+'px');node.style.animation='none';node.setPointerCapture(e.pointerId);e.preventDefault();
-   });
-   node.addEventListener('pointermove',e=>{
-     if(!node.classList.contains('dragging'))return;
-     const dx=e.clientX-sx,dy=e.clientY-sy;if(Math.abs(dx)+Math.abs(dy)>7){moved=true;dragged=true}
-     node.style.left=Math.max(0,Math.min(innerWidth-node.offsetWidth,ox+dx))+'px';
-     node.style.top=Math.max(0,Math.min(innerHeight-node.offsetHeight,oy+dy))+'px';
-   });
-   node.addEventListener('pointerup',()=>{
-     if(!node.classList.contains('dragging'))return;
-     node.classList.remove('dragging');
-     if(moved){
-       const r=node.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;
-       const other=[...layer.querySelectorAll('.chem-float')].find(n=>n!==node&&(()=>{const q=n.getBoundingClientRect();return cx>q.left-24&&cx<q.right+24&&cy>q.top-24&&cy<q.bottom+24})());
-       if(other)showReaction(node.dataset.el,other.dataset.el);
-     }else showInfo(node.dataset.el);
-   });
-   node.addEventListener('click',e=>{if(dragged){e.preventDefault();dragged=false}});
- });
+ }
+ makeAtoms();
+ window.addEventListener('resize',()=>{clearTimeout(window.__chemResize);window.__chemResize=setTimeout(makeAtoms,180)});
 })();
 </script>
 <div id="tari-lamp-glow" aria-hidden="true"></div>
