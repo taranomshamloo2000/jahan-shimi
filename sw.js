@@ -1,4 +1,4 @@
-const CACHE="jahan-shimi-v2";
+const CACHE="jahan-shimi-v3";
 const CORE=["/jahan-shimi/","/jahan-shimi/index.html","/jahan-shimi/manifest.webmanifest","/jahan-shimi/icons/tari-world-192.png","/jahan-shimi/chapter-1-questions.html","/jahan-shimi/membership.html","/jahan-shimi/games/periodic-world.html","/jahan-shimi/games/periodic-table-challenge.html"];
 self.addEventListener("install",event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(CORE)).then(()=>self.skipWaiting())));
 self.addEventListener("activate",event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
