@@ -31,18 +31,6 @@ main{padding:14px;max-width:1200px;margin:auto}.v{display:none}.v.on{display:blo
 #holo-toggle.active{border-color:#79f3ff;background:linear-gradient(120deg,#174b69,#44317d);box-shadow:0 0 16px #43dfff55;color:#d8fcff}
 @keyframes holo-scan{0%{transform:translateX(-65%) rotate(12deg)}100%{transform:translateX(65%) rotate(12deg)}}
 @media(prefers-reduced-motion:reduce){#pt.holo .el:after{animation:none}}
-/* Full holographic presentation for the game table */
-#v-t .card.tw{background:radial-gradient(ellipse at 50% 45%,#102e59 0%,#09152f 48%,#070b1f 100%);border:1px solid #4bdcf0aa;box-shadow:inset 0 0 35px #26c9ff16,0 0 22px #3b82f633}
-#pt.holo{gap:5px;padding:14px;position:relative}
-#pt.holo .el{border-radius:8px;min-height:42px}
-#pt.holo .el span{font-size:9px}
-#pt.holo .el b{font-size:clamp(13px,1.5vw,18px);font-weight:900;letter-spacing:.3px}
-#pt.holo .el:before{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(135deg,#ffffff13,transparent 42%,#72eaff0b);pointer-events:none}
-#pt.holo .el:nth-child(3n){animation:holo-float 4.5s ease-in-out infinite}
-#pt.holo .el:nth-child(5n){animation:holo-float 5.5s ease-in-out infinite reverse}
-@keyframes holo-float{0%,100%{filter:brightness(1)}50%{filter:brightness(1.22)}}
-@media(max-width:800px){#pt.holo{gap:3px;padding:8px}#pt.holo .el{border-radius:5px;min-height:36px}#pt.holo .el b{font-size:14px}}
-
 
 .ak{background:#d6453d}.ae{background:#d97a2b}.tm{background:#3a78c9}.pt{background:#2e9a8f}.ml{background:#7a8f2a}.nm{background:#2f9e5b}.hl{background:#a23fbf}.ng{background:#6a4fd1}.ln{background:#c24f84}.ac{background:#8c3a5c}
 .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.chip{background:var(--p2);border:1px solid var(--ac);border-radius:20px;padding:4px 10px;display:inline-flex;gap:6px;align-items:center;font-size:14px}.chip i{cursor:pointer;color:#ff7b7b;font-style:normal}
@@ -62,7 +50,7 @@ footer{text-align:center;color:var(--mu);font-size:13px;padding:18px;border-top:
 <div class="cr">ساخته‌شده توسط <b>ترنم شاملو</b> • <b>اسرا کرمی</b> • <b>ستایش روشن</b><br>پژوهش گروهی شیمی<br><a style="color:var(--ac)" href="mailto:taranomshamloo2000@gmail.com">taranomshamloo2000@gmail.com</a></div></div>
 <header><span class="lg">PERIODIC WORLD</span><nav id="nav"></nav><span id="sc"></span></header>
 <main>
-<section class="v on" id="v-t"><div class="card"><div class="row"><input id="q" placeholder="جست‌وجوی نام یا نماد..." oninput="filt()"><select id="fg" onchange="filt()"><option value="">همه دسته‌ها</option></select><button onclick="sel=[];draw()">پاک‌کردن انتخاب‌ها</button><button id="holo-toggle" class="active" onclick="toggleHolo()">✨ حالت هولوگرافیک: روشن</button><button class="pr" onclick="show('l')">رفتن به آزمایشگاه ⚗</button></div><div class="lg2" id="lgd"></div><div id="tray"></div></div><div class="card tw"><div id="pt" class="holo"></div></div></section>
+<section class="v on" id="v-t"><div class="card"><div class="row"><input id="q" placeholder="جست‌وجوی نام یا نماد..." oninput="filt()"><select id="fg" onchange="filt()"><option value="">همه دسته‌ها</option></select><button onclick="sel=[];draw()">پاک‌کردن انتخاب‌ها</button><button id="holo-toggle" onclick="toggleHolo()">✨ حالت هولوگرافیک: خاموش</button><button class="pr" onclick="show('l')">رفتن به آزمایشگاه ⚗</button></div><div class="lg2" id="lgd"></div><div id="tray"></div></div><div class="card tw"><div id="pt"></div></div></section>
 
 <section class="v" id="v-l"><div class="card"><b>مواد انتخاب‌شده</b><div id="tray2" style="margin:8px 0"></div>
 <div class="row"><select id="sb"><option value="">+ افزودن ترکیب / شرایط...</option></select><button onclick="addSub()">افزودن</button><button onclick="show('t')">انتخاب عنصر از جدول</button></div>
@@ -100,8 +88,7 @@ function show(id){document.querySelectorAll('.v').forEach(v=>v.classList.toggle(
 [['t','جدول تناوبی'],['l','آزمایشگاه'],['b','کتابخانه واکنش‌ها'],['g','بازی و مأموریت'],['h','تاریخچه'],['a','راهنما / درباره']].forEach(([i,n])=>{const b=document.createElement('button');b.textContent=n;b.dataset.i=i;b.onclick=()=>show(i);$('nav').appendChild(b)});
 let sel=[],cur=null;
 function go(){$('start').style.display='none';show('t')}
-let holoEnabled=true;
-$('holo-toggle').classList.add('active');
+let holoEnabled=false;
 function toggleHolo(){
   holoEnabled=!holoEnabled;
   $('pt').classList.toggle('holo',holoEnabled);
