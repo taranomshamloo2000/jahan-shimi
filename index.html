@@ -63,6 +63,33 @@ body[data-lamp-color="gold"]{--lamp-glow:rgba(255,205,112,.24);--lamp-glow-soft:
 #tari-lamp-menu-panel .lamp-menu-title{font-size:12px;color:#f3f4ff;margin:0 0 10px;text-align:center;white-space:nowrap}
 #tari-lamp-colors{position:static;transform:none;display:flex;justify-content:center;gap:8px;padding:0;background:transparent;border:0;box-shadow:none}
 #tari-lamp-colors button{width:19px;height:19px;flex:0 0 19px}
+
+/* Floating chemistry lab */
+#chem-float-layer{position:fixed;inset:0;z-index:2;pointer-events:none;overflow:hidden;direction:ltr}
+body>header,body>main,body>footer{position:relative;z-index:3}
+.chem-float{position:absolute;left:var(--x);top:var(--y);width:58px;height:58px;border:1px solid #9beaff22;border-radius:50%;background:#8beaff08;color:#b8eaff55;font:800 17px Vazirmatn,Tahoma,sans-serif;display:grid;place-items:center;pointer-events:auto;touch-action:none;cursor:grab;user-select:none;box-shadow:0 0 24px #5bdcff08;animation:chem-drift var(--duration,16s) ease-in-out infinite alternate;transition:background .2s,border-color .2s,color .2s,box-shadow .2s}
+.chem-float:active{cursor:grabbing}.chem-float:hover,.chem-float:focus-visible{color:#c8f6ffcc;border-color:#8beaff88;background:#4dd9ff18;outline:none;box-shadow:0 0 22px #55dfff22}
+.chem-float.dragging{animation:none;z-index:8;transform:scale(1.12);color:#d8faff;border-color:#8beaffaa;background:#12334dcc;box-shadow:0 8px 28px #0007}
+@keyframes chem-drift{0%{translate:0 0}50%{translate:12px -17px}100%{translate:-9px 13px}}
+#chem-info-modal{position:fixed;inset:0;z-index:1200;display:none;place-items:center;padding:18px;background:#030817c9;backdrop-filter:blur(7px);direction:rtl;font-family:Vazirmatn,Tahoma,sans-serif}
+#chem-info-modal.open{display:grid}
+.chem-info-card{width:min(390px,100%);padding:22px;border:1px solid #70ddff55;border-radius:22px;background:linear-gradient(145deg,#18284a,#0b1329);color:#f4f7ff;text-align:center;box-shadow:0 20px 70px #0009}
+.chem-info-card h3{margin:8px 0 4px;font-size:23px}.chem-info-card p{color:#b8c7e4;line-height:1.9;margin:7px 0}
+.chem-atom{width:112px;height:112px;margin:8px auto 12px;position:relative;display:grid;place-items:center}
+.chem-atom .nucleus{width:24px;height:24px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#69dfff 45%,#5078ff);box-shadow:0 0 22px #58dfff88;z-index:2}
+.chem-atom .orbit{position:absolute;width:94px;height:40px;border:1.5px solid #8eeaff99;border-radius:50%;transform:rotate(var(--r))}
+.chem-atom .orbit:after{content:"";position:absolute;width:8px;height:8px;right:8px;top:3px;border-radius:50%;background:#c7f7ff;box-shadow:0 0 10px #67dfff}
+.chem-close{margin-top:8px;border:0;border-radius:11px;padding:9px 20px;background:#536fe0;color:white;font:700 14px Vazirmatn,Tahoma,sans-serif;cursor:pointer}
+#chem-reaction-toast{position:fixed;left:50%;bottom:22px;z-index:1150;transform:translate(-50%,20px);opacity:0;pointer-events:none;width:min(440px,calc(100vw - 28px));padding:15px 18px;border:1px solid #76eaff77;border-radius:18px;background:#101c36f2;color:#f4f8ff;text-align:center;font:14px/1.9 Vazirmatn,Tahoma,sans-serif;box-shadow:0 12px 40px #0008;transition:.3s}
+#chem-reaction-toast.show{opacity:1;transform:translate(-50%,0)}
+#chem-reaction-toast strong{display:block;color:#9ff5ff;font-size:17px}
+#chem-reaction-toast .equation{direction:ltr;display:block;font-weight:900;letter-spacing:1px;color:#fff;margin-top:4px}
+#chem-reaction-flash{position:fixed;inset:0;z-index:1100;pointer-events:none;opacity:0;background:radial-gradient(circle at 50% 50%,#e8ffffaa,transparent 38%)}
+#chem-reaction-flash.burst{animation:chem-burst .85s ease-out}
+@keyframes chem-burst{0%{opacity:0}18%{opacity:.85}100%{opacity:0}}
+@media(prefers-reduced-motion:reduce){.chem-float{animation:none}#chem-reaction-flash.burst{animation:none;opacity:.25}}
+@media(max-width:600px){.chem-float{width:46px;height:46px;font-size:14px}}
+
 </style>
 </head>
 <body>
@@ -100,6 +127,68 @@ body[data-lamp-color="gold"]{--lamp-glow:rgba(255,205,112,.24);--lamp-glow-soft:
 </main>
 <footer><div class="wrap">طراحی و مدیریت: <b>ترنم شاملو</b><br>© جهان شیمی</div></footer>
 <button id="installApp" aria-label="نصب برنامه جهان شیمی" style="position:fixed;left:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:50;box-sizing:border-box;max-width:calc(100vw - 24px);white-space:nowrap;border:1px solid #ffffff35;border-radius:14px;padding:10px 13px;background:linear-gradient(120deg,#765de9,#267e9b);color:white;font:700 13px Vazirmatn,Tahoma,sans-serif;box-shadow:0 8px 30px #0008;cursor:pointer;display:flex;align-items:center;gap:7px"><span style="font-size:20px">✦</span> نصب برنامه جهان شیمی</button>\n<div id="installHelp" role="dialog" aria-modal="true" aria-label="راهنمای نصب" style="display:none;position:fixed;inset:0;background:#000b;z-index:60;align-items:center;justify-content:center;padding:16px;box-sizing:border-box;overflow-y:auto"><div style="max-width:390px;width:100%;max-height:85vh;overflow-y:auto;box-sizing:border-box;background:#111a35;border:1px solid #ffffff30;border-radius:22px;padding:20px;color:#f4f6ff;font-family:Vazirmatn,Tahoma,sans-serif;line-height:1.9"><h3 style="margin-top:0">📲 نصب جهان شیمی</h3><p id="installHelpText">برای نصب، از منوی مرورگر گزینهٔ «افزودن به صفحه اصلی» یا «نصب برنامه» را انتخاب کن.</p><button id="closeInstallHelp" style="border:0;border-radius:10px;padding:10px 18px;background:#765de9;color:white;font:inherit">متوجه شدم</button></div></div>\n<script>\nif("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));}\nlet deferredInstall=null;const installBtn=document.getElementById("installApp"),help=document.getElementById("installHelp"),helpText=document.getElementById("installHelpText");window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredInstall=e;installBtn.style.display="flex"});window.addEventListener("appinstalled",()=>{installBtn.style.display="none";deferredInstall=null});installBtn.addEventListener("click",async()=>{if(deferredInstall){deferredInstall.prompt();await deferredInstall.userChoice;deferredInstall=null;}else{helpText.textContent=/iPhone|iPad|iPod/i.test(navigator.userAgent)?"در Safari روی دکمهٔ اشتراک‌گذاری بزن و سپس «Add to Home Screen / افزودن به صفحه اصلی» را انتخاب کن.":"در Chrome منوی سه‌نقطه را باز کن و «Install app / نصب برنامه» یا «Add to Home screen / افزودن به صفحه اصلی» را بزن.";help.style.display="flex"}});document.getElementById("closeInstallHelp").onclick=()=>help.style.display="none";help.addEventListener("click",e=>{if(e.target===help)help.style.display="none"});\n</script>\n
+
+<div id="chem-float-layer" aria-label="عناصر شناور آزمایشگاه؛ برای دیدن اطلاعات لمس کن و برای ترکیب، بکش">
+ <button class="chem-float" data-el="H" style="--x:8%;--y:29%;--duration:17s" aria-label="هیدروژن">H</button>
+ <button class="chem-float" data-el="O" style="--x:83%;--y:24%;--duration:19s" aria-label="اکسیژن">O</button>
+ <button class="chem-float" data-el="Na" style="--x:17%;--y:69%;--duration:21s" aria-label="سدیم">Na</button>
+ <button class="chem-float" data-el="Cl" style="--x:76%;--y:72%;--duration:18s" aria-label="کلر">Cl</button>
+ <button class="chem-float" data-el="Mg" style="--x:49%;--y:83%;--duration:20s" aria-label="منیزیم">Mg</button>
+</div>
+<div id="chem-info-modal" role="dialog" aria-modal="true" aria-label="اطلاعات عنصر"><div class="chem-info-card"><div class="chem-atom"><i class="orbit" style="--r:0deg"></i><i class="orbit" style="--r:60deg"></i><i class="orbit" style="--r:-60deg"></i><i class="nucleus"></i></div><h3 id="chem-info-name"></h3><p id="chem-info-desc"></p><p id="chem-info-number"></p><button class="chem-close" type="button">بستن</button></div></div>
+<div id="chem-reaction-flash"></div><div id="chem-reaction-toast" role="status" aria-live="polite"></div>
+<script>
+(()=> {
+ const data={
+ H:{name:'هیدروژن',z:1,desc:'سبک‌ترین عنصر؛ در آب و بسیاری از ترکیب‌های شیمیایی وجود دارد.'},
+ O:{name:'اکسیژن',z:8,desc:'نافلزی مهم و یکی از اجزای اصلی مولکول آب؛ در بسیاری از واکنش‌های سوختن شرکت می‌کند.'},
+ Na:{name:'سدیم',z:11,desc:'فلزی قلیایی و بسیار واکنش‌پذیر؛ در ترکیب نمک خوراکی حضور دارد.'},
+ Cl:{name:'کلر',z:17,desc:'نافلز هالوژن؛ در ترکیب سدیم کلرید (نمک خوراکی) وجود دارد.'},
+ Mg:{name:'منیزیم',z:12,desc:'فلزی سبک که هنگام واکنش با اکسیژن نور سفید درخشانی تولید می‌کند.'}
+ };
+ const reactions={
+ 'H+O':{title:'آب تشکیل شد! 💧',equation:'2H₂ + O₂ → 2H₂O',desc:'هیدروژن و اکسیژن در شرایط مناسب واکنش می‌دهند و آب می‌سازند.',kind:'glow'},
+ 'Na+Cl':{title:'نمک خوراکی ساخته شد! ✨',equation:'2Na + Cl₂ → 2NaCl',desc:'سدیم و کلر ترکیب یونی سدیم کلرید را تشکیل می‌دهند.',kind:'spark'},
+ 'Mg+O':{title:'اکسید منیزیم تشکیل شد! ☀️',equation:'2Mg + O₂ → 2MgO',desc:'واکنش منیزیم با اکسیژن با نور سفید بسیار درخشانی همراه است.',kind:'flash'}
+ };
+ const layer=document.getElementById('chem-float-layer'),modal=document.getElementById('chem-info-modal'),toast=document.getElementById('chem-reaction-toast'),flash=document.getElementById('chem-reaction-flash');
+ if(!layer||!modal||!toast||!flash)return;
+ let toastTimer,dragged=false;
+ const showInfo=s=>{const d=data[s];document.getElementById('chem-info-name').textContent=d.name;document.getElementById('chem-info-desc').textContent=d.desc;document.getElementById('chem-info-number').textContent='عدد اتمی: '+d.z.toLocaleString('fa-IR');modal.classList.add('open')};
+ modal.querySelector('.chem-close').addEventListener('click',()=>modal.classList.remove('open'));
+ modal.addEventListener('click',e=>{if(e.target===modal)modal.classList.remove('open')});
+ document.addEventListener('keydown',e=>{if(e.key==='Escape')modal.classList.remove('open')});
+ const showReaction=(a,b)=>{
+   const key=[a,b].sort().join('+'),r=reactions[key];if(!r)return;
+   toast.innerHTML='<strong>'+r.title+'</strong>'+r.desc+'<span class="equation">'+r.equation+'</span>';
+   toast.classList.add('show');flash.classList.remove('burst');void flash.offsetWidth;flash.classList.add('burst');
+   clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove('show'),4800);
+ };
+ layer.querySelectorAll('.chem-float').forEach(node=>{
+   let sx=0,sy=0,ox=0,oy=0,moved=false;
+   node.addEventListener('pointerdown',e=>{
+     sx=e.clientX;sy=e.clientY;const r=node.getBoundingClientRect();ox=r.left;oy=r.top;moved=false;dragged=false;
+     node.classList.add('dragging');node.style.left=ox+'px';node.style.top=oy+'px';node.style.setProperty('--x',ox+'px');node.style.setProperty('--y',oy+'px');node.style.animation='none';node.setPointerCapture(e.pointerId);e.preventDefault();
+   });
+   node.addEventListener('pointermove',e=>{
+     if(!node.classList.contains('dragging'))return;
+     const dx=e.clientX-sx,dy=e.clientY-sy;if(Math.abs(dx)+Math.abs(dy)>7){moved=true;dragged=true}
+     node.style.left=Math.max(0,Math.min(innerWidth-node.offsetWidth,ox+dx))+'px';
+     node.style.top=Math.max(0,Math.min(innerHeight-node.offsetHeight,oy+dy))+'px';
+   });
+   node.addEventListener('pointerup',()=>{
+     if(!node.classList.contains('dragging'))return;
+     node.classList.remove('dragging');
+     if(moved){
+       const r=node.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;
+       const other=[...layer.querySelectorAll('.chem-float')].find(n=>n!==node&&(()=>{const q=n.getBoundingClientRect();return cx>q.left-24&&cx<q.right+24&&cy>q.top-24&&cy<q.bottom+24})());
+       if(other)showReaction(node.dataset.el,other.dataset.el);
+     }else showInfo(node.dataset.el);
+   });
+   node.addEventListener('click',e=>{if(dragged){e.preventDefault();dragged=false}});
+ });
+})();
+</script>
 <div id="tari-lamp-glow" aria-hidden="true"></div>
 <div id="tari-pull-lamp" aria-label="چراغ آویز؛ زنجیر را پایین بکش تا روشن یا خاموش شود">
  <div class="lamp-ceiling"></div><div class="lamp-stem"></div><div class="lamp-shade"></div><div class="lamp-bulb"></div>
