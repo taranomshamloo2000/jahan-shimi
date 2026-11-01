@@ -12,7 +12,12 @@
 .recipe{border-bottom:1px solid #ffffff22;padding:8px 2px;font-size:11px;line-height:1.8}.recipe strong{color:#a9efd5}.toolGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}.tool{background:#263c3e;border:1px solid #9fcfc455;border-radius:9px;padding:7px;font-size:11px}
 #dockTabs{display:flex;gap:5px}#dockTabs button{flex:1;padding:8px 4px;font-size:11px}
 @media(max-width:700px){#labDock{top:72px;bottom:155px;width:44vw;right:5px}.elementGrid{grid-template-columns:repeat(4,1fr)}#labDock .panel{padding:7px}.el{padding:5px 1px}.el b{font-size:14px}.el small{font-size:8px}}
-</style></head><body>
+<style>
+#reactivityCard{margin-top:8px;padding:9px;border-radius:10px;background:#132b30;border:1px solid #a9efd566;font-size:11px;line-height:1.9}
+#reactivityCard .meter{height:8px;background:#3b5050;border-radius:8px;overflow:hidden;margin:5px 0}
+#reactivityCard .meter i{display:block;height:100%;background:linear-gradient(90deg,#75dcae,#f1d36a,#ff765f)}
+#reactivityCard strong{color:#a9efd5}
+</style></style></head><body>
 <div id="view"></div><div class="cross">＋</div><div class="toast" id="toast"></div>
 <div class="hud"><div class="row"><div class="panel brandbox"><div class="brand">جهان شیمی | آزمایشگاه تعاملی</div><div class="muted">محیط سه‌بعدی اول‌شخص • بردار، جابه‌جا کن، ترکیب کن</div></div><div class="buttons"><button id="help">راهنما</button><button id="reset">شروع دوباره</button><button id="back">بازگشت به بازی‌ها</button></div></div>
 <div class="bottom"><div class="panel mission"><b id="task">آزمایش ۱: ساخت آب</b><div class="muted" id="desc">بطری هیدروژن و اکسیژن را روی میز کنار ارلن بکش؛ سپس دکمهٔ ترکیب را بزن.</div><div class="meter"><i id="progress"></i></div><div class="muted" id="status">۰ از ۳ مرحله</div></div><div class="hint">ماوس/انگشت: بطری را بکش و رها کن<br>W A S D: حرکت در آزمایشگاه • کشیدن فضای خالی: نگاه</div></div></div>
@@ -22,7 +27,7 @@
   <div class="dockHead"><b style="color:#a9efd5">انبار و دفتر آزمایشگاه</b><span class="muted" id="selectedElement">عنصری انتخاب نشده</span></div>
   <div id="dockTabs"><button data-tab="elements" class="primary">۱۱۸ عنصر</button><button data-tab="recipes">ترکیب‌های پیشنهادی</button><button data-tab="tools">وسایل</button></div>
  </div>
- <div class="panel dockBody" id="elementsPane"><div class="muted">روی نماد هر عنصر بزن تا ویال آن روی میز ساخته شود؛ سپس آن را بکش و کنار ارلن بگذار.</div><div class="elementGrid" id="elementGrid"></div></div>
+ <div class="panel dockBody" id="elementsPane"><div class="muted">روی نماد هر عنصر بزن تا اطلاعات و ویال آن را ببینی.</div><div id="reactivityCard">یک عنصر را انتخاب کن تا واکنش‌پذیری آن نمایش داده شود.</div><div class="elementGrid" id="elementGrid"></div></div>
  <div class="panel dockBody" id="recipesPane" style="display:none"><b style="color:#a9efd5">تابلوی ترکیب‌های پیشنهادی</b><div class="muted">این‌ها مدل‌های آموزشی‌اند؛ فقط ترکیب‌های مشخص‌شده در شبیه‌ساز اجرا می‌شوند.</div><div id="recipeList"></div></div>
  <div class="panel dockBody" id="toolsPane" style="display:none"><b style="color:#a9efd5">تجهیزات آزمایشگاه</b><div class="toolGrid" id="toolGrid"></div></div>
 </div><div class="touchpad" id="pad"><div class="knob" id="knob"></div></div>
@@ -74,6 +79,7 @@ const periodic=[
 ['Rg','رونتگنیم'],['Cn','کوپرنیسیم'],['Nh','نیهونیم'],['Fl','فلروویم'],['Mc','موسکوویم'],['Lv','لیورموریم'],['Ts','تنسین'],['Og','اوگانسون']
 ];
 const recipeBook=[
+{a:['Na','H2O'],title:'سدیم + آب (نمایش هشدار)',formula:'2Na + 2H₂O → 2NaOH + H₂ ↑',note:'واکنش بسیار شدید و گرمازا؛ هیدروژن آزادشده ممکن است آتش بگیرد و انفجار رخ دهد. فقط انیمیشن آموزشی، هرگز آزمایش واقعی انجام نده.'},
 {a:['H','O'],title:'آب',formula:'2H₂ + O₂ → 2H₂O',note:'مدل تشکیل مولکول آب؛ پیوندهای کووالانسی.'},
 {a:['C','O'],title:'دی‌اکسید کربن',formula:'C + O₂ → CO₂',note:'اکسایش کامل کربن در مدل آموزشی.'},
 {a:['Na','Cl'],title:'سدیم کلرید',formula:'2Na + Cl₂ → 2NaCl',note:'نمک خوراکی؛ ترکیب یونی سدیم و کلر.'},
@@ -86,13 +92,48 @@ const recipeBook=[
 {a:['N','H'],title:'آمونیاک',formula:'N₂ + 3H₂ ⇌ 2NH₃',note:'مدل تعادلی سنتز آمونیاک؛ شرایط واقعی در این بازی شبیه‌سازی نمی‌شود.'}
 ];
 const toolNames=['بشر','ارلن','استوانهٔ مدرج','لولهٔ آزمایش','جالوله‌ای','قطره‌چکان','پیپت','بورت','قیف','شیشهٔ ساعت','همزن شیشه‌ای','ترازو','دماسنج','چراغ آزمایشگاهی','سه‌پایه','توری نسوز','هاون و دسته‌هاون','انبر','کاغذ صافی','بطری شست‌وشو','هود شیمیایی','عینک ایمنی','دستکش','کپسول آتش‌نشانی'];
-function renderInventory(){let g=$('elementGrid');g.innerHTML=periodic.map(([s,n])=>'<button class="el" data-el="'+s+'"><b>'+s+'</b><small>'+n+'</small></button>').join('');g.querySelectorAll('[data-el]').forEach(b=>b.onclick=()=>spawnElement(b.dataset.el));$('recipeList').innerHTML=recipeBook.map(r=>'<div class="recipe"><strong>'+r.title+'</strong><br><b dir="ltr">'+r.formula+'</b><br>'+r.note+'</div>').join('');$('toolGrid').innerHTML=toolNames.map((n,i)=>'<div class="tool">'+['⚗️','🧪','📏','🧫','▦','💧','🧪','〰️','🔻','◉','／','⚖️','🌡️','♨️','△','▤','⚙️','⌁','▧','🚿','♧','🥽','🧤','🧯'][i]+' '+n+'</div>').join('');}
+
+const elementFacts={
+H:['کم تا متوسط','نافلز؛ با اکسیژن می‌تواند آب بسازد. گاز هیدروژن قابل اشتعال است.','با اکسیژن: تشکیل آب (مدل آموزشی).'],
+Li:['زیاد','فلز قلیایی؛ با آب واکنش‌پذیر است.','در سری فلزات قلیایی، واکنش‌پذیری آن از سدیم کمتر است.'],
+Na:['بسیار زیاد','فلز قلیایی بسیار واکنش‌پذیر؛ تماس آن با آب می‌تواند واکنشی شدید، گرما و گاز هیدروژن ایجاد کند که ممکن است به آتش‌گیری یا انفجار بینجامد.','نمایش فقط به‌صورت انیمیشن آموزشی؛ هرگز در دنیای واقعی امتحان نکن.'],
+K:['بسیار زیاد','فلز قلیایی؛ واکنش آن با آب معمولاً از سدیم شدیدتر است.','نمایش فقط به‌صورت انیمیشن آموزشی.'],
+Mg:['متوسط','فلز؛ در شرایط معمول با آب سرد آهسته‌تر واکنش می‌دهد و با بخار آب واکنش‌پذیرتر است.','با اکسیژن اکسید منیزیم می‌سازد.'],
+Ca:['زیاد','فلز قلیایی خاکی؛ با آب واکنش می‌دهد و هیدروژن آزاد می‌کند.','شدت واکنش از سدیم کمتر است.'],
+Fe:['کم','فلز؛ در هوای مرطوب به‌تدریج زنگ می‌زند.','با اکسیژن اکسیدهای آهن تشکیل می‌دهد.'],
+Cu:['کم','فلز کم‌واکنش؛ با آب در شرایط معمول واکنش محسوسی ندارد.','در برابر خوردگی از آهن مقاوم‌تر است.'],
+Au:['بسیار کم','فلز نجیب و کم‌واکنش.','به‌راحتی اکسید نمی‌شود.'],
+Pt:['بسیار کم','فلز نجیب؛ در بسیاری از شرایط پایدار است.','در صنعت به‌عنوان کاتالیزگر کاربرد دارد.'],
+Cl:['زیاد','نافلز هالوژن و اکسندهٔ قوی؛ گاز کلر سمی و خطرناک است.','اطلاعات صرفاً آموزشی؛ بدون شبیه‌سازی عملی.'],
+F:['بسیار زیاد','فلوئور بسیار واکنش‌پذیر و به‌شدت خورنده و سمی است.','فقط نمایش اطلاعات علمی.'],
+O:['زیاد','اکسنده؛ خودش نمی‌سوزد اما سوختن بسیاری از مواد را تشدید می‌کند.','با هیدروژن آب و با کربن دی‌اکسید کربن می‌سازد.'],
+C:['متوسط','رفتار آن به شکل آلوتروپی و شرایط واکنش بستگی دارد.','با اکسیژن می‌تواند CO₂ بسازد.'],
+S:['متوسط','نافلز؛ با اکسیژن می‌تواند اکسید گوگرد تشکیل دهد.','مدل آموزشی تشکیل SO₂.']
+};
+function showElementFacts(sym){
+ let fact=elementFacts[sym]||['متغیر / وابسته به شرایط','واکنش‌پذیری به ساختار اتمی، دما، محیط و مواد مقابل بستگی دارد.','برای این عنصر هنوز دادهٔ اختصاصی در راهنمای بازی ثبت نشده است.'];
+ let score={'بسیار زیاد':98,'زیاد':76,'متوسط':48,'کم تا متوسط':32,'کم':18,'بسیار کم':5}[fact[0]]||35;
+ $('reactivityCard').innerHTML='<strong>'+sym+' | واکنش‌پذیری: '+fact[0]+'</strong><div class="meter"><i style="width:'+score+'%"></i></div>'+fact[1]+'<br><b>رفتار شناخته‌شده:</b> '+fact[2];
+ $('selectedElement').textContent='عنصر انتخابی: '+sym;
+}
+
+function renderInventory(){let g=$('elementGrid');g.innerHTML=periodic.map(([s,n])=>'<button class="el" data-el="'+s+'"><b>'+s+'</b><small>'+n+'</small></button>').join('');g.querySelectorAll('[data-el]').forEach(b=>b.onclick=()=>{showElementFacts(b.dataset.el);spawnElement(b.dataset.el)});$('recipeList').innerHTML=recipeBook.map(r=>'<div class="recipe"><strong>'+r.title+'</strong><br><b dir="ltr">'+r.formula+'</b><br>'+r.note+'</div>').join('');$('toolGrid').innerHTML=toolNames.map((n,i)=>'<div class="tool">'+['⚗️','🧪','📏','🧫','▦','💧','🧪','〰️','🔻','◉','／','⚖️','🌡️','♨️','△','▤','⚙️','⌁','▧','🚿','♧','🥽','🧤','🧯'][i]+' '+n+'</div>').join('');}
 function spawnElement(sym){if(!scene)return;let item=periodic.find(x=>x[0]===sym);if(!item)return;if(bottles[sym]){toast('ویال '+sym+' از قبل در آزمایشگاه وجود دارد؛ همان را جابه‌جا کن.');return}let color=new THREE.Color().setHSL((periodic.findIndex(x=>x[0]===sym)*.618)%1,.48,.62);let hex='#'+color.getHexString();let x=-4.8+(Object.keys(bottles).length%8)*1.25,z=-3.0+Math.floor(Object.keys(bottles).length/8)*.75;makeBottle(sym,item[1],hex,x);bottles[sym].position.z=z;$('selectedElement').textContent='ویال '+sym+' اضافه شد';toast('ویال '+item[1]+' روی میز قرار گرفت؛ آن را بکش و جابه‌جا کن.');}
 function showDockTab(tab){['elements','recipes','tools'].forEach(t=>{$(t+'Pane').style.display=t===tab?'block':'none'});document.querySelectorAll('#dockTabs button').forEach(b=>b.classList.toggle('primary',b.dataset.tab===tab))}
 document.querySelectorAll('#dockTabs button').forEach(b=>b.onclick=()=>showDockTab(b.dataset.tab));
 renderInventory();
 
-function mix(){let near=Object.keys(bottles).filter(k=>bottles[k].position.distanceTo(beaker.position)<1.85).sort();if(near.length<2){toast('حداقل دو ویال را کنار ارلن قرار بده.');return}let key=near.slice(0,2).sort().join('+');let rec=recipeBook.find(r=>r.a.slice().sort().join('+')===key);if(!rec){toast('برای '+key+' ترکیب پیشنهادی ثبت‌شده‌ای نداریم؛ نتیجهٔ واکنش را حدس نمی‌زنیم.');return}completed=true;liquid.visible=true;liquid.material.color.set('#78d9ed');liquid.scale.y=3.5;beaker.rotation.z=-.08;setTimeout(()=>beaker.rotation.z=0,700);$('task').textContent='محصول شبیه‌سازی: '+rec.title;$('desc').textContent=rec.note+' معادله: '+rec.formula;$('progress').style.width='100%';$('status').textContent='ترکیب ثبت‌شده نمایش داده شد';toast('⚗ '+rec.formula);}
+
+function showSafeSodiumDemo(rec){
+ $('task').textContent='واکنش شدید: سدیم و آب';
+ $('desc').textContent=rec.note+' معادله: '+rec.formula;
+ $('progress').style.width='100%';$('status').textContent='نمایش مفهومی واکنش • بدون دستور عملی';
+ toast('⚠️ واکنش بسیار شدید و خطرناک است؛ فقط انیمیشن آموزشی!');
+ let flash=new THREE.PointLight('#ff8a35',0,7);flash.position.copy(beaker.position);scene.add(flash);
+ let start=performance.now();function pulse(){let t=(performance.now()-start)/1000;flash.intensity=t<.35?5*Math.sin(t/.35*Math.PI):0;if(t<.7)requestAnimationFrame(pulse);else scene.remove(flash)}pulse();
+}
+
+function mix(){let near=Object.keys(bottles).filter(k=>bottles[k].position.distanceTo(beaker.position)<1.85).sort();if(near.length<2){toast('حداقل دو ویال را کنار ارلن قرار بده.');return}let key=near.slice(0,2).sort().join('+');let rec=recipeBook.find(r=>r.a.slice().sort().join('+')===key);if(!rec){toast('برای '+key+' ترکیب پیشنهادی ثبت‌شده‌ای نداریم؛ نتیجهٔ واکنش را حدس نمی‌زنیم.');return}if(key==='H2O+Na'){showSafeSodiumDemo(rec);return}completed=true;liquid.visible=true;liquid.material.color.set('#78d9ed');liquid.scale.y=3.5;beaker.rotation.z=-.08;setTimeout(()=>beaker.rotation.z=0,700);$('task').textContent='محصول شبیه‌سازی: '+rec.title;$('desc').textContent=rec.note+' معادله: '+rec.formula;$('progress').style.width='100%';$('status').textContent='ترکیب ثبت‌شده نمایش داده شد';toast('⚗ '+rec.formula);}
 const mixBtn=document.createElement('button');mixBtn.className='primary';mixBtn.textContent='⚗ ترکیب مواد';mixBtn.onclick=mix;document.querySelector('.buttons').insertBefore(mixBtn,$('help'));
 addEventListener('keydown',e=>keys[e.code]=true);addEventListener('keyup',e=>keys[e.code]=false);
 $('pad').addEventListener('pointerdown',e=>{$('pad').setPointerCapture(e.pointerId);padMove(e)});$('pad').addEventListener('pointermove',e=>{if(e.buttons)padMove(e)});function padMove(e){let r=$('pad').getBoundingClientRect(),dx=e.clientX-r.left-r.width/2,dy=e.clientY-r.top-r.height/2,k=Math.min(1,48/(Math.hypot(dx,dy)||1));pad={x:dx*k/48,y:-dy*k/48};$('knob').style.transform='translate('+dx*k+'px,'+dy*k+'px)'}['pointerup','pointercancel','lostpointercapture'].forEach(ev=>$('pad').addEventListener(ev,()=>{pad={x:0,y:0};$('knob').style.transform=''}));
