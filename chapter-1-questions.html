@@ -5,7 +5,7 @@
 /* Tari's interactive pull-chain lamp */
 #tari-lamp-glow{position:fixed;inset:0;z-index:80;pointer-events:none;opacity:0;transition:opacity .65s ease;background:radial-gradient(ellipse 390px 520px at 58px 95px,var(--lamp-glow,rgba(255,205,112,.24)),transparent 72%),radial-gradient(ellipse at 50% 0%,var(--lamp-glow-soft,rgba(255,190,90,.08)),transparent 55%)}
 body.tari-lamp-on #tari-lamp-glow{opacity:1}
-#tari-pull-lamp{position:fixed;top:0;left:clamp(14px,4vw,48px);z-index:1000;width:76px;height:190px;display:flex;align-items:center;flex-direction:column;filter:drop-shadow(0 4px 10px #0005);user-select:none;-webkit-user-select:none}
+#tari-pull-lamp{position:fixed;top:0;left:8px;z-index:1000;width:76px;height:190px;display:flex;align-items:center;flex-direction:column;transform:scale(.68);transform-origin:top left;filter:drop-shadow(0 3px 7px #0006);user-select:none;-webkit-user-select:none}
 #tari-pull-lamp .lamp-ceiling{width:34px;height:5px;border-radius:0 0 5px 5px;background:linear-gradient(90deg,#737985,#f7f8fc 48%,#aeb5c2)}
 #tari-pull-lamp .lamp-stem{width:3px;height:13px;background:linear-gradient(90deg,#777f8c,#f7f8fc,#8d96a5)}
 #tari-pull-lamp .lamp-shade{width:70px;height:34px;position:relative;background:linear-gradient(160deg,#ffffff,#bfc6d2 78%);clip-path:polygon(17% 0,83% 0,100% 100%,0 100%);border-radius:4px 4px 12px 12px}
