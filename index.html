@@ -65,14 +65,14 @@ body[data-lamp-color="gold"]{--lamp-glow:rgba(255,205,112,.24);--lamp-glow-soft:
 #tari-lamp-colors button{width:19px;height:19px;flex:0 0 19px}
 
 /* Living chemistry particles: gently animated, page-attached, kept behind content */
-#chem-float-layer{position:absolute;top:0;left:0;width:100%;height:100%;min-height:100%;z-index:2;pointer-events:none;overflow:visible;direction:ltr}
+#chem-float-layer{position:absolute;top:0;left:0;width:100%;height:100%;min-height:100%;z-index:4;pointer-events:none;overflow:visible;direction:ltr}
 body>header,body>main,body>footer{position:relative;z-index:3}
-.chem-float{position:absolute;width:36px;height:36px;border:1px solid #9beaff20;border-radius:50%;background:#8beaff07;color:#b8eaff55;font:800 11px Vazirmatn,Tahoma,sans-serif;display:grid;place-items:center;pointer-events:auto;touch-action:none;cursor:grab;user-select:none;box-shadow:0 0 14px #5bdcff08;animation:chem-drift var(--duration,19s) ease-in-out var(--delay,0s) infinite alternate;will-change:transform;transition:background .35s,border-color .35s,color .35s,box-shadow .35s}
+.chem-float{position:absolute;width:42px;height:42px;border:1px solid #9beaff20;border-radius:50%;background:#8beaff07;color:#b8eaff55;font:800 11px Vazirmatn,Tahoma,sans-serif;display:grid;place-items:center;pointer-events:auto;touch-action:none;cursor:grab;user-select:none;box-shadow:0 0 14px #5bdcff08;animation:chem-drift var(--duration,19s) ease-in-out var(--delay,0s) infinite alternate;will-change:transform;transition:background .35s,border-color .35s,color .35s,box-shadow .35s}
 .chem-float:hover,.chem-float:focus-visible{color:#c8f6ffb0;border-color:#8beaff66;background:#4dd9ff10;outline:none}
 .chem-float.return-home{transition:left .72s cubic-bezier(.2,.8,.2,1),right .72s cubic-bezier(.2,.8,.2,1),top .72s cubic-bezier(.2,.8,.2,1),background .35s,border-color .35s,color .35s,box-shadow .35s}
 .chem-float.dragging{animation:none!important;z-index:8;transform:scale(1.15);color:#d8faff;border-color:#8beaffaa;background:#12334dcc;box-shadow:0 8px 28px #0007}
 @keyframes chem-drift{0%{transform:translate3d(0,-12px,0) rotate(-5deg)}50%{transform:translate3d(var(--sway,9px),9px,0) rotate(4deg)}100%{transform:translate3d(0,19px,0) rotate(-3deg)}}
-@media(max-width:600px){.chem-float{width:32px;height:32px;font-size:12px;opacity:.88;animation-duration:var(--duration,22s)}}
+@media(max-width:600px){.chem-float{width:38px;height:38px;font-size:13px;opacity:.9;animation-duration:var(--duration,22s)}}
 #chem-info-modal{position:fixed;inset:0;z-index:1200;display:none;place-items:center;padding:18px;background:#030817c9;backdrop-filter:blur(7px);direction:rtl;font-family:Vazirmatn,Tahoma,sans-serif}
 #chem-info-modal.open{display:grid}
 .chem-info-card{width:min(390px,100%);padding:22px;border:1px solid #70ddff55;border-radius:22px;background:linear-gradient(145deg,#18284a,#0b1329);color:#f4f7ff;text-align:center;box-shadow:0 20px 70px #0009}
@@ -175,24 +175,24 @@ body>header,body>main,body>footer{position:relative;z-index:3}
    symbols.forEach((sym,i)=>{
      const el=document.createElement('button');el.type='button';el.className='chem-float';el.dataset.el=sym;el.textContent=sym;
      el.setAttribute('aria-label',(data[sym]?.name||sym)+'؛ برای اطلاعات لمس کن و برای ترکیب بکش');
-     const left=i%2===0;el.style.left=left?'1px':'auto';el.style.right=left?'auto':'1px';
+     const left=i%2===0;el.style.left=left?'8px':'auto';el.style.right=left?'auto':'8px';
      el.style.top=(90+i*(Math.max(1,pageH-180)/(symbols.length-1)))+'px';
      el.style.setProperty('--duration',(17+(i%7)*2.7)+'s');
      el.style.setProperty('--delay',(-1*(i%11)*1.8)+'s');
      el.style.setProperty('--sway',(left?1:-1)*(5+(i%5)*2)+'px');
      el.dataset.homeLeft=el.style.left;el.dataset.homeRight=el.style.right;el.dataset.homeTop=el.style.top;
      layer.appendChild(el);
-     let sx=0,sy=0,ox=0,oy=0,moved=false,dragged=false;
+     let sx=0,sy=0,ox=0,oy=0,grabX=0,grabY=0,moved=false,dragged=false;
      el.addEventListener('pointerdown',e=>{
-       const r=el.getBoundingClientRect();sx=e.clientX;sy=e.clientY;ox=r.left+scrollX;oy=r.top+scrollY;moved=false;dragged=false;
+       const r=el.getBoundingClientRect();sx=e.clientX;sy=e.clientY;ox=r.left+scrollX;oy=r.top+scrollY;grabX=e.clientX-r.left;grabY=e.clientY-r.top;moved=false;dragged=false;
        el.classList.add('dragging');el.style.left=Math.max(0,Math.min(innerWidth-el.offsetWidth, r.left))+'px';el.style.right='auto';
        el.style.top=(r.top+scrollY)+'px';el.setPointerCapture(e.pointerId);e.preventDefault();
      });
      el.addEventListener('pointermove',e=>{
        if(!el.classList.contains('dragging'))return;
-       const dx=e.clientX-sx,dy=e.clientY-sy;if(Math.abs(dx)+Math.abs(dy)>6)moved=true;
-       el.style.left=Math.max(0,Math.min(innerWidth-el.offsetWidth,e.clientX-el.offsetWidth/2))+'px';
-       el.style.top=Math.max(0,Math.min(layer.offsetHeight-el.offsetHeight,oy+dy))+'px';
+       const dx=e.clientX-sx,dy=e.clientY-sy;if(Math.abs(dx)+Math.abs(dy)>4)moved=true;
+       el.style.left=Math.max(0,Math.min(innerWidth-el.offsetWidth,e.clientX-grabX))+'px';
+       el.style.top=Math.max(0,Math.min(layer.offsetHeight-el.offsetHeight,e.clientY-grabY+scrollY))+'px';
      });
      const finish=()=>{
        if(!el.classList.contains('dragging'))return;
