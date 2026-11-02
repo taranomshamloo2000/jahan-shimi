@@ -53,10 +53,94 @@ const experiments=[
 ];function renderExperiments(){$('experiments').innerHTML=experiments.map(x=>'<button class="item" data-exp="'+x.id+'"><b>'+x.name+'</b><small>'+x.formula+'<br>'+x.desc+'</small></button>').join('');$('experiments').addEventListener('click',e=>{const b=e.target.closest('[data-exp]');if(!b)return;activeExperiment=b.dataset.exp;const x=experiments.find(a=>a.id===activeExperiment);updateInstructionBoard(x.name,x.formula,x.lightOnly?'برای دیدن نور یاسی، چراغ اتاق را خاموش کن.':'۱) ویال‌های لازم و وسایل روی میز چیده شده‌اند.','۲) ویال‌ها را به ظرف مناسب بکش و رها کن.','۳) پس از انتقال مواد، اجرای مدل را بزن.','فقط شبیه‌سازی آموزشی؛ آزمایش واقعی انجام نده.');$('reactionResult').innerHTML='<b style="color:var(--mint)">'+x.name+'</b><br>'+x.formula+'<br>'+x.desc;prepareExperimentScene(activeExperiment);toast('میز آزمایش آماده شد؛ عناصر و وسایل لازم ظاهر شدند.');});}
 const equipment=[['beaker','بشر','برای نگهداری و مخلوط‌کردن حجم‌های تقریبی مایع'],['flask','ارلن','ظرف مخروطی برای مخلوط‌کردن و چرخاندن محلول'],['testtube','لوله آزمایش','برای مشاهده نمونه‌های کوچک'],['cylinder','استوانه مدرج','برای اندازه‌گیری حجم مایع'],['microscope','میکروسکوپ','برای مشاهده ساختارهای بسیار ریز'],['balance','ترازوی دیجیتال','برای اندازه‌گیری جرم'],['burner','چراغ آزمایشگاهی','نمایش نمادین منبع گرما؛ بدون شعله واقعی'],['pipette','قطره‌چکان','برای انتقال کنترل‌شده حجم کم مایع']];
 function renderTools(){$('tools').innerHTML=equipment.map(x=>'<button class="item" data-tool="'+x[0]+'"><b>'+x[1]+'</b><small>'+x[2]+'</small></button>').join('');$('tools').addEventListener('click',e=>{const b=e.target.closest('[data-tool]');if(!b)return;const x=equipment.find(a=>a[0]===b.dataset.tool);updateInstructionBoard('وسیله انتخاب‌شده: '+x[1],x[2],'برای افزودن آن، دکمه «افزودن به صحنه» را بزن.','می‌توانی وسیله را در محیط سه‌بعدی جابه‌جا کنی.','برای اجرای مدل، یک آزمایش هم انتخاب کن.','از تجهیزات واقعی فقط با نظارت دبیر استفاده کن.');$('toolInfo').innerHTML='<b style="color:var(--mint)">'+x[1]+'</b><br>'+x[2]+'<br><button class="primary" id="placeTool">افزودن به صحنه</button>';$('placeTool').onclick=()=>{addProp(x[1]);toast(x[1]+' به صحنه اضافه شد.');};});}
-function prepareExperimentScene(id){if(!scene){$('status').textContent='آزمایش انتخاب شد؛ صحنه سه‌بعدی در دسترس نیست.';return;}const specs=experiments.find(x=>x.id===id)||experiments[0];const old=objects.filter(o=>o.userData.experimentItem);old.forEach(o=>{scene.remove(o);objects=objects.filter(x=>x!==o);draggables=draggables.filter(x=>x!==o);});inventory=specs.els.map(n=>elements.find(e=>e[0]===n)).filter(Boolean);updateInventory();const spots=[[-3.1,1.42,-1.25],[-1.8,1.42,-1.25],[1.8,1.42,-1.25],[3.1,1.42,-1.25]];specs.els.forEach((n,i)=>{const el=elements.find(e=>e[0]===n);if(el)drawVial(el,spots[i],true);});(specs.reagents||[]).forEach((name,i)=>drawVial([name,name,'مایع واکنش','—'],[spots[specs.els.length+i][0],1.42,-1.25],true));const vesselName=(specs.tools||[]).find(n=>['بشر','ارلن','لوله آزمایش','استوانه مدرج'].includes(n))||'بشر';addProp(vesselName,[0,1.35,-1.25],true);(specs.tools||[]).filter(n=>n!==vesselName).forEach((name,i)=>addProp(name,[i*1.25-1,1.35,-2.6],true));updateInstructionBoard(specs.name,specs.formula,'همه مواد و ظرف لازم خودکار روی میز قرار گرفتند.','ویال‌های رنگی را یکی‌یکی داخل ظرف شیشه‌ای وسط میز بکش.','بعد از انتقال همه مواد، دکمه اجرای مدل آزمایش را بزن.','محصولات واکنش به‌صورت مدل سه‌بعدی نمایش داده می‌شوند؛ این آزمایش را در واقعیت انجام نده.');}let activeFx=null,fxFrame=0;function stopReaction(){const hadEffect=!!activeFx;if(fxFrame)cancelAnimationFrame(fxFrame);fxFrame=0;if(activeFx){if(activeFx.liquid&&activeFx.vessel){activeFx.vessel.remove(activeFx.liquid);activeFx.liquid.traverse(o=>{if(o.geometry)o.geometry.dispose();if(o.material)o.material.dispose();});}if(activeFx.group&&scene){scene.remove(activeFx.group);activeFx.group.traverse(o=>{if(o.geometry)o.geometry.dispose();if(o.material){if(Array.isArray(o.material))o.material.forEach(m=>m.dispose());else o.material.dispose();}});}}activeFx=null;$('stopReaction').textContent='افکت متوقف شد';if(hadEffect)toast('نمایش واکنش متوقف شد.');}function animateReaction(reactionId){if(!scene||!THREE)return;stopReaction();const vessel=draggables.find(o=>o.userData.vessel);if(!vessel)return;const liquid=showReactionContents(vessel,reactionId);const group=new THREE.Group();scene.add(group);const hot=reactionId==='sodium-water';const violet=reactionId==='potassium-light';const palette=hot?[0xff3b12,0xff7a18,0xffc02e,0xffef9a,0x55c9ff]:violet?[0x7136d9,0xa66cff,0xe2c7ff,0x9b5cff]:reactionId.includes('oxide')?[0xff6a32,0xffd15c]:[0x9af0d1,0x65c9ff,0xb68cff];const light=new THREE.PointLight(hot?0xff7628:palette[0],hot?11:violet?13:7,hot?10:violet?13:8);light.position.copy(vessel.position);light.position.y+=.75;group.add(light);
-const flameGroup=new THREE.Group();flameGroup.position.set(vessel.position.x,vessel.position.y+.28,vessel.position.z);group.add(flameGroup);const tongues=[];if(violet){for(let i=0;i<12;i++){const h=.65+Math.random()*.95,r=.12+Math.random()*.2;const mesh=new THREE.Mesh(new THREE.SphereGeometry(r,12,10),new THREE.MeshBasicMaterial({color:palette[i%palette.length],transparent:true,opacity:.32,depthWrite:false}));const a=i/12*Math.PI*2;mesh.position.set(Math.cos(a)*(.25+Math.random()*.25),.35+Math.random()*.9,Math.sin(a)*(.25+Math.random()*.25));flameGroup.add(mesh);tongues.push({mesh,h,r,phase:Math.random()*6.28,speed:.7+Math.random()});}}else if(hot){for(let i=0;i<7;i++){const h=.75+Math.random()*.9,r=.18+Math.random()*.18;const mat=new THREE.MeshBasicMaterial({color:[0xff3b12,0xff6415,0xff9d1c,0xffc52d,0xffe58a][i%5],transparent:true,opacity:.78,depthWrite:false,side:THREE.DoubleSide});const mesh=new THREE.Mesh(new THREE.ConeGeometry(r,h,12,1),mat);const a=i/7*Math.PI*2;mesh.position.set(Math.cos(a)*(.12+Math.random()*.12),h*.42,Math.sin(a)*(.12+Math.random()*.12));mesh.rotation.z=(Math.random()-.5)*.32;flameGroup.add(mesh);tongues.push({mesh,h,r,phase:Math.random()*6.28,speed:.8+Math.random()*1.4});}const core=new THREE.Mesh(new THREE.ConeGeometry(.22,.72,14),new THREE.MeshBasicMaterial({color:0xffed9c,transparent:true,opacity:.86,depthWrite:false}));core.position.y=.28;flameGroup.add(core);tongues.push({mesh:core,h:.72,r:.22,phase:0,speed:1.4});}else{const mesh=new THREE.Mesh(new THREE.ConeGeometry(.38,1.1,18),new THREE.MeshBasicMaterial({color:palette[0],transparent:true,opacity:.72,side:THREE.DoubleSide}));mesh.position.y=.5;flameGroup.add(mesh);tongues.push({mesh,h:1.1,r:.38,phase:0,speed:1});}
-const sparks=[];for(let i=0;i<(hot?42:24);i++){const p=new THREE.Mesh(new THREE.SphereGeometry(.018+Math.random()*.025,7,7),new THREE.MeshBasicMaterial({color:palette[i%palette.length],transparent:true,opacity:.9}));p.userData.phase=Math.random()*Math.PI*2;p.userData.speed=.5+Math.random()*1.5;p.userData.radius=.18+Math.random()*(hot?.65:.5);group.add(p);sparks.push(p);}const rings=[];for(let i=0;i<3;i++){const r=new THREE.Mesh(new THREE.TorusGeometry(.45+i*.12,.025,8,40),new THREE.MeshBasicMaterial({color:palette[i%palette.length],transparent:true,opacity:.55}));r.rotation.x=Math.PI/2;r.position.copy(vessel.position);r.position.y+=.38+i*.035;group.add(r);rings.push(r);}activeFx={group,light,flameGroup,tongues,sparks,rings,liquid,vessel,start:performance.now()};$('stopReaction').textContent='■ توقف نمایش واکنش';function loop(now){if(!activeFx||activeFx.group!==group)return;const t=(now-activeFx.start)/1000;light.intensity=(hot?8:5)+(hot?5:3)*(.5+.5*Math.sin(t*9));light.position.x=vessel.position.x+Math.sin(t*2.2)*.08;flameGroup.rotation.y=Math.sin(t*1.7)*.16; tongues.forEach((o,i)=>{const q=t*o.speed+o.phase;const m=o.mesh;m.scale.set(.82+.22*Math.sin(q*2.1),.78+.42*Math.sin(q*1.6),.82+.22*Math.cos(q*1.9));m.rotation.z=Math.sin(q)*.18;m.rotation.x=Math.cos(q*1.3)*.12;if(hot&&i<tongues.length-1)m.material.opacity=.58+.22*(.5+.5*Math.sin(q*2));});sparks.forEach((p,i)=>{const q=t*p.userData.speed+p.userData.phase;const rise=(q%(Math.PI*2))/(Math.PI*2);p.position.set(vessel.position.x+Math.cos(q)*p.userData.radius,vessel.position.y+.45+rise*(hot?1.65:.8),vessel.position.z+Math.sin(q)*p.userData.radius);p.material.opacity=.25+.7*Math.abs(Math.sin(q));});rings.forEach((r,i)=>{const phase=(t*.55+i/3)%1;r.scale.setScalar(.7+phase*2.2);r.material.opacity=.65*(1-phase);});if(liquid)liquid.children.slice(hot?2:1).forEach((p,i)=>{const q=(t*(hot?1.1:.55+i*.025)+i*.071)%1;p.position.y=-.1+q*(hot?.62:.45);p.position.x=Math.sin(t*2+i)*(.12+(i%4)*.025);p.position.z=Math.cos(t*2+i)*(.12+(i%5)*.025);});fxFrame=requestAnimationFrame(loop);}fxFrame=requestAnimationFrame(loop);}function showTransferEffect(item,vessel){if(!scene||!THREE)return;const orb=new THREE.Mesh(new THREE.SphereGeometry(.12,12,10),new THREE.MeshBasicMaterial({color:0x9af0d1,transparent:true,opacity:.9}));orb.position.copy(vessel.position);orb.y=vessel.position.y;scene.add(orb);const st=performance.now();function fly(t){const p=Math.min(1,(t-st)/420);orb.scale.setScalar(1+p*2);orb.material.opacity=1-p;if(p<1)requestAnimationFrame(fly);else{scene.remove(orb);orb.geometry.dispose();orb.material.dispose();}}requestAnimationFrame(fly);}
-function showReactionContents(vessel,id){if(!scene||!THREE)return null;const old=vessel.userData.liquid;if(old){vessel.remove(old);old.traverse(o=>{if(o.geometry)o.geometry.dispose();if(o.material)o.material.dispose();});}const liquid=new THREE.Group();const palette=id==='potassium-light'?0xa66cff:id==='sodium-water'?0x55bce8:id.includes('oxide')?0xff9a45:0x9af0d1;const fill=new THREE.Mesh(new THREE.CylinderGeometry(.34,.34,.16,32),new THREE.MeshStandardMaterial({color:palette,transparent:true,opacity:.82,emissive:palette,emissiveIntensity:1.1}));fill.position.y=-.13;liquid.add(fill);if(id==='sodium-water'){const sodium=new THREE.Mesh(new THREE.SphereGeometry(.105,16,12),new THREE.MeshStandardMaterial({color:0xd8dce0,metalness:.85,roughness:.22,emissive:0x555b62,emissiveIntensity:.25}));sodium.position.set(0,.02,0);liquid.add(sodium);}for(let i=0;i<(id==='sodium-water'?42:28);i++){const p=new THREE.Mesh(new THREE.SphereGeometry(.025+Math.random()*.04,8,8),new THREE.MeshBasicMaterial({color:i%3===0?0xffffff:palette,transparent:true,opacity:.9}));p.position.set((Math.random()-.5)*.45,Math.random()*.5-.1,(Math.random()-.5)*.45);liquid.add(p);}vessel.add(liquid);vessel.userData.liquid=liquid;return liquid;}
+function prepareExperimentScene(id){if(!scene){$('status').textContent='آزمایش انتخاب شد؛ صحنه سه‌بعدی در دسترس نیست.';return;}const specs=experiments.find(x=>x.id===id)||experiments[0];const old=objects.filter(o=>o.userData.experimentItem);old.forEach(o=>{scene.remove(o);objects=objects.filter(x=>x!==o);draggables=draggables.filter(x=>x!==o);});inventory=specs.els.map(n=>elements.find(e=>e[0]===n)).filter(Boolean);updateInventory();const spots=[[-3.1,1.42,-1.25],[-1.8,1.42,-1.25],[1.8,1.42,-1.25],[3.1,1.42,-1.25]];specs.els.forEach((n,i)=>{const el=elements.find(e=>e[0]===n);if(el)drawVial(el,spots[i],true);});(specs.reagents||[]).forEach((name,i)=>drawVial([name,name,'مایع واکنش','—'],[spots[specs.els.length+i][0],1.42,-1.25],true));const vesselName=(specs.tools||[]).find(n=>['بشر','ارلن','لوله آزمایش','استوانه مدرج'].includes(n))||'بشر';addProp(vesselName,[0,1.35,-1.25],true);(specs.tools||[]).filter(n=>n!==vesselName).forEach((name,i)=>addProp(name,[i*1.25-1,1.35,-2.6],true));updateInstructionBoard(specs.name,specs.formula,'همه مواد و ظرف لازم خودکار روی میز قرار گرفتند.','ویال‌های رنگی را یکی‌یکی داخل ظرف شیشه‌ای وسط میز بکش.','بعد از انتقال همه مواد، دکمه اجرای مدل آزمایش را بزن.','محصولات واکنش به‌صورت مدل سه‌بعدی نمایش داده می‌شوند؛ این آزمایش را در واقعیت انجام نده.');}let activeFx=null,fxFrame=0;function stopReaction(){const hadEffect=!!activeFx;if(fxFrame)cancelAnimationFrame(fxFrame);fxFrame=0;if(activeFx){if(activeFx.liquid&&activeFx.vessel){activeFx.vessel.remove(activeFx.liquid);activeFx.liquid.traverse(o=>{if(o.geometry)o.geometry.dispose();if(o.material)o.material.dispose();});}if(activeFx.group&&scene){scene.remove(activeFx.group);activeFx.group.traverse(o=>{if(o.geometry)o.geometry.dispose();if(o.material){if(Array.isArray(o.material))o.material.forEach(m=>m.dispose());else o.material.dispose();}});}}activeFx=null;$('stopReaction').textContent='افکت متوقف شد';if(hadEffect)toast('نمایش واکنش متوقف شد.');}const reactionLooks={
+ 'potassium-light':{color:0xa66cff,kind:'light',label:'تابش یاسی پتاسیم'},
+ 'sodium-water':{color:0x9edcf2,kind:'bubbles',label:'محلول بی‌رنگ و حباب‌های هیدروژن'},
+ 'water':{color:0xb9e8f2,kind:'quiet',label:'آب؛ مایع شفاف و بی‌رنگ'},
+ 'salt':{color:0xf4f1e8,kind:'solid',label:'بلورهای سفید سدیم کلرید'},
+ 'co2':{color:0xd8e0dc,kind:'gas',label:'گاز بی‌رنگ کربن‌دی‌اکسید'},
+ 'neutral':{color:0xf2f0e8,kind:'quiet',label:'محلول تقریباً بی‌رنگ سدیم کلرید و آب'},
+ 'ammonia':{color:0xdce9e2,kind:'gas',label:'آمونیاک؛ گاز بی‌رنگ'},
+ 'methane':{color:0xdce9e2,kind:'quiet',label:'متان؛ گاز بی‌رنگ'},
+ 'methanol':{color:0xe5eee9,kind:'quiet',label:'متانول؛ مایع بی‌رنگ'},
+ 'limestone':{color:0xe4dfd2,kind:'gas',label:'آهک زندهٔ سفید و گاز بی‌رنگ CO₂'},
+ 'rust':{color:0x9a4b2d,kind:'solid',label:'زنگ آهن؛ جامد قهوه‌ای مایل به قرمز'},
+ 'magnesium':{color:0xf5f2e8,kind:'flash',label:'اکسید منیزیم؛ پودر سفید'},
+ 'hydrogenchloride':{color:0xdde8e3,kind:'quiet',label:'هیدروژن کلرید؛ گاز بی‌رنگ'},
+ 'sulfur dioxide':{color:0xdde8e3,kind:'gas',label:'گوگرد دی‌اکسید؛ گاز بی‌رنگ'},
+ 'sulfur trioxide':{color:0xe5ece7,kind:'quiet',label:'گوگرد تری‌اکسید؛ بی‌رنگ'},
+ 'nitric':{color:0xdce8e1,kind:'quiet',label:'نیتریک اکسید؛ گاز بی‌رنگ'},
+ 'nitrogen dioxide':{color:0x9b4b28,kind:'gas',label:'نیتروژن دی‌اکسید؛ گاز قهوه‌ای مایل به قرمز'},
+ 'hydrogen peroxide':{color:0xe5f1ed,kind:'bubbles',label:'آب و حباب‌های اکسیژن'},
+ 'glucose':{color:0xe8e1bf,kind:'quiet',label:'گلوکز؛ محصول ذخیره‌شده در گیاه'},
+ 'combustion':{color:0xdde7e2,kind:'flame',label:'آب و کربن‌دی‌اکسید؛ محصولات بی‌رنگ'},
+ 'calcium oxide':{color:0xf0eee5,kind:'flash',label:'کلسیم اکسید؛ جامد سفید'},
+ 'copper oxide':{color:0x17191a,kind:'solid',label:'مس اکسید؛ جامد سیاه'},
+ 'iron sulfide':{color:0x242629,kind:'solid',label:'آهن سولفید؛ جامد سیاه'},
+ 'aluminum oxide':{color:0xf1eee5,kind:'solid',label:'آلومینیم اکسید؛ جامد سفید'},
+ 'potassium chloride':{color:0xf5f2e8,kind:'solid',label:'بلورهای سفید پتاسیم کلرید'},
+ 'calcium carbonate':{color:0xf4f0e4,kind:'precipitate',label:'رسوب سفید کلسیم کربنات'},
+ 'sodium bicarbonate':{color:0xf1eee5,kind:'bubbles',label:'سدیم کربنات، آب و گاز بی‌رنگ CO₂'}
+};
+function animateReaction(reactionId){
+ if(!scene||!THREE)return;
+ stopReaction();
+ const vessel=draggables.find(o=>o.userData.vessel);if(!vessel)return;
+ const spec=reactionLooks[reactionId]||{color:0xdde8e3,kind:'quiet',label:'محصول واکنش'};
+ const liquid=showReactionContents(vessel,reactionId);
+ const kind=spec.kind;
+ if(kind==='quiet'||kind==='solid'||kind==='precipitate'){toast(spec.label);return;}
+ const group=new THREE.Group();scene.add(group);
+ const isLight=kind==='light',isFlame=kind==='flame'||kind==='flash',isBubbles=kind==='bubbles'||kind==='gas';
+ const light=new THREE.PointLight(spec.color,isLight?8:isFlame?5:0, isLight?9:isFlame?5:0);
+ light.position.copy(vessel.position);light.position.y+=.65;if(light.intensity)group.add(light);
+ const particles=[];
+ if(isLight||isFlame||isBubbles){
+  const count=isLight?18:isFlame?24:kind==='bubbles'?22:12;
+  for(let i=0;i<count;i++){
+   const color=isLight?0xa66cff:isFlame?[0xfff1a6,0xffa52b,0xff6330][i%3]:spec.color;
+   const p=new THREE.Mesh(new THREE.SphereGeometry(isFlame?.045:.025,8,8),new THREE.MeshBasicMaterial({color,transparent:true,opacity:.85}));
+   p.userData={phase:Math.random()*6.28,speed:.5+Math.random(),radius:.12+Math.random()*.38};
+   p.position.copy(vessel.position);p.position.y+=.35;group.add(p);particles.push(p);
+  }
+ }
+ activeFx={group,light,liquid,vessel,particles,start:performance.now(),kind};
+ $('stopReaction').textContent='■ توقف نمایش واکنش';
+ function loop(now){
+  if(!activeFx||activeFx.group!==group)return;
+  const t=(now-activeFx.start)/1000;
+  if(light.intensity)light.intensity=(isLight?6:3)+(isLight?3:2)*(.5+.5*Math.sin(t*(isFlame?10:3)));
+  particles.forEach((p,i)=>{
+   const q=t*p.userData.speed+p.userData.phase;
+   if(isBubbles){p.position.set(vessel.position.x+Math.cos(q)*p.userData.radius,vessel.position.y+.15+((q%(Math.PI*2))/(Math.PI*2))*1.1,vessel.position.z+Math.sin(q)*p.userData.radius);}
+   else if(isFlame){p.position.set(vessel.position.x+Math.sin(q)*.22,vessel.position.y+.25+((q%(Math.PI*2))/(Math.PI*2))*.95,vessel.position.z+Math.cos(q)*.18);p.material.opacity=.35+.55*Math.abs(Math.sin(q));}
+   else {p.position.set(vessel.position.x+Math.cos(q)*p.userData.radius,vessel.position.y+.45+Math.sin(q*1.7)*.28,vessel.position.z+Math.sin(q)*p.userData.radius);p.material.opacity=.35+.6*Math.abs(Math.sin(q));}
+  });
+  fxFrame=requestAnimationFrame(loop);
+ }
+ fxFrame=requestAnimationFrame(loop);
+}
+function showTransferEffect(item,vessel){if(!scene||!THREE)return;const orb=new THREE.Mesh(new THREE.SphereGeometry(.12,12,10),new THREE.MeshBasicMaterial({color:0x9af0d1,transparent:true,opacity:.9}));orb.position.copy(vessel.position);orb.y=vessel.position.y;scene.add(orb);const st=performance.now();function fly(t){const p=Math.min(1,(t-st)/420);orb.scale.setScalar(1+p*2);orb.material.opacity=1-p;if(p<1)requestAnimationFrame(fly);else{scene.remove(orb);orb.geometry.dispose();orb.material.dispose();}}requestAnimationFrame(fly);}
+function showReactionContents(vessel,id){
+ if(!scene||!THREE)return null;
+ const old=vessel.userData.liquid;
+ if(old){vessel.remove(old);old.traverse(o=>{if(o.geometry)o.geometry.dispose();if(o.material)o.material.dispose();});}
+ const spec=reactionLooks[id]||{color:0xdde8e3,kind:'quiet'};
+ const liquid=new THREE.Group();
+ const fill=new THREE.Mesh(new THREE.CylinderGeometry(.34,.34,.16,32),new THREE.MeshStandardMaterial({color:spec.color,transparent:true,opacity:spec.kind==='quiet'?.18:.78,roughness:.55,metalness:spec.kind==='solid'?.12:0}));
+ fill.position.y=-.13;liquid.add(fill);
+ if(id==='sodium-water'){
+  const sodium=new THREE.Mesh(new THREE.SphereGeometry(.105,16,12),new THREE.MeshStandardMaterial({color:0xd8dce0,metalness:.85,roughness:.22}));
+  sodium.position.set(0,.02,0);liquid.add(sodium);
+ }
+ if(spec.kind==='solid'||spec.kind==='precipitate'){
+  for(let i=0;i<18;i++){
+   const grain=new THREE.Mesh(new THREE.SphereGeometry(.025+Math.random()*.025,8,7),new THREE.MeshStandardMaterial({color:spec.color,roughness:.9}));
+   grain.position.set((Math.random()-.5)*.48,-.02+Math.random()*.1,(Math.random()-.5)*.48);liquid.add(grain);
+  }
+ }
+ vessel.add(liquid);vessel.userData.liquid=liquid;return liquid;
+}
 let resultBoard=null,resultTexture=null,resultCanvas=null;
 function showTableResult(x){
  if(!scene)return;
