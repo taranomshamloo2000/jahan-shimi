@@ -99,6 +99,57 @@ function setup3D(){
  for(let x of [-6,0,6])box(2.4,1.4,.12,'#9bcfca',x,2.8,-10.5);
  // Extra benches and visible lab stations
  for(let x of [-7,7]){box(3,.3,2,'#c6d5ca',x,1,4);for(let z of [3.2,4.8])box(.14,1,.14,'#344b4b',x,.45,z)}
+ // Elegant library-inspired decor: Persian rugs, walnut furniture, books and gramophone.
+ const wood='#68432f',woodLight='#986746',gold='#c6a15a',cream='#eadcc2';
+ function cylinder(rt,rb,h,color,x,y,z,segments=24){const m=new THREE.Mesh(new THREE.CylinderGeometry(rt,rb,h,segments),mat(color));m.position.set(x,y,z);scene.add(m);objects.push(m);return m;}
+ function rug(x,z,w,d,base,accent){
+  box(w,.045,d,base,x,.015,z);
+  box(w-.22,.012,.055,accent,x,.045,z-d/2+.11);box(w-.22,.012,.055,accent,x,.045,z+d/2-.11);
+  box(.055,.012,d-.22,accent,x-w/2+.11,.045,z);box(.055,.012,d-.22,accent,x+w/2-.11,.045,z);
+  for(let i=-2;i<=2;i++){box(.035,.014,.035,accent,x+i*w/7,.052,z);box(.035,.014,.035,accent,x+i*w/7,.052,z+.22);}
+ }
+ function woodTable(x,z,w=2.4,d=1.35){
+  box(w,.16,d,woodLight,x,.92,z);
+  box(w-.12,.045,d-.12,wood,x,.82,z);
+  for(const dx of [-w/2+.16,w/2-.16])for(const dz of [-d/2+.14,d/2-.14])box(.13,.86,.13,wood,x+dx,.39,z+dz);
+  box(w,.035,.035,gold,x,.99,z-d/2+.07);
+ }
+ // Rich patterned rugs around, but not under the central experiment bench.
+ rug(-6.4,1.1,4.2,5.4,'#713d43',gold);rug(6.4,1.1,4.2,5.4,'#254e4a','#d6b66e');
+ // Tall walnut bookcases against the side walls.
+ for(const side of [-1,1]){
+  const x=side*10.45;
+  box(.42,4.1,5.8,wood,x,2.05,-3.1);
+  for(let y of [.72,1.65,2.58,3.51]){box(.5,.1,5.55,woodLight,x-side*.08,y,-3.1);
+   for(let j=0;j<13;j++){const h=.42+(j%4)*.11;const b=box(.18,h,.27,['#8c3945','#315c58','#c29a54','#344b70','#9b6948'][j%5],x-side*.12,y+.05+h/2,-5.45+j*.39);b.rotation.x=(j%3-1)*.035;}
+  }
+  for(const z of [-5.95,-.25]){box(.5,4.2,.12,gold,x-side*.08,2.05,z);}
+ }
+ // Back-wall shelves with jars and little brass ornaments.
+ for(let y of [1.55,2.65,3.75]){
+  box(8,.12,.42,woodLight,0,y,-10.25);
+  for(let j=0;j<9;j++){const x=-3.45+j*.86;const h=.38+(j%3)*.12;box(.28,h,.25,['#385d5b','#874b48','#b18a4f','#465a79'][j%4],x,y+.06+h/2,-10.25);}
+ }
+ // Two side reading tables, with brass legs and a gramophone on the left.
+ woodTable(-6.35,-2.15,2.8,1.45);woodTable(6.35,-2.15,2.8,1.45);
+ // Gramophone: walnut base, brass turntable, spindle and flared horn.
+ box(.92,.18,.72,wood,-6.35,1.12,-2.15);
+ cylinder(.28,.28,.045,gold,-6.35,1.245,-2.15,32);
+ cylinder(.035,.035,.13,'#d9c18b',-6.35,1.33,-2.15,16);
+ const horn=new THREE.Mesh(new THREE.ConeGeometry(.42,.95,32,1,true),new THREE.MeshStandardMaterial({color:'#b98b42',metalness:.72,roughness:.28,side:THREE.DoubleSide}));
+ horn.position.set(-6.35,1.72,-2.15);horn.rotation.z=Math.PI/2.7;scene.add(horn);objects.push(horn);
+ // A stack of vintage books and a brass desk lamp.
+ for(let i=0;i<3;i++){const b=box(.85,.12,.58,['#8d4145','#315b54','#c49a54'][i],6.25,1.08+i*.13,-2.2);b.rotation.y=(i-1)*.08;}
+ cylinder(.035,.045,.58,gold,7.15,1.32,-2.15,16);const shade=new THREE.Mesh(new THREE.ConeGeometry(.3,.25,24),mat('#d4b36d'));shade.position.set(7.15,1.73,-2.15);scene.add(shade);objects.push(shade);
+ // Decorative hanging bells in different silhouettes and finishes.
+ for(let i=0;i<5;i++){const x=-4+i*2,z=-9.65;const y=4.35-(i%2)*.22;
+  cylinder(.025,.025,.38,gold,x,y+.22,z,12);
+  const bell=new THREE.Mesh(new THREE.ConeGeometry(.19,.28,24,1,true),new THREE.MeshStandardMaterial({color:['#c49a52','#9e7442','#d2b46a'][i%3],metalness:.72,roughness:.25,side:THREE.DoubleSide}));bell.position.set(x,y,z);bell.rotation.x=Math.PI;scene.add(bell);objects.push(bell);
+  cylinder(.045,.045,.06,'#b68b49',x,y-.17,z,12);
+ }
+ // Framed botanical and chemistry prints add a scholarly library feel.
+ for(let i=0;i<3;i++){const x=-6+i*6;box(2.1,1.55,.12,wood,x,3.05,-10.35);box(1.85,1.3,.035,['#d6d1b7','#d8c8a7','#c9d7c9'][i],x,3.05,-10.27);cylinder(.22,.22,.025,gold,x,3.05,-10.23,32);}
+
  let yaw=0,pitch=0;const keys={},move={x:0,y:0};let look=null,dragged=null,dragPlane=new THREE.Plane(),dragOffset=new THREE.Vector3(),raycaster=new THREE.Raycaster(),pointer=new THREE.Vector2();
  const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
  function key(e,on){const k=e.key.toLowerCase();if(['w','a','s','d','arrowup','arrowdown','arrowleft','arrowright'].includes(k)){keys[k]=on;e.preventDefault()}}
