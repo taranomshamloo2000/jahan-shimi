@@ -7,6 +7,15 @@
 #nuclearBlast{display:none;position:fixed;inset:0;z-index:9999;overflow:hidden;background:#05070c;align-items:center;justify-content:center;color:white;text-align:center}#nuclearBlast.show{display:flex;animation:blastFlash 2.7s ease-out forwards}#nuclearBlast .sun{position:absolute;width:18vmin;height:18vmin;border-radius:50%;background:#fff9d6;box-shadow:0 0 7vmin 4vmin #fff,0 0 22vmin 12vmin #ffb52e,0 0 55vmin 28vmin #e52b16;animation:sunGrow 2.2s ease-out forwards}#nuclearBlast .ring{position:absolute;width:10vmin;height:10vmin;border:5px solid #fff5c7;border-radius:50%;animation:shock 2s ease-out forwards}#nuclearBlast .mushroom{position:absolute;bottom:-30vh;width:42vmin;height:45vmin;opacity:0;animation:cloudRise 2.1s 0.35s ease-out forwards}#nuclearBlast .mushroom:before{content:'';position:absolute;top:0;left:0;width:100%;height:55%;border-radius:50% 50% 42% 42%;background:radial-gradient(circle at 40% 35%,#fff2c0,#eaa04c 38%,#8c4336 72%,#24232a);box-shadow:0 0 35px #ffb34d}#nuclearBlast .mushroom:after{content:'';position:absolute;top:34%;left:35%;width:30%;height:70%;background:linear-gradient(90deg,#5b3535,#e8a05b,#633b39);clip-path:polygon(35% 0,65% 0,100% 100%,0 100%)}#nuclearBlast .caption{position:absolute;bottom:8%;z-index:2;font:bold clamp(16px,4vw,30px) Tahoma;background:#090b10b8;padding:14px 20px;border:1px solid #ffcf78;border-radius:14px}@keyframes blastFlash{0%{background:#fff}12%{background:#fff4bd}30%{background:#ef7b2d}100%{background:#080a11}}@keyframes sunGrow{to{transform:scale(4);opacity:0}}@keyframes shock{to{transform:scale(30);opacity:0}}@keyframes cloudRise{to{bottom:28%;opacity:1}}body.blastShake,#stage.blastShake{animation:screenShake .075s linear 42!important;transform-origin:center center}#nuclearBlast.show{display:flex!important;z-index:999999;animation:blastFlash 2.7s ease-out forwards}#nuclearBlast.show .sun{animation:sunGrow 2.2s ease-out forwards}#nuclearBlast.show .ring{animation:shock 2s ease-out forwards}#nuclearBlast.show .mushroom{animation:cloudRise 2.1s .35s ease-out forwards}@keyframes screenShake{0%,100%{transform:translate(0,0)}25%{transform:translate(7px,-5px)}50%{transform:translate(-6px,4px)}75%{transform:translate(4px,6px)}}
 #nuclearBlast .aftermath{position:absolute;bottom:2%;z-index:4;font:bold clamp(17px,3vw,27px) Tahoma;color:#fff;background:#090b10e8;border:1px solid #ffb0a0;border-radius:14px;padding:12px 22px;opacity:0;animation:aftermathIn .5s 2.65s forwards}
 @keyframes aftermathIn{to{opacity:1}}
+/* Reliable mobile shake + delayed cinematic explosion */
+#stage.blastShake{will-change:transform;filter:contrast(1.08) saturate(1.15)}
+#nuclearBlast.show{display:flex!important;z-index:9999999;animation:blastFlash 2.8s ease-out forwards}
+#nuclearBlast.show .sun{animation:sunGrow 2.2s ease-out forwards}
+#nuclearBlast.show .ring{animation:shock 2s ease-out forwards}
+#nuclearBlast.show .mushroom{animation:cloudRise 2.1s .35s ease-out forwards}
+#nuclearBlast.blastBoom{box-shadow:inset 0 0 12vmin 3vmin #ff6a20}
+#nuclearBlast.blastBoom .caption{animation:captionPulse .35s 6 alternate}
+@keyframes captionPulse{to{transform:scale(1.06);border-color:#ff4c22;background:#4b100eea}}
 </style></head><body>
 <header><div><strong>⚗ جهان شیمی | آزمایشگاه تعاملی</strong><small>آزمایشگاه آموزشی سه‌بعدی • ۱۱۸ عنصر • تجهیزات و واکنش‌های مدل‌سازی‌شده</small></div><div class="actions"><button id="help">راهنما</button><button id="reset">شروع دوباره</button><button id="back">بازگشت</button></div></header>
 <div id="nuclearBlast" aria-hidden="true"><div class="sun"></div><div class="ring"></div><div class="mushroom"></div><div class="caption">☢ شبیه‌سازی سینمایی — فروپاشی نمایشی محیط</div><button id="blastStop" type="button" style="position:absolute;z-index:3;bottom:3%;right:4%;padding:14px 22px;border:2px solid #fff;border-radius:12px;background:#8b1717;color:#fff;font:bold 17px Tahoma;cursor:pointer">■ توقف و بازگشت به حالت اول</button></div><main><section id="stage"><canvas id="scene"></canvas><div id="fallback"><div class="room">⚗️ 🧪 🧫</div><b>نمای سه‌بعدی در این دستگاه در دسترس نیست</b><p>آزمایشگاه همچنان در حالت سازگار اجرا می‌شود. عناصر، تجهیزات، اطلاعات و آزمایش‌های آموزشی از پنل کناری قابل استفاده‌اند.</p></div><div id="hazardAlert"><div>⚠️ هشدار: مادهٔ خطرناک شناسایی شد<small>این فقط هشدار شبیه‌سازی است؛ از بخارها و مواد ناشناخته فاصله بگیر. آزمایش واقعی انجام نده.</small></div></div><div id="miniGuide"><b>راهنمای آزمایشگاه</b><span id="miniGuideText">یک آزمایش انتخاب کن.</span><button id="stopReaction" type="button">■ توقف واکنش</button></div><div id="hazardAlert" role="alert" style="display:none;position:absolute;inset:0;z-index:8;align-items:center;justify-content:center;flex-direction:column;gap:10px;background:rgba(130,0,0,.18);border:10px solid #ff2020;box-shadow:inset 0 0 55px #ff0000;pointer-events:none;animation:hazardPulse .55s infinite alternate"><b style="font-size:clamp(22px,4vw,42px);color:#fff;text-shadow:0 2px 10px #f00">⚠ هشدار: مادهٔ خطرناک!</b><span style="font-size:14px;color:white;background:#750000d9;padding:8px 14px;border-radius:8px">بخار سمی در مدل شبیه‌سازی شده — به ظرف نزدیک نشو</span></div><button id="roomSwitch" type="button">💡 چراغ اتاق: روشن</button><div id="cross">＋</div><div id="movePad" aria-label="جوی‌استیک حرکت"><div id="moveStick"></div></div><div id="status"></div></section>
@@ -168,32 +177,77 @@ function showTableResult(x){
  c.font='20px sans-serif';c.fillStyle='#ffdca8';c.fillText(reactionLooks[x.id]?.hazard?'بخار سبز فقط نماد هشدار است، نه رنگ واقعی گاز.':'شبیه‌سازی آموزشی؛ آزمایش واقعی انجام نده.',1145,445);
  resultTexture.needsUpdate=true;resultBoard.visible=true;
 }
-let blastTimer=0,blastAudioCtx=null,blastOsc1=null,blastOsc2=null,blastStopTimer=0;
+let blastTimer=0,blastAudioCtx=null,blastOsc1=null,blastOsc2=null,blastStopTimer=0,blastSequenceTimer=0,blastShakeFrame=0;
 function startCinematicCollapse(){
- const overlay=$('nuclearBlast');overlay.classList.add('show');document.body.classList.add('blastShake');
- const caption=overlay.querySelector('.caption');caption.textContent='☢ هشدار: فروپاشی نمایشی آزمایشگاه';
- const aftermath=document.createElement('div');aftermath.className='aftermath';aftermath.textContent='این منطقه نابود شده 🥲';overlay.appendChild(aftermath);const stage=$('stage');if(stage)stage.classList.add('blastShake');
- const beacon=window.labSiren;if(beacon){beacon.dome.material.emissive.setHex(0xff0000);beacon.dome.material.emissiveIntensity=3.5;beacon.light.intensity=24;beacon.light.distance=12;beacon.ring.material.color.setHex(0xff0000);}
+ stopCinematicCollapse();
+ const overlay=$('nuclearBlast'),stage=$('stage');
+ overlay.classList.remove('show','blastBoom');overlay.setAttribute('aria-hidden','false');
+ overlay.querySelectorAll('.aftermath').forEach(n=>n.remove());
+ const caption=overlay.querySelector('.caption');caption.textContent='🚨 هشدار اضطراری! تخلیهٔ آزمایشگاه';
+ document.body.classList.add('blastShake');if(stage)stage.classList.add('blastShake');
+ const beacon=window.labSiren;
+ if(beacon){beacon.dome.material.emissive.setHex(0xff0000);beacon.dome.material.emissiveIntensity=5;beacon.light.intensity=30;beacon.light.distance=18;beacon.ring.material.color.setHex(0xff0000);beacon.ring.material.opacity=1;}
+ // Shake the actual 3D viewport with JS as a fallback for mobile browsers.
+ const started=performance.now();
+ const shake=now=>{
+  const elapsed=now-started;
+  if(elapsed>2450){if(stage)stage.style.transform='';document.body.style.setProperty('--blast-jolt','0px');blastShakeFrame=0;return;}
+  const strength=elapsed<350?3:Math.max(1,11-(elapsed/2450)*8);
+  const dx=(Math.random()-.5)*strength*2,dy=(Math.random()-.5)*strength*2;
+  if(stage)stage.style.transform='translate3d('+dx+'px,'+dy+'px,0) rotate('+(dx*.035)+'deg)';
+  blastShakeFrame=requestAnimationFrame(shake);
+ };
+ blastShakeFrame=requestAnimationFrame(shake);
+ // Build a two-tone rising/falling electronic warning siren after the user's Run click.
  try{
   const AC=window.AudioContext||window.webkitAudioContext;
-  if(AC){blastAudioCtx=new AC();const gain=blastAudioCtx.createGain();gain.gain.value=.12;gain.connect(blastAudioCtx.destination);blastAudioCtx.resume().catch(()=>{});
+  if(AC){
+   blastAudioCtx=new AC();
+   const master=blastAudioCtx.createGain();master.gain.value=.19;master.connect(blastAudioCtx.destination);
+   const filter=blastAudioCtx.createBiquadFilter();filter.type='lowpass';filter.frequency.value=1800;filter.connect(master);
    blastOsc1=blastAudioCtx.createOscillator();blastOsc2=blastAudioCtx.createOscillator();
-   blastOsc1.type='sawtooth';blastOsc2.type='sine';blastOsc1.frequency.value=720;blastOsc2.frequency.value=520;
-   blastOsc1.connect(gain);blastOsc2.connect(gain);blastOsc1.start();blastOsc2.start();
-   const now=blastAudioCtx.currentTime;blastOsc1.frequency.setValueAtTime(720,now);blastOsc1.frequency.linearRampToValueAtTime(980,now+.45);blastOsc1.frequency.linearRampToValueAtTime(620,now+.9);
-   blastOsc2.frequency.setValueAtTime(520,now);blastOsc2.frequency.linearRampToValueAtTime(390,now+.45);blastOsc2.frequency.linearRampToValueAtTime(680,now+.9);
-   let flip=0;blastTimer=window.setInterval(()=>{if(!blastAudioCtx)return;flip++;const t=blastAudioCtx.currentTime;blastOsc1.frequency.setTargetAtTime(flip%2?980:620,t,.04);blastOsc2.frequency.setTargetAtTime(flip%2?420:700,t,.04);if(beacon){beacon.dome.material.emissiveIntensity=flip%2?4:.35;beacon.light.intensity=flip%2?26:2;beacon.rotor.rotation.y+=1.25;beacon.ring.material.opacity=flip%2?.95:.35;}},260);
+   blastOsc1.type='sawtooth';blastOsc2.type='triangle';blastOsc1.frequency.value=650;blastOsc2.frequency.value=325;
+   blastOsc1.connect(filter);blastOsc2.connect(filter);blastOsc1.start();blastOsc2.start();
+   const sirenStart=blastAudioCtx.currentTime;
+   blastOsc1.frequency.setValueAtTime(650,sirenStart);blastOsc2.frequency.setValueAtTime(325,sirenStart);
+   let high=false;
+   blastTimer=window.setInterval(()=>{
+    if(!blastAudioCtx)return;
+    high=!high;const t=blastAudioCtx.currentTime;
+    blastOsc1.frequency.cancelScheduledValues(t);blastOsc2.frequency.cancelScheduledValues(t);
+    blastOsc1.frequency.setTargetAtTime(high?1050:620,t,.07);
+    blastOsc2.frequency.setTargetAtTime(high?520:310,t,.07);
+    if(beacon){beacon.dome.material.emissiveIntensity=high?5.5:.35;beacon.light.intensity=high?30:2;beacon.rotor.rotation.y+=1.5;beacon.ring.material.opacity=high?1:.25;}
+   },330);
   }
- }catch(e){}
- blastStopTimer=window.setTimeout(()=>{finishCinematicCollapse();},5200);
+ }catch(err){console.warn('Audio siren unavailable',err);}
+ // First let the room shake; then trigger the cinematic flash and shockwave.
+ blastSequenceTimer=window.setTimeout(()=>{
+  overlay.classList.add('show','blastBoom');
+  caption.textContent='💥 فروپاشی نمایشی — انفجار تصویری';
+  const aftermath=document.createElement('div');aftermath.className='aftermath';aftermath.textContent='این منطقه نابود شده 🥲';overlay.appendChild(aftermath);
+ },2450);
+ blastStopTimer=window.setTimeout(()=>finishCinematicCollapse(),7600);
 }
-function finishCinematicCollapse(){stopCinematicCollapse();const overlay=$('nuclearBlast');overlay.classList.remove('show');overlay.querySelectorAll('.aftermath').forEach(n=>n.remove());const stage=$('stage');if(stage)stage.classList.remove('blastShake');inventory=[];updateInventory();$('reactionResult').textContent='این منطقه نابود شده 🥲';$('status').textContent='شبیه‌سازی پایان یافت؛ آزمایشگاه به حالت عادی برگشت.';activeExperiment='water';prepareExperimentScene('water');}
+function finishCinematicCollapse(){
+ stopCinematicCollapse();
+ const overlay=$('nuclearBlast');overlay.classList.remove('show','blastBoom');overlay.setAttribute('aria-hidden','true');
+ overlay.querySelectorAll('.aftermath').forEach(n=>n.remove());
+ inventory=[];updateInventory();$('reactionResult').textContent='این منطقه نابود شده 🥲';
+ $('status').textContent='شبیه‌سازی پایان یافت؛ آزمایشگاه به حالت عادی برگشت.';
+ activeExperiment='water';prepareExperimentScene('water');
+}
 function stopCinematicCollapse(){
- if(blastTimer)clearInterval(blastTimer);blastTimer=0;if(blastStopTimer)clearTimeout(blastStopTimer);blastStopTimer=0;
- try{if(blastOsc1){blastOsc1.stop();blastOsc1.disconnect();}if(blastOsc2){blastOsc2.stop();blastOsc2.disconnect();}if(blastAudioCtx){blastAudioCtx.close();}}catch(e){}
+ if(blastTimer)clearInterval(blastTimer);blastTimer=0;
+ if(blastStopTimer)clearTimeout(blastStopTimer);blastStopTimer=0;
+ if(blastSequenceTimer)clearTimeout(blastSequenceTimer);blastSequenceTimer=0;
+ if(blastShakeFrame)cancelAnimationFrame(blastShakeFrame);blastShakeFrame=0;
+ try{if(blastOsc1){blastOsc1.stop();blastOsc1.disconnect();}if(blastOsc2){blastOsc2.stop();blastOsc2.disconnect();}if(blastAudioCtx)blastAudioCtx.close();}catch(e){}
  blastOsc1=blastOsc2=blastAudioCtx=null;
- const beacon=window.labSiren;if(beacon){beacon.dome.material.emissiveIntensity=.25;beacon.light.intensity=0;beacon.rotor.rotation.y=0;beacon.ring.material.color.setHex(0xc6a15a);}
- document.body.classList.remove('blastShake');const stage=$('stage');if(stage)stage.classList.remove('blastShake');
+ const beacon=window.labSiren;
+ if(beacon){beacon.dome.material.emissiveIntensity=.25;beacon.light.intensity=0;beacon.rotor.rotation.y=0;beacon.ring.material.color.setHex(0xc6a15a);beacon.ring.material.opacity=.35;}
+ const stage=$('stage');if(stage)stage.style.transform='';
+ document.body.classList.remove('blastShake');if(stage)stage.classList.remove('blastShake');
 }
 function runExperiment(){const x=experiments.find(a=>a.id===activeExperiment)||experiments[0];const needed=[...x.els,...(x.reagents||[])];const vessels=draggables.filter(o=>o.userData.vessel);const mixed=vessels.flatMap(v=>v.userData.contents||[]).map(e=>e[0]);const missing=needed.filter(n=>!mixed.includes(n));if(missing.length){$('reactionResult').textContent='مواد وارد ظرف نشده‌اند: '+missing.join('، ')+'. همه ویال‌های نورانی را داخل ظرف وسط میز رها کن.';updateInstructionBoard('هنوز ترکیب کامل نشده است.','مواد نورانی باقی‌مانده را داخل ظرف وسط میز بینداز.','پس از انتقال همه مواد، مدل واکنش را اجرا کن.');toast('هنوز همه مواد وارد ظرف نشده‌اند.');return;}if(x.cinematic){startCinematicCollapse();$('reactionResult').textContent='هشدار اضطراری! سناریوی تخریب کاملاً خیالی آغاز شد.';return;}$('reactionResult').innerHTML='<b style="color:var(--mint)">'+x.name+'</b><br>'+x.formula+'<br>مدل واکنش با موفقیت اجرا شد. این نمایش، شبیه‌سازی آموزشی است و دستور آزمایش واقعی نیست.';done=Math.min(3,done+1);$('progress').style.width=(done/3*100)+'%';$('missionCount').textContent=done+' از ۳ مرحله';$('missionTitle').textContent=done===3?'ماموریت تکمیل شد!':'ماموریت: اجرای مدل واکنش';$('missionText').textContent=done===3?'آفرین! سه مدل آزمایش را اجرا کردی.':'یک مدل دیگر را انتخاب و اجرا کن.';x.products=x.products||reactionLooks[x.id]?.products||['محصول یا مشاهدهٔ مدل‌شده: '+(reactionLooks[x.id]?.label||'نمایش نمادین')];$('reactionResult').innerHTML+='<br><b style="color:#ffe36e">محصولات مدل‌شده:</b> '+x.products.join(' + ');updateInstructionBoard('واکنش مدل‌سازی شد!',x.formula,'محصولات تشکیل‌شده:',...x.products,'نمایش کاملاً شبیه‌سازی‌شده و آموزشی است.');showTableResult(x);animateReaction(x.id);toast('واکنش آموزشی شبیه‌سازی شد!');}
 function tabs(){$$('button[data-tab]').forEach(b=>b.onclick=()=>{$$('button[data-tab]').forEach(x=>x.classList.toggle('active',x===b));$$('.pane').forEach(x=>x.classList.toggle('show',x.id===b.dataset.tab));});}
