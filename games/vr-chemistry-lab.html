@@ -237,8 +237,29 @@ function setup3D(){
   const bell=new THREE.Mesh(new THREE.ConeGeometry(.19,.28,24,1,true),new THREE.MeshStandardMaterial({color:['#c49a52','#9e7442','#d2b46a'][i%3],metalness:.72,roughness:.25,side:THREE.DoubleSide}));bell.position.set(x,y,z);bell.rotation.x=Math.PI;scene.add(bell);objects.push(bell);
   cylinder(.045,.045,.06,'#b68b49',x,y-.17,z,12);
  }
- // Framed botanical and chemistry prints add a scholarly library feel.
- for(let i=0;i<3;i++){const x=-6+i*6;box(2.1,1.55,.12,wood,x,3.05,-10.35);box(1.85,1.3,.035,['#d6d1b7','#d8c8a7','#c9d7c9'][i],x,3.05,-10.27);cylinder(.22,.22,.025,gold,x,3.05,-10.23,32);}
+ // Framed laboratory prints; the center-right plaque carries the creator credit.
+ for(let i=0;i<3;i++){
+  const x=-6+i*6;
+  box(2.1,1.55,.12,wood,x,3.05,-10.35);
+  if(i===2){
+   const plaqueCanvas=document.createElement('canvas');plaqueCanvas.width=900;plaqueCanvas.height=620;
+   const pctx=plaqueCanvas.getContext('2d');
+   pctx.fillStyle='#d8c8a7';pctx.fillRect(0,0,900,620);
+   pctx.strokeStyle='#9a7544';pctx.lineWidth=18;pctx.strokeRect(22,22,856,576);
+   pctx.strokeStyle='#b18c58';pctx.lineWidth=3;pctx.strokeRect(42,42,816,536);
+   pctx.textAlign='center';pctx.direction='rtl';
+   pctx.fillStyle='#49665d';pctx.font='bold 48px Tahoma,Arial';pctx.fillText('آزمایشگاه تعاملی جهان شیمی',450,155);
+   pctx.fillStyle='#765333';pctx.font='bold 68px Tahoma,Arial';pctx.fillText('ترنم شاملو',450,300);
+   pctx.direction='ltr';pctx.fillStyle='#354b46';pctx.font='bold 38px Arial';pctx.fillText('taranomshamloo2000@gmail.com',450,390);
+   pctx.fillStyle='#8c7049';pctx.font='26px Tahoma,Arial';pctx.direction='rtl';pctx.fillText('طراحی و توسعه',450,490);
+   const plaqueTexture=new THREE.CanvasTexture(plaqueCanvas);plaqueTexture.colorSpace=THREE.SRGBColorSpace;
+   const plaque=new THREE.Mesh(new THREE.PlaneGeometry(1.85,1.3),new THREE.MeshBasicMaterial({map:plaqueTexture}));
+   plaque.position.set(x,3.05,-10.235);scene.add(plaque);objects.push(plaque);
+  }else{
+   box(1.85,1.3,.035,['#d6d1b7','#d8c8a7'][i],x,3.05,-10.27);
+   cylinder(.22,.22,.025,gold,x,3.05,-10.23,32);
+  }
+ }
 
  let yaw=0,pitch=0;const keys={},move={x:0,y:0};let look=null,dragged=null,dragPlane=new THREE.Plane(),dragOffset=new THREE.Vector3(),raycaster=new THREE.Raycaster(),pointer=new THREE.Vector2();
  const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
