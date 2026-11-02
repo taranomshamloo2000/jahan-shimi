@@ -54,33 +54,33 @@ const experiments=[
 const equipment=[['beaker','بشر','برای نگهداری و مخلوط‌کردن حجم‌های تقریبی مایع'],['flask','ارلن','ظرف مخروطی برای مخلوط‌کردن و چرخاندن محلول'],['testtube','لوله آزمایش','برای مشاهده نمونه‌های کوچک'],['cylinder','استوانه مدرج','برای اندازه‌گیری حجم مایع'],['microscope','میکروسکوپ','برای مشاهده ساختارهای بسیار ریز'],['balance','ترازوی دیجیتال','برای اندازه‌گیری جرم'],['burner','چراغ آزمایشگاهی','نمایش نمادین منبع گرما؛ بدون شعله واقعی'],['pipette','قطره‌چکان','برای انتقال کنترل‌شده حجم کم مایع']];
 function renderTools(){$('tools').innerHTML=equipment.map(x=>'<button class="item" data-tool="'+x[0]+'"><b>'+x[1]+'</b><small>'+x[2]+'</small></button>').join('');$('tools').addEventListener('click',e=>{const b=e.target.closest('[data-tool]');if(!b)return;const x=equipment.find(a=>a[0]===b.dataset.tool);updateInstructionBoard('وسیله انتخاب‌شده: '+x[1],x[2],'برای افزودن آن، دکمه «افزودن به صحنه» را بزن.','می‌توانی وسیله را در محیط سه‌بعدی جابه‌جا کنی.','برای اجرای مدل، یک آزمایش هم انتخاب کن.','از تجهیزات واقعی فقط با نظارت دبیر استفاده کن.');$('toolInfo').innerHTML='<b style="color:var(--mint)">'+x[1]+'</b><br>'+x[2]+'<br><button class="primary" id="placeTool">افزودن به صحنه</button>';$('placeTool').onclick=()=>{addProp(x[1]);toast(x[1]+' به صحنه اضافه شد.');};});}
 function prepareExperimentScene(id){if(!scene){$('status').textContent='آزمایش انتخاب شد؛ صحنه سه‌بعدی در دسترس نیست.';return;}const specs=experiments.find(x=>x.id===id)||experiments[0];const old=objects.filter(o=>o.userData.experimentItem);old.forEach(o=>{scene.remove(o);objects=objects.filter(x=>x!==o);draggables=draggables.filter(x=>x!==o);});inventory=specs.els.map(n=>elements.find(e=>e[0]===n)).filter(Boolean);updateInventory();const spots=[[-3.1,1.42,-1.25],[-1.8,1.42,-1.25],[1.8,1.42,-1.25],[3.1,1.42,-1.25]];specs.els.forEach((n,i)=>{const el=elements.find(e=>e[0]===n);if(el)drawVial(el,spots[i],true);});(specs.reagents||[]).forEach((name,i)=>drawVial([name,name,'مایع واکنش','—'],[spots[specs.els.length+i][0],1.42,-1.25],true));const vesselName=(specs.tools||[]).find(n=>['بشر','ارلن','لوله آزمایش','استوانه مدرج'].includes(n))||'بشر';addProp(vesselName,[0,1.35,-1.25],true);(specs.tools||[]).filter(n=>n!==vesselName).forEach((name,i)=>addProp(name,[i*1.25-1,1.35,-2.6],true));updateInstructionBoard(specs.name,specs.formula,'همه مواد و ظرف لازم خودکار روی میز قرار گرفتند.','ویال‌های رنگی را یکی‌یکی داخل ظرف شیشه‌ای وسط میز بکش.','بعد از انتقال همه مواد، دکمه اجرای مدل آزمایش را بزن.','محصولات واکنش به‌صورت مدل سه‌بعدی نمایش داده می‌شوند؛ این آزمایش را در واقعیت انجام نده.');}let activeFx=null,fxFrame=0;let alarmTimer=null,alarmAudio=null;function stopHazardAlarm(){if(alarmTimer){clearInterval(alarmTimer);alarmTimer=null;}if(alarmAudio){try{alarmAudio.close();}catch(e){}alarmAudio=null;}const alert=$('hazardAlert');if(alert)alert.style.display='none';}function startHazardAlarm(){const alert=$('hazardAlert');if(alert)alert.style.display='flex';try{const AC=window.AudioContext||window.webkitAudioContext;if(AC){alarmAudio=new AC();const beep=()=>{if(!alarmAudio)return;const osc=alarmAudio.createOscillator(),gain=alarmAudio.createGain();osc.type='square';osc.frequency.value=880;gain.gain.value=.045;osc.connect(gain);gain.connect(alarmAudio.destination);osc.start();osc.stop(alarmAudio.currentTime+.16);};beep();alarmTimer=setInterval(beep,650);}}catch(e){}}function stopReaction(){stopHazardAlarm();const hadEffect=!!activeFx;if(fxFrame)cancelAnimationFrame(fxFrame);fxFrame=0;if(activeFx){if(activeFx.liquid&&activeFx.vessel){activeFx.vessel.remove(activeFx.liquid);activeFx.liquid.traverse(o=>{if(o.geometry)o.geometry.dispose();if(o.material)o.material.dispose();});}if(activeFx.group&&scene){scene.remove(activeFx.group);activeFx.group.traverse(o=>{if(o.geometry)o.geometry.dispose();if(o.material){if(Array.isArray(o.material))o.material.forEach(m=>m.dispose());else o.material.dispose();}});}}activeFx=null;$('stopReaction').textContent='افکت متوقف شد';if(hadEffect)toast('نمایش واکنش متوقف شد.');}const reactionLooks={
- 'potassium-light':{color:0xa66cff,kind:'light',label:'تابش یاسی پتاسیم'},
- 'sodium-water':{color:0x9edcf2,kind:'bubbles',label:'محلول بی‌رنگ و حباب‌های هیدروژن'},
- 'water':{color:0xb9e8f2,kind:'quiet',label:'آب؛ مایع شفاف و بی‌رنگ'},
- 'salt':{color:0xf4f1e8,kind:'solid',label:'بلورهای سفید سدیم کلرید'},
- 'co2':{color:0xd8e0dc,kind:'gas',label:'گاز بی‌رنگ کربن‌دی‌اکسید'},
- 'neutral':{color:0xf2f0e8,kind:'quiet',label:'محلول تقریباً بی‌رنگ سدیم کلرید و آب'},
- 'ammonia':{color:0xdce9e2,kind:'gas',label:'آمونیاک؛ گاز بی‌رنگ'},
- 'methane':{color:0xdce9e2,kind:'quiet',label:'متان؛ گاز بی‌رنگ'},
- 'methanol':{color:0xe5eee9,kind:'quiet',label:'متانول؛ مایع بی‌رنگ'},
- 'limestone':{color:0xe4dfd2,kind:'gas',label:'آهک زندهٔ سفید و گاز بی‌رنگ CO₂'},
- 'rust':{color:0x9a4b2d,kind:'solid',label:'زنگ آهن؛ جامد قهوه‌ای مایل به قرمز'},
- 'magnesium':{color:0xf5f2e8,kind:'flash',label:'اکسید منیزیم؛ پودر سفید'},
- 'hydrogenchloride':{color:0xdde8e3,kind:'quiet',label:'هیدروژن کلرید؛ گاز بی‌رنگ'},
- 'sulfur dioxide':{color:0xdde8e3,kind:'gas',label:'گوگرد دی‌اکسید؛ گاز بی‌رنگ'},
- 'sulfur trioxide':{color:0xe5ece7,kind:'quiet',label:'گوگرد تری‌اکسید؛ بی‌رنگ'},
- 'nitric':{color:0xdce8e1,kind:'quiet',label:'نیتریک اکسید؛ گاز بی‌رنگ'},
- 'nitrogen dioxide':{color:0x9b4b28,kind:'gas',label:'نیتروژن دی‌اکسید؛ گاز قهوه‌ای مایل به قرمز'},
- 'hydrogen peroxide':{color:0xe5f1ed,kind:'bubbles',label:'آب و حباب‌های اکسیژن'},
- 'glucose':{color:0xe8e1bf,kind:'quiet',label:'گلوکز؛ محصول ذخیره‌شده در گیاه'},
- 'combustion':{color:0xdde7e2,kind:'flame',label:'آب و کربن‌دی‌اکسید؛ محصولات بی‌رنگ'},
- 'calcium oxide':{color:0xf0eee5,kind:'flash',label:'کلسیم اکسید؛ جامد سفید'},
- 'copper oxide':{color:0x17191a,kind:'solid',label:'مس اکسید؛ جامد سیاه'},
- 'iron sulfide':{color:0x242629,kind:'solid',label:'آهن سولفید؛ جامد سیاه'},
- 'aluminum oxide':{color:0xf1eee5,kind:'solid',label:'آلومینیم اکسید؛ جامد سفید'},
- 'potassium chloride':{color:0xf5f2e8,kind:'solid',label:'بلورهای سفید پتاسیم کلرید'},
- 'calcium carbonate':{color:0xf4f0e4,kind:'precipitate',label:'رسوب سفید کلسیم کربنات'},
- 'sodium bicarbonate':{color:0xf1eee5,kind:'bubbles',label:'سدیم کربنات، آب و گاز بی‌رنگ CO₂'}
+  'potassium-light':{color:0xa66cff,kind:'light',label:'تابش یاسی پتاسیم',products:['نور یاسی/بنفش؛ گسیل اتمی پتاسیم']},
+  'sodium-water':{color:0x9edcf2,kind:'bubbles',label:'محلول بی‌رنگ و حباب‌های هیدروژن',products:['سدیم هیدروکسید (NaOH)','گاز هیدروژن (H₂)']},
+  'water':{color:0xb9e8f2,kind:'quiet',label:'آب؛ مایع شفاف و بی‌رنگ',products:['آب (H₂O)؛ مایع شفاف و بی‌رنگ']},
+  'salt':{color:0xf4f1e8,kind:'solid',label:'بلورهای سفید سدیم کلرید',products:['سدیم کلرید (NaCl)؛ بلور سفید']},
+  'co2':{color:0xd8e0dc,kind:'gas',label:'گاز بی‌رنگ کربن‌دی‌اکسید',products:['کربن‌دی‌اکسید (CO₂)؛ گاز بی‌رنگ']},
+  'neutral':{color:0xf2f0e8,kind:'quiet',label:'محلول تقریباً بی‌رنگ سدیم کلرید و آب',products:['سدیم کلرید (NaCl)','آب (H₂O)']},
+  'ammonia':{color:0xdce9e2,kind:'gas',label:'آمونیاک؛ گاز بی‌رنگ',products:['آمونیاک (NH₃)؛ گاز بی‌رنگ']},
+  'methane':{color:0xdce9e2,kind:'quiet',label:'متان؛ گاز بی‌رنگ',products:['متان (CH₄)؛ گاز بی‌رنگ']},
+  'methanol':{color:0xe5eee9,kind:'quiet',label:'متانول؛ مایع بی‌رنگ',products:['متانول (CH₃OH)؛ مایع بی‌رنگ']},
+  'limestone':{color:0xe4dfd2,kind:'gas',label:'آهک زندهٔ سفید و گاز بی‌رنگ CO₂',products:['کلسیم اکسید (CaO)؛ جامد سفید','کربن‌دی‌اکسید (CO₂)؛ گاز']},
+  'rust':{color:0x9a4b2d,kind:'solid',label:'زنگ آهن؛ جامد قهوه‌ای مایل به قرمز',products:['اکسید آهن(III)؛ جامد قهوه‌ای-قرمز']},
+  'magnesium':{color:0xf5f2e8,kind:'flash',label:'اکسید منیزیم؛ پودر سفید',products:['اکسید منیزیم (MgO)؛ جامد سفید']},
+  'hydrogenchloride':{color:0xdde8e3,kind:'gas',label:'هیدروژن کلرید؛ گاز بی‌رنگ',hazard:true,products:['هیدروژن کلرید (HCl)؛ گاز بی‌رنگ و خورنده']},
+  'sulfur dioxide':{color:0xdde8e3,kind:'gas',label:'گوگرد دی‌اکسید؛ گاز بی‌رنگ',hazard:true,products:['گوگرد دی‌اکسید (SO₂)؛ گاز بی‌رنگ و سمی']},
+  'sulfur trioxide':{color:0xe5ece7,kind:'gas',label:'گوگرد تری‌اکسید؛ بی‌رنگ',hazard:true,products:['گوگرد تری‌اکسید (SO₃)؛ مادهٔ خورنده']},
+  'nitric':{color:0xdce8e1,kind:'gas',label:'نیتریک اکسید؛ گاز بی‌رنگ',products:['نیتریک اکسید (NO)؛ گاز بی‌رنگ']},
+  'nitrogen dioxide':{color:0x9b4b28,kind:'gas',label:'نیتروژن دی‌اکسید؛ گاز قهوه‌ای مایل به قرمز',hazard:true,products:['نیتروژن دی‌اکسید (NO₂)؛ گاز قهوه‌ای-قرمز و سمی']},
+  'hydrogen peroxide':{color:0xe5f1ed,kind:'bubbles',label:'آب و حباب‌های اکسیژن',products:['آب (H₂O)','گاز اکسیژن (O₂)']},
+  'glucose':{color:0xe8e1bf,kind:'solid',label:'گلوکز؛ محصول ذخیره‌شده در گیاه',products:['گلوکز (C₆H₁₂O₆)','اکسیژن (O₂)']},
+  'combustion':{color:0xdde7e2,kind:'flame',label:'آب و کربن‌دی‌اکسید؛ محصولات بی‌رنگ',products:['کربن‌دی‌اکسید (CO₂)','آب (H₂O)']},
+  'calcium oxide':{color:0xf0eee5,kind:'flash',label:'کلسیم اکسید؛ جامد سفید',products:['کلسیم اکسید (CaO)؛ جامد سفید']},
+  'copper oxide':{color:0x17191a,kind:'solid',label:'مس اکسید؛ جامد سیاه',products:['مس اکسید (CuO)؛ جامد سیاه']},
+  'iron sulfide':{color:0x242629,kind:'solid',label:'آهن سولفید؛ جامد سیاه',products:['آهن سولفید (FeS)؛ جامد تیره']},
+  'aluminum oxide':{color:0xf1eee5,kind:'solid',label:'آلومینیم اکسید؛ جامد سفید',products:['آلومینیم اکسید (Al₂O₃)؛ جامد سفید']},
+  'potassium chloride':{color:0xf5f2e8,kind:'solid',label:'بلورهای سفید پتاسیم کلرید',products:['پتاسیم کلرید (KCl)؛ بلور سفید']},
+  'calcium carbonate':{color:0xf4f0e4,kind:'precipitate',label:'رسوب سفید کلسیم کربنات',products:['کلسیم کربنات (CaCO₃)؛ رسوب سفید/سنگ آهک']},
+  'sodium bicarbonate':{color:0xf1eee5,kind:'bubbles',label:'سدیم کربنات، آب و گاز بی‌رنگ CO₂',products:['سدیم کربنات (Na₂CO₃)','آب (H₂O)','کربن‌دی‌اکسید (CO₂)']}
 };
 function animateReaction(reactionId){
  if(!scene||!THREE)return;
@@ -156,13 +156,13 @@ function showTableResult(x){
  const rows=[
   ['واکنش‌دهنده‌ها: ',x.els.join(' + ')+(x.reagents?' + '+x.reagents.join(' + '):'')],
   ['فرایند: ',x.desc],['معادله / نمایش: ',x.formula],
-  ['محصول یا مشاهده: ',(x.products||['نمایش نمادین']).join(' + ')]
+  ['محصول یا مشاهده: ',(x.products||reactionLooks[x.id]?.products||['نمایش نمادین']).join(' + ')]
  ];
  let y=135;for(const [label,value] of rows){c.font='bold 29px sans-serif';c.fillStyle='#9af0d1';c.fillText(label,1145,y);const w=c.measureText(label).width;c.font='27px sans-serif';c.fillStyle='#ffffff';c.fillText(String(value),1145-w-12,y);y+=77;}
  c.font='20px sans-serif';c.fillStyle='#ffdca8';c.fillText('شبیه‌سازی آموزشی؛ آزمایش واقعی انجام نده.',1145,445);
  resultTexture.needsUpdate=true;resultBoard.visible=true;
 }
-function runExperiment(){const x=experiments.find(a=>a.id===activeExperiment)||experiments[0];const needed=[...x.els,...(x.reagents||[])];const vessels=draggables.filter(o=>o.userData.vessel);const mixed=vessels.flatMap(v=>v.userData.contents||[]).map(e=>e[0]);const missing=needed.filter(n=>!mixed.includes(n));if(missing.length){$('reactionResult').textContent='مواد وارد ظرف نشده‌اند: '+missing.join('، ')+'. همه ویال‌های نورانی را داخل ظرف وسط میز رها کن.';updateInstructionBoard('هنوز ترکیب کامل نشده است.','مواد نورانی باقی‌مانده را داخل ظرف وسط میز بینداز.','پس از انتقال همه مواد، مدل واکنش را اجرا کن.');toast('هنوز همه مواد وارد ظرف نشده‌اند.');return;}$('reactionResult').innerHTML='<b style="color:var(--mint)">'+x.name+'</b><br>'+x.formula+'<br>مدل واکنش با موفقیت اجرا شد. این نمایش، شبیه‌سازی آموزشی است و دستور آزمایش واقعی نیست.';done=Math.min(3,done+1);$('progress').style.width=(done/3*100)+'%';$('missionCount').textContent=done+' از ۳ مرحله';$('missionTitle').textContent=done===3?'ماموریت تکمیل شد!':'ماموریت: اجرای مدل واکنش';$('missionText').textContent=done===3?'آفرین! سه مدل آزمایش را اجرا کردی.':'یک مدل دیگر را انتخاب و اجرا کن.';if(x.products&&x.products.length){$('reactionResult').innerHTML+='<br><b style="color:#ffe36e">محصولات مدل‌شده:</b> '+x.products.join(' + ');updateInstructionBoard('واکنش مدل‌سازی شد!',x.formula,'محصولات تشکیل‌شده:',...x.products,'نمایش کاملاً شبیه‌سازی‌شده و آموزشی است.');}showTableResult(x);animateReaction(x.id);toast('واکنش آموزشی شبیه‌سازی شد!');}
+function runExperiment(){const x=experiments.find(a=>a.id===activeExperiment)||experiments[0];const needed=[...x.els,...(x.reagents||[])];const vessels=draggables.filter(o=>o.userData.vessel);const mixed=vessels.flatMap(v=>v.userData.contents||[]).map(e=>e[0]);const missing=needed.filter(n=>!mixed.includes(n));if(missing.length){$('reactionResult').textContent='مواد وارد ظرف نشده‌اند: '+missing.join('، ')+'. همه ویال‌های نورانی را داخل ظرف وسط میز رها کن.';updateInstructionBoard('هنوز ترکیب کامل نشده است.','مواد نورانی باقی‌مانده را داخل ظرف وسط میز بینداز.','پس از انتقال همه مواد، مدل واکنش را اجرا کن.');toast('هنوز همه مواد وارد ظرف نشده‌اند.');return;}$('reactionResult').innerHTML='<b style="color:var(--mint)">'+x.name+'</b><br>'+x.formula+'<br>مدل واکنش با موفقیت اجرا شد. این نمایش، شبیه‌سازی آموزشی است و دستور آزمایش واقعی نیست.';done=Math.min(3,done+1);$('progress').style.width=(done/3*100)+'%';$('missionCount').textContent=done+' از ۳ مرحله';$('missionTitle').textContent=done===3?'ماموریت تکمیل شد!':'ماموریت: اجرای مدل واکنش';$('missionText').textContent=done===3?'آفرین! سه مدل آزمایش را اجرا کردی.':'یک مدل دیگر را انتخاب و اجرا کن.';x.products=x.products||reactionLooks[x.id]?.products||['محصول یا مشاهدهٔ مدل‌شده: '+(reactionLooks[x.id]?.label||'نمایش نمادین')];$('reactionResult').innerHTML+='<br><b style="color:#ffe36e">محصولات مدل‌شده:</b> '+x.products.join(' + ');updateInstructionBoard('واکنش مدل‌سازی شد!',x.formula,'محصولات تشکیل‌شده:',...x.products,'نمایش کاملاً شبیه‌سازی‌شده و آموزشی است.');showTableResult(x);animateReaction(x.id);toast('واکنش آموزشی شبیه‌سازی شد!');}
 function tabs(){$$('button[data-tab]').forEach(b=>b.onclick=()=>{$$('button[data-tab]').forEach(x=>x.classList.toggle('active',x===b));$$('.pane').forEach(x=>x.classList.toggle('show',x.id===b.dataset.tab));});}
 function $$(s){return [...document.querySelectorAll(s)]}
 let instructionTexture=null,instructionCanvas=null;
