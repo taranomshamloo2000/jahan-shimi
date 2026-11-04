@@ -42,7 +42,7 @@
 <script src="assets/three.min.js"></script>
 <script>
 const $=id=>document.getElementById(id),rnd=Math.random,lerp=(a,b,k)=>a+(b-a)*k,C=new THREE.Color(),V=THREE.Vector3;
-const desktop=matchMedia('(min-width:900px)').matches;const R=new THREE.WebGLRenderer({canvas:$('c'),antialias:!desktop,powerPreference:'high-performance',precision:'mediump'});R.setPixelRatio(Math.min(devicePixelRatio,desktop?1.25:1.5));
+const desktop=matchMedia('(min-width:900px)').matches;const R=new THREE.WebGLRenderer({canvas:$('c'),antialias:!desktop,powerPreference:'high-performance',precision:'mediump'});R.setPixelRatio(Math.min(devicePixelRatio,desktop?1:1.5));
 const S=new THREE.Scene(),Cam=new THREE.PerspectiveCamera(55,1,.1,300),G=new THREE.Group();S.add(G);
 S.add(new THREE.AmbientLight(0x8877cc,.9));
 const L1=new THREE.PointLight(0xffffff,1.7,0,0);L1.position.set(6,8,10);S.add(L1);
@@ -52,7 +52,7 @@ const gt=(()=>{const c=document.createElement('canvas');c.width=c.height=64;cons
 const glow=(c,s)=>{const m=new THREE.Sprite(new THREE.SpriteMaterial({map:gt,color:c,blending:THREE.AdditiveBlending,depthWrite:false,transparent:true}));m.scale.set(s,s,1);return m};
 const ball=(r,c,e=.4)=>new THREE.Mesh(new THREE.SphereGeometry(r,28,20),new THREE.MeshStandardMaterial({color:c,emissive:c,emissiveIntensity:e,roughness:.25,metalness:.15}));
 const ring=(r,c,o=.45)=>new THREE.Mesh(new THREE.TorusGeometry(r,.02,8,120),new THREE.MeshBasicMaterial({color:c,transparent:true,opacity:o}));
-const pts=(n,fn,size,op=1)=>{const p=new Float32Array(n*3),c=new Float32Array(n*3);for(let i=0;i<n;i++){const[x,y,z,col]=fn(i);p.set([x,y,z],i*3);C.set(col);c.set([C.r,C.g,C.b],i*3)}const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(p,3));g.setAttribute('color',new THREE.BufferAttribute(c,3));const m=new THREE.Points(g,new THREE.PointsMaterial({size,vertexColors:true,transparent:true,opacity:op,depthWrite:false,blending:THREE.AdditiveBlending}));m.P=p;return m};
+const pts=(n,fn,size,op=1)=>{if(desktop)n=Math.max(100,Math.floor(n*.25));const p=new Float32Array(n*3),c=new Float32Array(n*3);for(let i=0;i<n;i++){const[x,y,z,col]=fn(i);p.set([x,y,z],i*3);C.set(col);c.set([C.r,C.g,C.b],i*3)}const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(p,3));g.setAttribute('color',new THREE.BufferAttribute(c,3));const m=new THREE.Points(g,new THREE.PointsMaterial({size,vertexColors:true,transparent:true,opacity:op,depthWrite:false,blending:THREE.AdditiveBlending}));m.P=p;return m};
 const bg=pts(1200,()=>[...sph(50+rnd()*60),'#cfd8ff'],.2,.8);S.add(bg);
 
 /* ---------- periodic data ---------- */
@@ -218,7 +218,7 @@ CH.forEach(c=>{c.g.visible=false;G.add(c.g)});
 /* ---------- controller ---------- */
 const clk=new THREE.Clock();let ci=0,si=0,iv,camZ=14,mx=0,my=0;
 const tabs=$('tabs');CH.forEach((c,i)=>{const b=document.createElement('button');b.textContent=c.n;b.onclick=()=>go(i,0);tabs.appendChild(b)});
-function type(s){clearInterval(iv);const el=$('txt');el.classList.remove('done');el.textContent='';let i=0;iv=setInterval(()=>{el.textContent=s.slice(0,++i);if(i>=s.length){clearInterval(iv);el.classList.add('done')}},9);el.onclick=()=>{clearInterval(iv);el.textContent=s;el.classList.add('done')}}
+function type(s){clearInterval(iv);const el=$('txt');el.classList.remove('done');el.textContent='';let i=0;iv=setInterval(()=>{el.textContent=s.slice(0,++i);if(i>=s.length){clearInterval(iv);el.classList.add('done')}},6);el.onclick=()=>{clearInterval(iv);el.textContent=s;el.classList.add('done')}}
 function go(c,s){if(c!==ci||!CH[c].g.visible){CH[ci].g.visible=false;ci=c;const h=CH[c];h.g.visible=true;h.g.scale.setScalar(.01);h.enter&&h.enter()}si=s;const h=CH[c];h.go(s);
  [...tabs.children].forEach((b,i)=>b.classList.toggle('on',i===c));$('ttl').textContent=h.n;{const fm=$('fm'),f=h.f&&h.f[s];fm.innerHTML=f||'';fm.style.display=f?'block':'none'}$('dots').innerHTML=h.s.map((_,i)=>`<i class="${i===s?'on':''}"></i>`).join('');type(h.s[s]);
  const z=typeof h.z==='function'?h.z(Cam.aspect):h.z;camZ=z*(Cam.aspect<1&&c!==5?1.55:1)}
@@ -268,7 +268,7 @@ const first=e=>{if(started||mp.contains(e.target)||e.target.id==='mu')return;sta
 addEventListener('pointerdown',first);addEventListener('keydown',first);ui()}catch(e){}});
 
 resize();go(0,0);CH[0].g.visible=true;
-let lastFrame=0;(function loop(now=0){requestAnimationFrame(loop);const frameGap=desktop?20:16;if(now-lastFrame<frameGap)return;lastFrame=now;const dt=Math.min(clk.getDelta(),.05),t=clk.elapsedTime,h=CH[ci];
+ (function loop(){requestAnimationFrame(loop);const dt=Math.min(clk.getDelta(),.05),t=clk.elapsedTime,h=CH[ci];
  h.tick(t,dt);h.g.scale.setScalar(lerp(h.g.scale.x,1,.06));
  Cam.position.z=lerp(Cam.position.z,camZ,.05);Cam.position.y=-.2*Cam.position.z;
  G.rotation.y=lerp(G.rotation.y,mx*.5,.05);G.rotation.x=lerp(G.rotation.x,my*.3,.05);bg.rotation.y=t*.004;R.render(S,Cam)})();
