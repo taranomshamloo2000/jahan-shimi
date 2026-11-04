@@ -38,9 +38,9 @@
 #cosmosMusic .cm-time{display:flex;justify-content:space-between;font-size:10px;color:#c5badb;direction:ltr}
 #cosmosMusic .cm-bottom{display:flex;align-items:center;gap:8px;margin-top:7px;font-size:11px;color:#c5badb}
 #cosmosMusic .cm-bottom input{flex:1;min-width:40px}
-#cosmosMusic .cm-toggle{position:fixed;z-index:9999;left:16px;bottom:18px;border-radius:50%;width:50px;height:50px;background:#7652b7;color:white;border:1px solid #d9baff;font-size:21px;box-shadow:0 5px 22px #0008}
-#cosmosMusic[hidden]{display:none}
-@media(max-width:480px){#cosmosMusic{left:10px;bottom:10px;width:calc(100vw - 20px)}#cosmosMusic .cm-toggle{left:12px;bottom:12px}}
+.cm-toggle{position:fixed!important;z-index:2147483000!important;left:16px!important;bottom:18px!important;display:flex!important;align-items:center;justify-content:center;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#b58aff,#7046b5)!important;color:#fff!important;border:2px solid #e4ceff!important;font-size:26px!important;box-shadow:0 5px 24px #000b!important;cursor:pointer!important;opacity:1!important;visibility:visible!important}
+#cosmosMusic[hidden]{display:none!important}
+@media(max-width:480px){#cosmosMusic{left:10px;bottom:10px;width:calc(100vw - 20px)}.cm-toggle{left:12px!important;bottom:12px!important;width:54px;height:54px}}
 </style>
 </head><body>
 <canvas id="c"></canvas><nav id="tabs"></nav>
