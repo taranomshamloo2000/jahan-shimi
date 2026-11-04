@@ -161,16 +161,16 @@ CH.push((()=>{const g=new THREE.Group(),Q=[['Fe',1,'ساختمان و ماشین
  go(k){O.forEach(x=>{x.s=k===0?1:x.tg===k?1.6:.6;x.us.visible=k>0&&x.tg===k})},
  tick(t){ring.rotation.y=t*.2;O.forEach(x=>{x.o.scale.setScalar(lerp(x.o.scale.x,x.s,.08));x.b.material.emissiveIntensity=lerp(x.b.material.emissiveIntensity,x.s>1?1:x.s<1?.1:.5,.1)})}}})());
 /* 9 uranium & enrichment */
-CH.push((()=>{const g=new THREE.Group(),n=1000,m=pts(n,()=>[0,0,0,'#9aa3c7'],.14,.95),T1=new Float32Array(n*3),T2=new Float32Array(n*3);
- for(let i=0;i<n;i++){T1.set([(rnd()-.5)*6,(rnd()-.5)*6,(rnd()-.5)*6],i*3);const a=rnd()*6.283,r=1.6*Math.sqrt(rnd());T2.set([Math.cos(a)*r,(rnd()-.5)*7,Math.sin(a)*r],i*3)}m.P.set(T1);
- const rc=oc=>{const c=m.geometry.attributes.color.array;for(let i=0;i<n;i++){C.set(i<oc?'#ff8a2b':'#8c95bd');c.set([C.r,C.g,C.b],i*3)}m.geometry.attributes.color.needsUpdate=true};rc(7);
+CH.push((()=>{const g=new THREE.Group(),n=1000,m=pts(n,()=>[0,0,0,'#9aa3c7'],.14,.95),N=m.P.length/3,T1=new Float32Array(N*3),T2=new Float32Array(N*3);
+ for(let i=0;i<N;i++){T1.set([(rnd()-.5)*6,(rnd()-.5)*6,(rnd()-.5)*6],i*3);const a=rnd()*6.283,r=1.6*Math.sqrt(rnd());T2.set([Math.cos(a)*r,(rnd()-.5)*7,Math.sin(a)*r],i*3)}m.P.set(T1);
+ const rc=oc=>{const c=m.geometry.attributes.color.array;for(let i=0;i<N;i++){C.set(i<oc?'#ff8a2b':'#8c95bd');c.set([C.r,C.g,C.b],i*3)}m.geometry.attributes.color.needsUpdate=true};rc(7);
  const L=[lab('≈۰٫۷٪ از اتم‌ها U-235 (نارنجی)','#ffb27a',1.3),lab('سانتریفیوژ: UF₆ گازی با سرعت می‌چرخد','#7aa7ff',1.3),lab('≈۴٪ U-235 (سوخت نیروگاه)','#ffb27a',1.3)];L.forEach(l=>{l.position.set(0,-4.6,0);l.visible=false});L[0].visible=true;
  const F=new THREE.Group(),U=ball(1.2,0xff8a2b,.6),nn=ball(.22,0xffffff,1),A=ball(.8,0x3de0c2,.5),B=ball(.7,0x7aa7ff,.5),N3=[0,1,2].map(()=>ball(.18,0xffffff,1)),fl=glow(0xffe0a0,1),lf=lab('U-235 + n ← Ba + Kr + ۳n + انرژی','#fff',1.4);lf.position.set(0,-4.2,0);
  F.add(U,nn,A,B,fl,lf,...N3);F.visible=false;g.add(m,F,...L);let mode=0,ft=0;
  return{g,n:'اورانیم و غنی‌سازی',z:15,
  s:['اورانیم (U) مشهورترین عنصر در واکنشگاه (راکتور) هسته‌ای است. اورانیم طبیعی ≈ ۹۹٫۳٪ U-238 و فقط ≈ ۰٫۷٪ U-235 دارد (نقطه‌های نارنجی)؛ تنها U-235 به‌آسانی شکافته می‌شود.','غنی‌سازی ایزوتوپی: ایزوتوپ‌ها خواص شیمیایی یکسان و جرم اندکی متفاوت دارند، پس با روش فیزیکی جدا می‌شوند. UF₆ گازی را در سانتریفیوژ (گریز از مرکز) می‌چرخانند و ایزوتوپ سنگین‌تر (U-238) بیشتر به دیواره می‌رود.','با تکرار این کار درصد U-235 بالا می‌رود. برای سوخت نیروگاه (مثل بوشهر) حدود ۳ تا ۵٪ لازم است و راکتورهای پژوهشی (مثل راکتور تهران) حدود ۲۰٪ استفاده می‌کنند.','شکافت هسته‌ای: نوترونی به U-235 می‌خورد، هسته به دو هستهٔ کوچک‌تر می‌شکند و انرژی و ۲ تا ۳ نوترون آزاد می‌شود. این نوترون‌ها شکافت‌های بعدی را می‌انگیزند (واکنش زنجیره‌ای). گرما آب را بخار می‌کند و توربین را می‌چرخاند.'],
  go(k){mode=k;ft=0;m.visible=k<3;F.visible=k===3;L.forEach((l,i)=>l.visible=i===k);rc(k===2?40:7)},
- tick(t,dt){const T=mode===1?T2:T1;for(let i=0;i<n*3;i++)m.P[i]=lerp(m.P[i],T[i],.04);m.geometry.attributes.position.needsUpdate=true;m.rotation.y+=dt*(mode===1?6:.3);
+ tick(t,dt){const T=mode===1?T2:T1;for(let i=0;i<N*3;i++)m.P[i]=lerp(m.P[i],T[i],.04);m.geometry.attributes.position.needsUpdate=true;m.rotation.y+=dt*(mode===1?6:.3);
   if(mode===3){ft+=dt;const h=ft>1.4,e=ft-1.4;nn.position.set(h?99:lerp(-7,-1.2,Math.min(1,ft/1.4)),0,0);U.visible=!h;A.visible=B.visible=h;A.position.set(-e*1.6,e*.5,0);B.position.set(e*1.6,-e*.5,0);N3.forEach((x,i)=>{x.visible=h;x.position.set((i-1)*e*2.2,(i?1:-1)*e*2,(i-1)*e)});fl.scale.set(h?Math.max(.1,8*Math.exp(-e*2)):.1,h?Math.max(.1,8*Math.exp(-e*2)):.1,1);if(ft>6)ft=0;U.scale.setScalar(1+.05*Math.sin(t*20))}g.rotation.x=.2}}})());
 /* 10 subatomic mass & charge (before average mass and mole) */
 CH.push((()=>{const g=new THREE.Group(),P=[['پروتون p⁺',0xff5a4a,-5,.9,'جرم ≈ ۱٫۶۷۳×۱۰⁻²⁴ g ≈ ۱ amu','بار: ‎+۱٫۶۰۲×۱۰⁻¹⁹ C ‏(نسبی ‎+۱)'],['نوترون n',0x4f8bff,0,.9,'جرم ≈ ۱٫۶۷۵×۱۰⁻²⁴ g ≈ ۱ amu','بار: صفر'],['الکترون e⁻',0x3de0c2,5,.07,'جرم ≈ ۹٫۱۱×۱۰⁻²⁸ g ≈ ۱/۱۸۳۶ amu','بار: ‎−۱٫۶۰۲×۱۰⁻¹⁹ C ‏(نسبی ‎−۱)']],O=[];
