@@ -42,7 +42,7 @@
 <script src="assets/three.min.js"></script>
 <script>
 const $=id=>document.getElementById(id),rnd=Math.random,lerp=(a,b,k)=>a+(b-a)*k,C=new THREE.Color(),V=THREE.Vector3;
-const desktop=matchMedia('(min-width:900px)').matches;const R=new THREE.WebGLRenderer({canvas:$('c'),antialias:false,powerPreference:'high-performance',precision:'mediump'});R.setPixelRatio(Math.min(devicePixelRatio,desktop?1.25:1.5));
+const desktop=matchMedia('(min-width:900px)').matches;const R=new THREE.WebGLRenderer({canvas:$('c'),antialias:!desktop,powerPreference:'high-performance',precision:'mediump'});R.setPixelRatio(Math.min(devicePixelRatio,desktop?1.25:1.5));
 const S=new THREE.Scene(),Cam=new THREE.PerspectiveCamera(55,1,.1,300),G=new THREE.Group();S.add(G);
 S.add(new THREE.AmbientLight(0x8877cc,.9));
 const L1=new THREE.PointLight(0xffffff,1.7,0,0);L1.position.set(6,8,10);S.add(L1);
@@ -268,7 +268,7 @@ const first=e=>{if(started||mp.contains(e.target)||e.target.id==='mu')return;sta
 addEventListener('pointerdown',first);addEventListener('keydown',first);ui()}catch(e){}});
 
 resize();go(0,0);CH[0].g.visible=true;
-let lastFrame=0;(function loop(now){requestAnimationFrame(loop);const frameGap=desktop?20:16;if(now-lastFrame<frameGap)return;lastFrame=now;const dt=Math.min(clk.getDelta(),.05),t=clk.elapsedTime,h=CH[ci];
+let lastFrame=0;(function loop(now=0){requestAnimationFrame(loop);const frameGap=desktop?20:16;if(now-lastFrame<frameGap)return;lastFrame=now;const dt=Math.min(clk.getDelta(),.05),t=clk.elapsedTime,h=CH[ci];
  h.tick(t,dt);h.g.scale.setScalar(lerp(h.g.scale.x,1,.06));
  Cam.position.z=lerp(Cam.position.z,camZ,.05);Cam.position.y=-.2*Cam.position.z;
  G.rotation.y=lerp(G.rotation.y,mx*.5,.05);G.rotation.x=lerp(G.rotation.x,my*.3,.05);bg.rotation.y=t*.004;R.render(S,Cam)})();
