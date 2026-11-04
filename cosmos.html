@@ -26,13 +26,26 @@
 #fm .fr>span:first-child{border-bottom:2px solid #fff;padding:0 8px 2px}#fm .fr>span:last-child{padding:2px 8px 0}
 @media(max-width:700px){#fm{font-size:22px}}
 
-#cosmosLink{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:7px 13px;border-radius:999px;border:1px solid rgba(255,210,122,.75);background:linear-gradient(135deg,rgba(145,91,205,.96),rgba(76,48,125,.96));color:#fff;text-decoration:none;font:inherit;font-size:13px;font-weight:800;white-space:nowrap;box-shadow:0 4px 18px #0008}
-#cosmosLink:focus-visible{outline:2px solid #fff;outline-offset:3px}
-@media(max-width:700px){#ctl{gap:6px;flex-wrap:wrap}#cosmosLink{font-size:11px;padding:6px 9px}}
+
+#cosmosMusic{position:fixed;z-index:9999;left:16px;bottom:calc(env(safe-area-inset-bottom,0px) + 104px);width:min(340px,calc(100vw - 32px));font-family:Vazirmatn,sans-serif;color:#f7f1ff;background:rgba(16,10,35,.96);border:1px solid rgba(255,210,122,.4);border-radius:18px;box-shadow:0 12px 40px #0009;backdrop-filter:blur(16px);padding:13px;direction:rtl}
+#cosmosMusic[hidden]{display:none!important}
+#cosmosMusic .cm-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:9px}
+#cosmosMusic .cm-title{font-weight:800;font-size:14px;color:var(--ac)}
+#cosmosMusic .cm-sub{font-size:11px;color:#bcb0d8}
+#cosmosMusic select{width:100%;background:#21183c;color:#fff;border:1px solid #594779;border-radius:10px;padding:9px;font:inherit;font-size:12px;margin:3px 0 8px}
+#cosmosMusic button{border:1px solid #715b98;background:#30224d;color:#fff;border-radius:11px;padding:8px 11px;font:inherit;cursor:pointer}
+#cosmosMusic button.main{background:linear-gradient(135deg,#a77be8,#7152ba);font-weight:800;min-width:48px}
+#cosmosMusic .cm-controls{display:flex;align-items:center;justify-content:center;gap:7px;flex-wrap:wrap}
+#cosmosMusic input[type=range]{width:100%;accent-color:#ffd27a}
+#cosmosMusic .cm-time{display:flex;justify-content:space-between;font-size:10px;color:#c5badb;direction:ltr}
+#cosmosMusic .cm-bottom{display:flex;align-items:center;gap:8px;margin-top:7px;font-size:11px;color:#c5badb}
+#cosmosMusic .cm-bottom input{flex:1;min-width:40px}
+@media(max-width:700px){#cosmosMusic{left:12px;bottom:calc(env(safe-area-inset-bottom,0px) + 94px);width:min(340px,calc(100vw - 24px))}}
+
 </style>
 </head><body>
 <canvas id="c"></canvas><nav id="tabs"></nav>
-<div id="panel"><h2 id="ttl"></h2><div id="fm" dir="ltr"></div><p id="txt"></p><div id="ctl"><button id="pv">قبلی</button><span id="dots"></span><button id="nx">ادامه ◂</button><a id="cosmosLink" href="https://claude.ai/artifact/KgpbG24MDpJ6Uo2nBXZreR" target="_blank" rel="noopener noreferrer">✨ انیمیشن جدید کیهان</a></div></div>
+<div id="panel"><h2 id="ttl"></h2><div id="fm" dir="ltr"></div><p id="txt"></p><div id="ctl"><button id="pv">قبلی</button><span id="dots"></span><button id="nx">ادامه ◂</button><button id="musicOpen" type="button" aria-expanded="false">♫ موسیقی</button></div></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
 const $=id=>document.getElementById(id),rnd=Math.random,lerp=(a,b,k)=>a+(b-a)*k,C=new THREE.Color(),V=THREE.Vector3;
@@ -230,5 +243,48 @@ resize();go(0,0);CH[0].g.visible=true;
  h.tick(t,dt);h.g.scale.setScalar(lerp(h.g.scale.x,1,.06));
  Cam.position.z=lerp(Cam.position.z,camZ,.05);Cam.position.y=-.2*Cam.position.z;
  G.rotation.y=lerp(G.rotation.y,mx*.5,.05);G.rotation.x=lerp(G.rotation.x,my*.3,.05);bg.rotation.y=t*.004;R.render(S,Cam)})();
+</script>
+
+<section id="cosmosMusic" hidden aria-label="پخش‌کننده موسیقی کیهان">
+ <div class="cm-head"><div><div class="cm-title">♫ موسیقی سفر کیهانی</div><div class="cm-sub">همراهی موسیقی با جهان عناصر</div></div><button id="cmClose" type="button" aria-label="بستن">✕</button></div>
+ <select id="cmTrack" aria-label="انتخاب آهنگ">
+  <option value="0">On the Nature of Daylight — Max Richter</option>
+  <option value="1">Day One — Interstellar</option>
+  <option value="2">Succession</option>
+ </select>
+ <audio id="cmAudio" preload="metadata"></audio>
+ <input id="cmSeek" type="range" min="0" max="1000" value="0" aria-label="موقعیت آهنگ">
+ <div class="cm-time"><span id="cmElapsed">0:00</span><span id="cmDuration">0:00</span></div>
+ <div class="cm-controls"><button id="cmPrev" type="button">قبلی</button><button id="cmBack" type="button">↶ ۱۰</button><button class="main" id="cmPlay" type="button">▶ پخش</button><button id="cmForward" type="button">۱۰ ↷</button><button id="cmNext" type="button">بعدی</button></div>
+ <div class="cm-bottom"><span>صدا</span><input id="cmVolume" type="range" min="0" max="1" step=".01" value=".75"></div>
+ <div class="cm-sub" id="cmStatus" role="status">برای شروع، دکمهٔ پخش را بزن.</div>
+</section>
+<script>
+(()=> {
+ const ids=['1Zxfo8WK1fko5ra78NDCcIejNtUy2MAZl','1JyAzCRruhfEjf760zeJPN6xrOKn-qJ-a','1cpQWRemd3mMqje4LzX85lNauganNku9q'];
+ const tracks=ids.map(id=>'https://drive.google.com/uc?export=download&id='+id);
+ const $=id=>document.getElementById(id),audio=$('cmAudio'),panel=$('cosmosMusic'),open=$('musicOpen'),play=$('cmPlay'),seek=$('cmSeek'),status=$('cmStatus'),select=$('cmTrack');
+ let index=0;
+ const fmt=n=>Number.isFinite(n)?Math.floor(n/60)+':'+String(Math.floor(n%60)).padStart(2,'0'):'0:00';
+ function setTrack(i){index=(i+tracks.length)%tracks.length;select.value=String(index);audio.pause();audio.src=tracks[index];audio.load();$('cmElapsed').textContent='0:00';$('cmDuration').textContent='0:00';seek.value='0';status.textContent='آهنگ انتخاب شد؛ برای پخش دکمه را بزن.';play.textContent='▶ پخش';}
+ async function start(){if(!audio.src)setTrack(index);status.textContent='در حال بارگذاری آهنگ…';try{await audio.play();status.textContent='در حال پخش';}catch(e){status.textContent='پخش نشد؛ اتصال اینترنت یا دسترسی فایل موسیقی را بررسی کن و دوباره بزن.';}}
+ open.addEventListener('click',()=>{panel.hidden=!panel.hidden;open.setAttribute('aria-expanded',String(!panel.hidden));if(!panel.hidden)status.textContent=audio.paused?'برای شروع، دکمهٔ پخش را بزن.':'در حال پخش';});
+ $('cmClose').addEventListener('click',()=>{panel.hidden=true;open.setAttribute('aria-expanded','false')});
+ play.addEventListener('click',()=>audio.paused?start():audio.pause());
+ select.addEventListener('change',()=>{setTrack(Number(select.value));start()});
+ $('cmPrev').addEventListener('click',()=>{setTrack(index-1);start()});
+ $('cmNext').addEventListener('click',()=>{setTrack(index+1);start()});
+ $('cmBack').addEventListener('click',()=>{if(Number.isFinite(audio.duration))audio.currentTime=Math.max(0,audio.currentTime-10)});
+ $('cmForward').addEventListener('click',()=>{if(Number.isFinite(audio.duration))audio.currentTime=Math.min(audio.duration,audio.currentTime+10)});
+ $('cmVolume').addEventListener('input',e=>audio.volume=Number(e.target.value));audio.volume=.75;
+ seek.addEventListener('input',()=>{if(Number.isFinite(audio.duration))audio.currentTime=Number(seek.value)/1000*audio.duration});
+ audio.addEventListener('loadedmetadata',()=>{$('cmDuration').textContent=fmt(audio.duration);status.textContent='آهنگ آمادهٔ پخش است.'});
+ audio.addEventListener('timeupdate',()=>{$('cmElapsed').textContent=fmt(audio.currentTime);if(Number.isFinite(audio.duration)&&audio.duration>0)seek.value=String(audio.currentTime/audio.duration*1000)});
+ audio.addEventListener('play',()=>{play.textContent='Ⅱ توقف';status.textContent='در حال پخش'});
+ audio.addEventListener('pause',()=>{play.textContent='▶ پخش';if(audio.currentTime>0)status.textContent='پخش متوقف شد.'});
+ audio.addEventListener('ended',()=>{setTrack(index+1);start()});
+ audio.addEventListener('error',()=>{status.textContent='این فایل موسیقی از منبع فعلی دریافت نشد. دسترسی عمومی فایل باید فعال باشد.';play.textContent='▶ تلاش دوباره'});
+ setTrack(0);
+})();
 </script>
 </body></html>
