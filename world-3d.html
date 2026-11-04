@@ -42,7 +42,7 @@
 <script src="assets/three.min.js"></script>
 <script>
 const $=id=>document.getElementById(id),rnd=Math.random,lerp=(a,b,k)=>a+(b-a)*k,C=new THREE.Color(),V=THREE.Vector3;
-const R=new THREE.WebGLRenderer({canvas:$('c'),antialias:true});R.setPixelRatio(Math.min(devicePixelRatio,2));
+const desktop=matchMedia('(min-width:900px)').matches;const R=new THREE.WebGLRenderer({canvas:$('c'),antialias:false,powerPreference:'high-performance',precision:'mediump'});R.setPixelRatio(Math.min(devicePixelRatio,desktop?1.25:1.5));
 const S=new THREE.Scene(),Cam=new THREE.PerspectiveCamera(55,1,.1,300),G=new THREE.Group();S.add(G);
 S.add(new THREE.AmbientLight(0x8877cc,.9));
 const L1=new THREE.PointLight(0xffffff,1.7,0,0);L1.position.set(6,8,10);S.add(L1);
@@ -53,7 +53,7 @@ const glow=(c,s)=>{const m=new THREE.Sprite(new THREE.SpriteMaterial({map:gt,col
 const ball=(r,c,e=.4)=>new THREE.Mesh(new THREE.SphereGeometry(r,28,20),new THREE.MeshStandardMaterial({color:c,emissive:c,emissiveIntensity:e,roughness:.25,metalness:.15}));
 const ring=(r,c,o=.45)=>new THREE.Mesh(new THREE.TorusGeometry(r,.02,8,120),new THREE.MeshBasicMaterial({color:c,transparent:true,opacity:o}));
 const pts=(n,fn,size,op=1)=>{const p=new Float32Array(n*3),c=new Float32Array(n*3);for(let i=0;i<n;i++){const[x,y,z,col]=fn(i);p.set([x,y,z],i*3);C.set(col);c.set([C.r,C.g,C.b],i*3)}const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(p,3));g.setAttribute('color',new THREE.BufferAttribute(c,3));const m=new THREE.Points(g,new THREE.PointsMaterial({size,vertexColors:true,transparent:true,opacity:op,depthWrite:false,blending:THREE.AdditiveBlending}));m.P=p;return m};
-const bg=pts(2000,()=>[...sph(50+rnd()*60),'#cfd8ff'],.2,.8);S.add(bg);
+const bg=pts(1200,()=>[...sph(50+rnd()*60),'#cfd8ff'],.2,.8);S.add(bg);
 
 /* ---------- periodic data ---------- */
 const SY="H He Li Be B C N O F Ne Na Mg Al Si P S Cl Ar K Ca Sc Ti V Cr Mn Fe Co Ni Cu Zn Ga Ge As Se Br Kr Rb Sr Y Zr Nb Mo Tc Ru Rh Pd Ag Cd In Sn Sb Te I Xe Cs Ba La Ce Pr Nd Pm Sm Eu Gd Tb Dy Ho Er Tm Yb Lu Hf Ta W Re Os Ir Pt Au Hg Tl Pb Bi Po At Rn Fr Ra Ac Th Pa U Np Pu Am Cm Bk Cf Es Fm Md No Lr Rf Db Sg Bh Hs Mt Ds Rg Cn Nh Fl Mc Lv Ts Og".split(' ');
@@ -70,7 +70,7 @@ function cfg(z){let e=z,o=[];for(const k of ORD){const n=Math.min(e,CAP[k[1]]);i
 /* ---------- chapters ---------- */
 const CH=[];
 /* 0 big bang */
-CH.push((()=>{const g=new THREE.Group(),m=pts(3500,()=>{const r=Math.pow(rnd(),.45);C.setHSL(.1-.07*r,1,.75-.3*r);return[...sph(r),'#'+C.getHexString()]},.08),D=m.P.slice(),gl=glow(0xffd27a,3),H=new THREE.Group(),He=new THREE.Group();
+CH.push((()=>{const g=new THREE.Group(),m=pts(2200,()=>{const r=Math.pow(rnd(),.45);C.setHSL(.1-.07*r,1,.75-.3*r);return[...sph(r),'#'+C.getHexString()]},.08),D=m.P.slice(),gl=glow(0xffd27a,3),H=new THREE.Group(),He=new THREE.Group();
  H.add(ball(.5,0xff5a4a));H.position.set(-2.6,-1,4);
  [[.3,.2,0,0xff5a4a],[-.3,-.2,.1,0xff5a4a],[.1,-.3,.3,0x4f8bff],[-.1,.3,-.3,0x4f8bff]].forEach(a=>{const b=ball(.4,a[3]);b.position.set(a[0],a[1],a[2]);He.add(b)});He.position.set(2.6,-1,4);
  g.add(m,gl,H,He);let Rr=.05,tR=.05,gs=3,gv=3,hs=.001;
@@ -80,7 +80,7 @@ CH.push((()=>{const g=new THREE.Group(),m=pts(3500,()=>{const r=Math.pow(rnd(),.
  tick(t){Rr=lerp(Rr,tR,.022);for(let i=0;i<D.length;i++)m.P[i]=D[i]*Rr;m.geometry.attributes.position.needsUpdate=true;gv=lerp(gv,gs,.04);const s=(gv*2+Math.sin(t*5)*.2);gl.scale.set(s,s,1);H.scale.setScalar(lerp(H.scale.x,hs,.06));He.scale.setScalar(H.scale.x);H.rotation.y=He.rotation.y=t;g.rotation.y=t*.08}}})());
 /* 1 atom */
 CH.push((()=>{const g=new THREE.Group(),nu=new THREE.Group(),E=[],orb=[];for(let i=0;i<12;i++){const b=ball(.34,i%2?0x4f8bff:0xff5a4a);b.position.set(...sph(.75*Math.cbrt(rnd())));nu.add(b)}
- const cl=pts(2500,()=>[...sph(2.5+rnd()*3.5),'#3de0c2'],.06,.9);g.add(nu,cl);
+ const cl=pts(1600,()=>[...sph(2.5+rnd()*3.5),'#3de0c2'],.06,.9);g.add(nu,cl);
  [[2.3,1.1,2],[3.7,-.5,4]].forEach(([r,tx,n])=>{const o=new THREE.Group();o.rotation.set(tx,0,tx*.7);o.add(ring(r,0x3de0c2,.5));for(let k=0;k<n;k++){const e=ball(.15,0x3de0c2,1);o.add(e);E.push([e,r,k/n*6.283,1.7/r])}orb.push(o);o.scale.setScalar(.001);g.add(o)});
  let ns=.12,co=.9,os=.001;const o={g,n:'اتم',z:14,
  s:['اتم تقریباً تهی است: الکترون‌ها در ابری بزرگ پیرامون هسته‌ای بسیار کوچک حضور دارند. روی تصویر کلیک کن تا به هسته نزدیک شویم.','هسته از پروتون (قرمز، بار ‎+۱‎) و نوترون (آبی، بی‌بار) ساخته شده و جرم هرکدام ≈ ۱ amu است. عدد اتمی Z = شمار پروتون‌ها و عدد جرمی A = Z + N.','الکترون‌ها (فیروزه‌ای، بار ‎−۱‎، جرم ≈ ۱/۱۸۳۶ amu) در لایه‌ها می‌چرخند. در اتم خنثی شمار الکترون = شمار پروتون. این اتم کربن است: Z=۶ و A=۱۲.'],
@@ -89,7 +89,7 @@ CH.push((()=>{const g=new THREE.Group(),nu=new THREE.Group(),E=[],orb=[];for(let
 /* 2 star */
 CH.push((()=>{const g=new THREE.Group(),RS=[.8,1.5,2.2,2.9,3.6],CL=[0xa7b4d8,0xd9b34a,0x4aa8ff,0xff6b4a,0xffd27a],
  sh=RS.map((r,i)=>{const m=new THREE.Mesh(new THREE.SphereGeometry(r,40,28),new THREE.MeshStandardMaterial({color:CL[i],emissive:CL[i],emissiveIntensity:.5,transparent:true,opacity:.5,roughness:.4}));g.add(m);return m}),
- bu=pts(1800,()=>[...sph(rnd()),rnd()<.5?'#ffb86b':'#9ec3ff'],.09,0),BD=bu.P.slice(),gl=glow(0xffc06b,9);g.add(bu,gl);
+ bu=pts(1200,()=>[...sph(rnd()),rnd()<.5?'#ffb86b':'#9ec3ff'],.09,0),BD=bu.P.slice(),gl=glow(0xffc06b,9);g.add(bu,gl);
  let tg=[.001,.001,.001,.001,1],op=.5,B=0,gv=9,gt2=9;
  return{g,n:'ستاره',z:15,
  s:['سحابی‌های هیدروژن و هلیم با گرانش فشرده می‌شوند و ستاره می‌زایند. در دل ستاره، همجوشی هسته‌ای H را به He تبدیل می‌کند.','ستاره‌های سنگین لایه‌به‌لایه عنصر می‌سازند، مثل پیاز: He ← C ← O ← … ← Fe در مرکز. همجوشی تا آهن (Fe) انرژی آزاد می‌کند.','سرانجام ستاره به ابرنواختر تبدیل می‌شود. عنصرهای سنگین‌تر از آهن در ابرنواختر و برخورد ستاره‌های نوترونی ساخته و در فضا پخش می‌شوند. ما از غبار ستاره‌ای ساخته شده‌ایم.'],
@@ -218,7 +218,7 @@ CH.forEach(c=>{c.g.visible=false;G.add(c.g)});
 /* ---------- controller ---------- */
 const clk=new THREE.Clock();let ci=0,si=0,iv,camZ=14,mx=0,my=0;
 const tabs=$('tabs');CH.forEach((c,i)=>{const b=document.createElement('button');b.textContent=c.n;b.onclick=()=>go(i,0);tabs.appendChild(b)});
-function type(s){clearInterval(iv);const el=$('txt');el.classList.remove('done');el.textContent='';let i=0;iv=setInterval(()=>{el.textContent=s.slice(0,++i);if(i>=s.length){clearInterval(iv);el.classList.add('done')}},18);el.onclick=()=>{clearInterval(iv);el.textContent=s;el.classList.add('done')}}
+function type(s){clearInterval(iv);const el=$('txt');el.classList.remove('done');el.textContent='';let i=0;iv=setInterval(()=>{el.textContent=s.slice(0,++i);if(i>=s.length){clearInterval(iv);el.classList.add('done')}},9);el.onclick=()=>{clearInterval(iv);el.textContent=s;el.classList.add('done')}}
 function go(c,s){if(c!==ci||!CH[c].g.visible){CH[ci].g.visible=false;ci=c;const h=CH[c];h.g.visible=true;h.g.scale.setScalar(.01);h.enter&&h.enter()}si=s;const h=CH[c];h.go(s);
  [...tabs.children].forEach((b,i)=>b.classList.toggle('on',i===c));$('ttl').textContent=h.n;{const fm=$('fm'),f=h.f&&h.f[s];fm.innerHTML=f||'';fm.style.display=f?'block':'none'}$('dots').innerHTML=h.s.map((_,i)=>`<i class="${i===s?'on':''}"></i>`).join('');type(h.s[s]);
  const z=typeof h.z==='function'?h.z(Cam.aspect):h.z;camZ=z*(Cam.aspect<1&&c!==5?1.55:1)}
@@ -268,7 +268,7 @@ const first=e=>{if(started||mp.contains(e.target)||e.target.id==='mu')return;sta
 addEventListener('pointerdown',first);addEventListener('keydown',first);ui()}catch(e){}});
 
 resize();go(0,0);CH[0].g.visible=true;
-(function loop(){requestAnimationFrame(loop);const dt=Math.min(clk.getDelta(),.05),t=clk.elapsedTime,h=CH[ci];
+let lastFrame=0;(function loop(now){requestAnimationFrame(loop);const frameGap=desktop?20:16;if(now-lastFrame<frameGap)return;lastFrame=now;const dt=Math.min(clk.getDelta(),.05),t=clk.elapsedTime,h=CH[ci];
  h.tick(t,dt);h.g.scale.setScalar(lerp(h.g.scale.x,1,.06));
  Cam.position.z=lerp(Cam.position.z,camZ,.05);Cam.position.y=-.2*Cam.position.z;
  G.rotation.y=lerp(G.rotation.y,mx*.5,.05);G.rotation.x=lerp(G.rotation.x,my*.3,.05);bg.rotation.y=t*.004;R.render(S,Cam)})();
