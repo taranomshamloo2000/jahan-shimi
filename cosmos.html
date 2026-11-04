@@ -25,26 +25,14 @@
 #fm .fr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin-inline-start:6px;line-height:1.15}
 #fm .fr>span:first-child{border-bottom:2px solid #fff;padding:0 8px 2px}#fm .fr>span:last-child{padding:2px 8px 0}
 @media(max-width:700px){#fm{font-size:22px}}
-</style><style>
-#cosmosMusic{position:fixed;z-index:9999;left:16px;bottom:18px;width:min(340px,calc(100vw - 32px));font-family:Vazirmatn,sans-serif;color:#f7f1ff;background:rgba(16,10,35,.94);border:1px solid rgba(204,170,255,.35);border-radius:18px;box-shadow:0 12px 40px #0009;backdrop-filter:blur(16px);padding:13px;direction:rtl}
-#cosmosMusic .cm-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:9px}
-#cosmosMusic .cm-title{font-weight:800;font-size:14px}
-#cosmosMusic .cm-sub{font-size:11px;color:#bcb0d8}
-#cosmosMusic select{width:100%;background:#21183c;color:#fff;border:1px solid #594779;border-radius:10px;padding:9px;font:inherit;font-size:12px;margin:3px 0 8px}
-#cosmosMusic button{border:1px solid #715b98;background:#30224d;color:#fff;border-radius:11px;padding:8px 11px;font:inherit;cursor:pointer}
-#cosmosMusic button.main{background:linear-gradient(135deg,#a77be8,#7152ba);font-weight:800;min-width:48px}
-#cosmosMusic .cm-controls{display:flex;align-items:center;justify-content:center;gap:8px}
-#cosmosMusic input[type=range]{width:100%;accent-color:#c6a0ff}
-#cosmosMusic .cm-time{display:flex;justify-content:space-between;font-size:10px;color:#c5badb;direction:ltr}
-#cosmosMusic .cm-bottom{display:flex;align-items:center;gap:8px;margin-top:7px;font-size:11px;color:#c5badb}
-#cosmosMusic .cm-bottom input{flex:1;min-width:40px}
-.cm-toggle{position:fixed!important;z-index:2147483000!important;left:16px!important;bottom:18px!important;display:flex!important;align-items:center;justify-content:center;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#b58aff,#7046b5)!important;color:#fff!important;border:2px solid #e4ceff!important;font-size:26px!important;box-shadow:0 5px 24px #000b!important;cursor:pointer!important;opacity:1!important;visibility:visible!important}
-#cosmosMusic[hidden]{display:none!important}
-@media(max-width:480px){#cosmosMusic{left:10px;bottom:10px;width:calc(100vw - 20px)}.cm-toggle{left:12px!important;bottom:12px!important;width:54px;height:54px}}
+
+#cosmosLink{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:7px 13px;border-radius:999px;border:1px solid rgba(255,210,122,.75);background:linear-gradient(135deg,rgba(145,91,205,.96),rgba(76,48,125,.96));color:#fff;text-decoration:none;font:inherit;font-size:13px;font-weight:800;white-space:nowrap;box-shadow:0 4px 18px #0008}
+#cosmosLink:focus-visible{outline:2px solid #fff;outline-offset:3px}
+@media(max-width:700px){#ctl{gap:6px;flex-wrap:wrap}#cosmosLink{font-size:11px;padding:6px 9px}}
 </style>
 </head><body>
 <canvas id="c"></canvas><nav id="tabs"></nav>
-<div id="panel"><h2 id="ttl"></h2><div id="fm" dir="ltr"></div><p id="txt"></p><div id="ctl"><button id="pv">قبلی</button><span id="dots"></span><button id="nx">ادامه ◂</button></div></div>
+<div id="panel"><h2 id="ttl"></h2><div id="fm" dir="ltr"></div><p id="txt"></p><div id="ctl"><button id="pv">قبلی</button><span id="dots"></span><button id="nx">ادامه ◂</button><a id="cosmosLink" href="https://claude.ai/artifact/KgpbG24MDpJ6Uo2nBXZreR" target="_blank" rel="noopener noreferrer">✨ انیمیشن جدید کیهان</a></div></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
 const $=id=>document.getElementById(id),rnd=Math.random,lerp=(a,b,k)=>a+(b-a)*k,C=new THREE.Color(),V=THREE.Vector3;
@@ -242,38 +230,5 @@ resize();go(0,0);CH[0].g.visible=true;
  h.tick(t,dt);h.g.scale.setScalar(lerp(h.g.scale.x,1,.06));
  Cam.position.z=lerp(Cam.position.z,camZ,.05);Cam.position.y=-.2*Cam.position.z;
  G.rotation.y=lerp(G.rotation.y,mx*.5,.05);G.rotation.x=lerp(G.rotation.x,my*.3,.05);bg.rotation.y=t*.004;R.render(S,Cam)})();
-</script><button class="cm-toggle" id="cmToggle" aria-label="باز کردن پخش‌کننده موسیقی">♫</button>
-<section id="cosmosMusic" hidden aria-label="پخش‌کننده موسیقی کیهان">
- <div class="cm-head"><div><div class="cm-title">♫ موسیقی سفر کیهانی</div><div class="cm-sub">همراهی موسیقی با جهان عناصر</div></div><button id="cmClose" aria-label="بستن">✕</button></div>
- <select id="cmTrack" aria-label="انتخاب آهنگ">
-  <option value="0">On the Nature of Daylight — Max Richter</option>
-  <option value="1">Day One — Interstellar</option>
-  <option value="2">Succession</option>
- </select>
- <audio id="cmAudio" preload="none" crossorigin="anonymous"></audio>
- <input id="cmSeek" type="range" min="0" max="1000" value="0" aria-label="موقعیت آهنگ">
- <div class="cm-time"><span id="cmElapsed">0:00</span><span id="cmDuration">0:00</span></div>
- <div class="cm-controls"><button id="cmPrev">قبلی</button><button id="cmBack">↶ ۱۰</button><button class="main" id="cmPlay">▶</button><button id="cmForward">۱۰ ↷</button><button id="cmNext">بعدی</button></div>
- <div class="cm-bottom"><span>صدا</span><input id="cmVolume" type="range" min="0" max="1" step=".01" value=".75"></div>
- <div class="cm-sub" id="cmStatus" role="status">برای شروع، دکمهٔ پخش را بزن.</div>
-</section>
-<script>
-(()=>{const tracks=[
- 'https://drive.google.com/uc?export=download&id=1Zxfo8WK1fko5ra78NDCcIejNtUy2MAZl',
- 'https://drive.google.com/uc?export=download&id=1JyAzCRruhfEjf760zeJPN6xrOKn-qJ-a',
- 'https://drive.google.com/uc?export=download&id=1cpQWRemd3mMqje4LzX85lNauganNku9q'
-];const audio=document.getElementById('cmAudio'),sel=document.getElementById('cmTrack'),panel=document.getElementById('cosmosMusic'),toggle=document.getElementById('cmToggle'),play=document.getElementById('cmPlay'),seek=document.getElementById('cmSeek'),elapsed=document.getElementById('cmElapsed'),duration=document.getElementById('cmDuration'),status=document.getElementById('cmStatus');let index=0;
-const fmt=n=>{if(!Number.isFinite(n))return'0:00';const m=Math.floor(n/60),s=Math.floor(n%60);return m+':'+String(s).padStart(2,'0')};
-function load(i,autoplay=false){index=(i+tracks.length)%tracks.length;sel.value=String(index);audio.src=tracks[index];audio.load();status.textContent='آهنگ انتخاب شد؛ در حال آماده‌سازی…';if(autoplay)audio.play().catch(()=>status.textContent='پخش خودکار مجاز نیست؛ دوباره دکمهٔ پخش را بزن.')}
-toggle.addEventListener('click',()=>{panel.hidden=false;toggle.hidden=true});document.getElementById('cmClose').addEventListener('click',()=>{panel.hidden=true;toggle.hidden=false});sel.addEventListener('change',()=>load(+sel.value,true));
-play.addEventListener('click',()=>{if(audio.paused){if(!audio.src)load(index);audio.play().catch(()=>status.textContent='دریافت آهنگ از گوگل‌درایو ناموفق بود؛ دسترسی فایل را بررسی می‌کنیم.')}else audio.pause()});
-document.getElementById('cmPrev').addEventListener('click',()=>load(index-1,true));document.getElementById('cmNext').addEventListener('click',()=>load(index+1,true));
-document.getElementById('cmBack').addEventListener('click',()=>audio.currentTime=Math.max(0,audio.currentTime-10));document.getElementById('cmForward').addEventListener('click',()=>audio.currentTime=Math.min(audio.duration||Infinity,audio.currentTime+10));
-document.getElementById('cmVolume').addEventListener('input',e=>audio.volume=+e.target.value);audio.volume=.75;
-seek.addEventListener('input',()=>{if(Number.isFinite(audio.duration))audio.currentTime=(+seek.value/1000)*audio.duration});
-audio.addEventListener('timeupdate',()=>{elapsed.textContent=fmt(audio.currentTime);if(Number.isFinite(audio.duration))seek.value=String(audio.currentTime/audio.duration*1000)});
-audio.addEventListener('loadedmetadata',()=>{duration.textContent=fmt(audio.duration);status.textContent='آمادهٔ پخش'});audio.addEventListener('play',()=>play.textContent='Ⅱ');audio.addEventListener('pause',()=>play.textContent='▶');audio.addEventListener('ended',()=>load(index+1,true));audio.addEventListener('error',()=>status.textContent='فایل از گوگل‌درایو دریافت نشد؛ احتمالاً محدودیت پخش مستقیم وجود دارد.');
-load(0);
-})();
 </script>
 </body></html>
