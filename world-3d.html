@@ -1,53 +1,278 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
-<head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#171a24"><meta name="description" content="جهان سه‌بعدی شیمی؛ سفری تعاملی میان عناصر، اتم‌ها و مولکول‌ها">
-<title>جهان سه‌بعدی | جهان شیمی</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<html lang="fa" dir="rtl"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>کیهان، زادگاه الفبای هستی | انیمیشن سه‌بعدی</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;800&display=swap" rel="stylesheet">
 <style>
-:root{color-scheme:dark;--gold:#e9c99a;--cream:#f0e6d5;--muted:#c6bba9}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#171a24;color:var(--cream);font-family:Vazirmatn,Tahoma,sans-serif}a{color:inherit;text-decoration:none}#world{position:relative;height:100svh;min-height:590px;overflow:hidden;background:radial-gradient(ellipse at 50% 35%,#726b64,#282b32 55%,#171a24)}#scene{position:absolute;inset:0;width:100%;height:100%;display:block}#world:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,#10131c22 50%,#171a24 100%)}.top{position:absolute;z-index:3;top:0;right:0;left:0;padding:22px clamp(18px,5vw,70px);display:flex;justify-content:space-between;align-items:center}.brand{font-weight:900;letter-spacing:2px;direction:ltr;color:var(--gold)}.back{border:1px solid #ffffff40;border-radius:99px;padding:9px 16px;background:#171a2455;backdrop-filter:blur(10px);font-size:13px}.hero-copy{position:absolute;z-index:2;top:24%;right:clamp(22px,9vw,130px);max-width:530px;pointer-events:none}.eyebrow{color:var(--gold);font-size:12px;letter-spacing:3px}.hero-copy h1{font-size:clamp(42px,7vw,82px);line-height:1.2;margin:16px 0;font-weight:900;text-shadow:0 8px 35px #0008}.hero-copy p{font-size:clamp(14px,1.5vw,17px);line-height:2;color:#e3d8c8;max-width:420px}.hint{position:absolute;z-index:3;bottom:28px;left:50%;transform:translateX(-50%);white-space:nowrap;color:#e6d7c1aa;font-size:12px}.scroll{position:absolute;z-index:3;bottom:0;right:50%;width:1px;height:25px;background:linear-gradient(var(--gold),transparent)}.intro{padding:90px 7vw 45px;max-width:1100px;margin:auto}.intro h2{font-size:clamp(27px,4vw,42px);margin:0 0 12px}.intro>p{color:var(--muted);line-height:2;max-width:680px}.destinations{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding:25px 0 85px}.destination{min-height:190px;border:1px solid #ffffff20;border-radius:20px;padding:23px;background:linear-gradient(145deg,#ffffff0d,#ffffff03);transition:.25s;cursor:pointer}.destination:hover{transform:translateY(-5px);border-color:#e9c99a88;background:#e9c99a0b}.destination .num{font-size:12px;color:var(--gold);letter-spacing:2px}.destination h3{font-size:21px;margin:14px 0 8px}.destination p{font-size:13px;line-height:1.9;color:var(--muted);margin:0}.footer{text-align:center;padding:25px;color:#9d9589;border-top:1px solid #ffffff15;font-size:12px}#panel{position:fixed;z-index:8;inset:auto 18px 18px 18px;max-width:430px;margin:auto;padding:20px 22px;border:1px solid #e9c99a55;border-radius:18px;background:#171a24ed;backdrop-filter:blur(18px);box-shadow:0 15px 55px #0009;display:none}#panel.show{display:block}#panel button{float:left;background:none;border:0;color:var(--gold);font-size:22px}#panel h3{margin:0 0 8px;color:var(--gold)}#panel p{margin:0;color:#ddd1c0;line-height:1.9;font-size:14px}@media(max-width:700px){#world{height:92svh;min-height:620px}.hero-copy{top:18%;right:22px;left:22px}.hero-copy h1{max-width:360px}.hero-copy p{max-width:310px}.destinations{grid-template-columns:1fr}.destination{min-height:150px}.intro{padding-top:65px}.hint{font-size:10px}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.destination{transition:none}}
-</style></head>
-<body>
-<section id="world"><canvas id="scene" aria-label="منظره سه‌بعدی جهان شیمی"></canvas>
-<nav class="top"><a class="brand" href="../index.html">JAHAN SHIMI</a><a class="back" href="../index.html">← بازگشت به جهان شیمی</a></nav>
-<div class="hero-copy"><span class="eyebrow">AN IMMERSIVE CHEMISTRY EXPERIENCE</span><h1>فراتر از<br>دنیای عناصر</h1><p>به جهانی قدم بگذار که اتم‌ها معماری می‌کنند، مولکول‌ها می‌درخشند و هر کشف، دریچه‌ای تازه به سوی علم باز می‌کند.</p></div>
-<div class="hint">برای چرخاندن منظره لمس کن و بکش · برای کشف، روی گوی‌های نورانی بزن</div><div class="scroll"></div></section>
-<main class="intro"><span class="eyebrow">EXPLORE THE ORIGIN OF MATTER</span><h2>کیهان؛ زادگاه الفبای هستی</h2><p>از مهبانگ تا تولد ستاره‌ها، از ساختار اتم تا جدول ۱۱۸ عنصر؛ یک سفر آموزشی و تعاملی سه‌بعدی در دل کیهان.</p><div class="destinations"><a class="destination" href="cosmos.html"><span class="num">01 · 3D COSMIC JOURNEY</span><h3>ورود به سفر کیهانی</h3><p>مهبانگ، اتم، ایزوتوپ‌ها، مدل بور، جدول تناوبی، پیدایش عنصرها و کاربردهایشان را در یک تجربهٔ سه‌بعدی کشف کن.</p></a></div></main><footer class="footer">جهان شیمی · یادگیری، کشف، تجربه</footer>
-<div id="panel"><button aria-label="بستن" id="close">×</button><h3 id="panel-title"></h3><p id="panel-text"></p></div>
-<script type="module">
-import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
-import {OrbitControls} from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js';
-const canvas=document.querySelector('#scene'),scene=new THREE.Scene();scene.fog=new THREE.FogExp2(0x8b8178,.018);
-const camera=new THREE.PerspectiveCamera(48,innerWidth/innerHeight,.1,180);camera.position.set(12,8,19);
-const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});renderer.setPixelRatio(Math.min(devicePixelRatio,1.2));renderer.setSize(innerWidth,innerHeight);renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.25;
-const controls=new OrbitControls(camera,canvas);controls.enableDamping=true;controls.dampingFactor=.045;controls.enablePan=false;controls.minDistance=9;controls.maxDistance=31;controls.maxPolarAngle=Math.PI*.48;controls.target.set(0,2,0);controls.autoRotate=true;controls.autoRotateSpeed=.28;
-scene.add(new THREE.HemisphereLight(0xe9ddca,0x39333a,2));const key=new THREE.DirectionalLight(0xffe4c2,3.2);key.position.set(-8,14,9);scene.add(key);const rim=new THREE.PointLight(0x9bb8d6,90,38);rim.position.set(7,6,-8);scene.add(rim);
-const mat=(color,rough=.8,metal=0)=>new THREE.MeshStandardMaterial({color,roughness:rough,metalness:metal});
-const sand=mat(0x95877a,1),rock=mat(0x6e675f,1),stone=mat(0xc2b19b,.88),dark=mat(0x343943,.7,.35),gold=mat(0xc8a36f,.35,.7),glow=new THREE.MeshStandardMaterial({color:0x9de9ed,emissive:0x39b9ce,emissiveIntensity:2,roughness:.25});
-const floor=new THREE.Mesh(new THREE.PlaneGeometry(150,150),sand);floor.rotation.x=-Math.PI/2;floor.position.y=-.25;scene.add(floor);
-function rockMesh(x,z,sx,sy,sz,material=rock){const m=new THREE.Mesh(new THREE.IcosahedronGeometry(1,1),material);m.position.set(x,-.25+sy*.35,z);m.scale.set(sx,sy,sz);m.rotation.set(Math.random(),Math.random(),Math.random());scene.add(m);return m}
-for(let i=0;i<55;i++){const a=Math.random()*Math.PI*2,r=7+Math.random()*38;rockMesh(Math.cos(a)*r,Math.sin(a)*r,.5+Math.random()*2,.25+Math.random()*1.2,.5+Math.random()*2)}
-// Monumental chemistry sanctuary
-const base=new THREE.Mesh(new THREE.CylinderGeometry(5.2,6.4,.55,8),dark);base.position.y=.05;base.rotation.y=Math.PI/8;scene.add(base);
-const platform=new THREE.Mesh(new THREE.CylinderGeometry(4.8,5.3,.22,8),gold);platform.position.y=.43;platform.rotation.y=Math.PI/8;scene.add(platform);
-const hall=new THREE.Group();scene.add(hall);
-const core=new THREE.Mesh(new THREE.IcosahedronGeometry(2.15,1),stone);core.position.set(0,3.1,0);core.scale.set(1,1.1,.85);hall.add(core);
-const doorway=new THREE.Mesh(new THREE.TorusGeometry(.95,.16,12,48),gold);doorway.position.set(0,1.75,2.02);hall.add(doorway);
-const doorGlow=new THREE.Mesh(new THREE.CircleGeometry(.78,48),new THREE.MeshBasicMaterial({color:0x263d4c,transparent:true,opacity:.88}));doorGlow.position.set(0,1.75,1.96);hall.add(doorGlow);
-for(let i=0;i<7;i++){const b=new THREE.Mesh(new THREE.BoxGeometry(1.3,.65,1.1),stone);const a=i*Math.PI*2/7;b.position.set(Math.cos(a)*3.35,.95,Math.sin(a)*3.35);b.rotation.y=-a;hall.add(b)}
-for(let i=0;i<3;i++){const p=new THREE.Mesh(new THREE.TorusGeometry(2.6+i*.42,.035,8,100),gold);p.position.y=3.15+i*.38;p.rotation.x=Math.PI/2.4;p.rotation.z=i*.55;hall.add(p)}
-// Distant dunes
-for(let i=0;i<12;i++){const d=new THREE.Mesh(new THREE.SphereGeometry(1,24,16),i%2?rock:stone);d.scale.set(7+Math.random()*7,1+Math.random()*1.7,4+Math.random()*5);d.position.set((Math.random()-.5)*55,-.7,(Math.random()-.5)*55-17);scene.add(d)}
-// Floating element cubes
-const floaters=[];for(let i=0;i<14;i++){const g=new THREE.Group(),size=.32+Math.random()*.38;const cube=new THREE.Mesh(new THREE.BoxGeometry(size*1.6,size,size*1.3),i%3===0?gold:stone);g.add(cube);const edge=new THREE.LineSegments(new THREE.EdgesGeometry(cube.geometry),new THREE.LineBasicMaterial({color:0xf1dfc4,transparent:true,opacity:.6}));g.add(edge);const a=i*2.4;g.position.set(Math.cos(a)*(4.2+Math.random()*3),1.4+Math.random()*5,Math.sin(a)*(4+Math.random()*3));g.userData={y:g.position.y,phase:Math.random()*6};scene.add(g);floaters.push(g)}
-// Atom-like orbs around sanctuary
-const atomNodes=[];for(let n=0;n<4;n++){const group=new THREE.Group(),radius=.65+n*.07;const nucleus=new THREE.Mesh(new THREE.SphereGeometry(.2,20,20),glow);group.add(nucleus);for(let j=0;j<3;j++){const ring=new THREE.Mesh(new THREE.TorusGeometry(radius,.018,8,64),gold);ring.rotation.set(Math.PI/2*(j%2),j*.9,j*.65);group.add(ring);const e=new THREE.Mesh(new THREE.SphereGeometry(.09,16,16),glow);e.position.set(Math.cos(j*2.1)*radius,Math.sin(j*2.1)*radius,0);group.add(e)}group.position.set(Math.cos(n*1.25)*7,2.3+n*.65,Math.sin(n*1.25)*6);group.userData={phase:n};scene.add(group);atomNodes.push(group)}
-// Dust particles
-const count=650,positions=new Float32Array(count*3);for(let i=0;i<count;i++){positions[i*3]=(Math.random()-.5)*55;positions[i*3+1]=Math.random()*14;positions[i*3+2]=(Math.random()-.5)*55}const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.BufferAttribute(positions,3));const dust=new THREE.Points(geo,new THREE.PointsMaterial({color:0xf4d9b4,size:.045,transparent:true,opacity:.65}));scene.add(dust);
-const ray=new THREE.Raycaster(),pointer=new THREE.Vector2();const targets=[...atomNodes,...floaters];const panel=document.querySelector('#panel');const details=[['اتم؛ جهان کوچک درون ماده','در مرکز هر اتم هسته‌ای از پروتون و نوترون قرار دارد و الکترون‌ها پیرامون آن حضور دارند. این مدل، تصویری نمادین و ساده‌شده از ساختار اتم است.'],['عنصر؛ آجر سازنده ماده','هر عنصر با تعداد پروتون‌های هسته‌اش شناخته می‌شود؛ این عدد، عدد اتمی نام دارد.']];
-canvas.addEventListener('pointerdown',e=>{pointer.x=e.clientX/innerWidth*2-1;pointer.y=-(e.clientY/innerHeight)*2+1;ray.setFromCamera(pointer,camera);const hit=ray.intersectObjects(targets,true)[0];if(hit){const isAtom=atomNodes.some(a=>a===hit.object||a.children.includes(hit.object)||a.children.some(c=>c===hit.object));document.querySelector('#panel-title').textContent=isAtom?'ساختار اتمی':'عنصر شناور';document.querySelector('#panel-text').textContent=isAtom?details[0][1]:details[1][1];panel.classList.add('show');controls.autoRotate=false}});
-document.querySelector('#close').onclick=()=>panel.classList.remove('show');
-const clock=new THREE.Clock();let lastFrame=0;function animate(now=0){requestAnimationFrame(animate);if(document.hidden)return;if(now-lastFrame<33)return;lastFrame=now;const t=clock.getElapsedTime();floaters.forEach((o,i)=>{o.position.y=o.userData.y+Math.sin(t*.7+o.userData.phase)*.28;o.rotation.y=t*.12+i*.3;o.rotation.x=Math.sin(t*.25+i)*.12});atomNodes.forEach((o,i)=>{o.rotation.y=t*.35+i;o.rotation.z=t*.15});dust.rotation.y=t*.008;controls.update();renderer.render(scene,camera)}animate();
-function resize(){camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,1.2))}addEventListener('resize',resize);
-</script></body></html>
+:root{--bg:#05030f;--ink:#f2efff;--mute:#a9a3c9;--line:rgba(255,255,255,.16);--ac:#ffd27a;color-scheme:dark;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}html,body{height:100%;margin:0;overflow:hidden;background:var(--bg);color:var(--ink);font-family:Vazirmatn,Tahoma,sans-serif}
+#c{position:fixed;inset:0;width:100%;height:100%;cursor:pointer}
+#tabs{position:fixed;top:env(safe-area-inset-top,0px);inset-inline:0;display:flex;gap:6px;padding:10px 12px;overflow-x:auto;z-index:3;scrollbar-width:none}
+#tabs button,#ctl button{font:inherit;font-size:13.5px;white-space:nowrap;padding:6px 14px;border-radius:99px;border:1px solid var(--line);background:rgba(10,8,30,.6);backdrop-filter:blur(10px);color:var(--ink);cursor:pointer}
+#tabs button.on{background:var(--ac);color:#1a1030;border-color:var(--ac)}
+#panel{position:fixed;bottom:env(safe-area-inset-bottom,0px);inset-inline:0;margin:0 auto 14px;width:min(900px,calc(100% - 24px));background:rgba(12,9,34,.72);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:22px;padding:16px 22px;z-index:3}
+#ttl{margin:0 0 4px;font-size:22px;font-weight:800;color:var(--ac)}
+#txt{margin:0;min-height:5.8em;line-height:1.95;font-size:16px;cursor:pointer}
+#txt::after{content:"▍";color:var(--ac);animation:b 1s steps(2) infinite}#txt.done::after{content:""}
+@keyframes b{50%{opacity:0}}
+#ctl{display:flex;align-items:center;justify-content:space-between;margin-top:8px}
+#dots{display:flex;gap:7px}#dots i{width:9px;height:9px;border-radius:50%;background:var(--line)}#dots i.on{background:var(--ac)}
+#ctl button:focus-visible,#tabs button:focus-visible{outline:2px solid #fff}
+@media(max-width:700px){#txt{font-size:14.5px}#panel{padding:12px 16px}}
+#fm{display:none;text-align:center;margin:2px 0 8px;font:italic 500 28px/1.2 "Times New Roman",Georgia,serif;color:#fff;padding:6px 10px;border:1px dashed var(--line);border-radius:14px;background:rgba(255,255,255,.04)}
+#fm sub{font-size:.62em;font-style:normal}#fm sub.fa{font-family:Vazirmatn,Tahoma,sans-serif;font-weight:500}
+#fm .m{position:relative}#fm .ov{display:none}
+#fm .fr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin-inline-start:6px;line-height:1.15}
+#fm .fr>span:first-child{border-bottom:2px solid #fff;padding:0 8px 2px}#fm .fr>span:last-child{padding:2px 8px 0}
+@media(max-width:700px){#fm{font-size:22px}}
+#mu.on{background:var(--ac);color:#1a1030;border-color:var(--ac)}
+#mp{position:fixed;top:calc(env(safe-area-inset-top,0px) + 56px);inset-inline-end:12px;width:min(310px,calc(100% - 24px));z-index:4;direction:ltr;background:rgba(12,9,34,.82);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:18px;padding:12px 14px;display:flex;flex-direction:column;gap:10px;font-size:13px}
+#mp[hidden]{display:none}#mp .r{display:flex;align-items:center;justify-content:center;gap:8px}
+#mp button,#mp select{font:inherit;font-size:14px;color:var(--ink);background:rgba(255,255,255,.08);border:1px solid var(--line);border-radius:99px;padding:5px 12px;cursor:pointer}
+#mp select{width:100%;border-radius:12px;padding:7px 10px}#mp select option{background:#120d2e;color:#fff}
+#mp #mpp{background:var(--ac);color:#1a1030;border-color:var(--ac);min-width:48px;font-size:16px}
+#mp input[type=range]{flex:1;accent-color:#ffd27a;min-width:0}#mp .t{color:var(--mute);font-variant-numeric:tabular-nums;min-width:34px;text-align:center}
+</style></head><body>
+<canvas id="c"></canvas><nav id="tabs"></nav>
+<div id="mp" hidden><select id="mpt" aria-label="انتخاب آهنگ"><option value="0">On the Nature of Daylight — Max Richter</option><option value="1">Day One — Interstellar</option><option value="2">Succession</option></select>
+<div class="r"><span class="t" id="mpc">0:00</span><input type="range" id="mps" min="0" max="1000" value="0" aria-label="جلو و عقب بردن آهنگ"><span class="t" id="mpd">0:00</span></div>
+<div class="r"><button id="mpq" aria-label="آهنگ قبلی">⏮</button><button id="mpb" aria-label="۱۰ ثانیه عقب">⏪ 10</button><button id="mpp" aria-label="پخش و توقف">▶</button><button id="mpf" aria-label="۱۰ ثانیه جلو">10 ⏩</button><button id="mpn" aria-label="آهنگ بعدی">⏭</button></div>
+<div class="r"><span>🔈</span><input type="range" id="mpv" min="0" max="1" step="0.01" value="0.5" aria-label="میزان صدا"><span>🔊</span></div></div>
+<div id="panel"><h2 id="ttl"></h2><div id="fm" dir="ltr"></div><p id="txt"></p><div id="ctl"><button id="pv">قبلی</button><span id="dots"></span><button id="mu" type="button">♪ موسیقی</button><button id="nx">ادامه ◂</button></div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+const $=id=>document.getElementById(id),rnd=Math.random,lerp=(a,b,k)=>a+(b-a)*k,C=new THREE.Color(),V=THREE.Vector3;
+const R=new THREE.WebGLRenderer({canvas:$('c'),antialias:true});R.setPixelRatio(Math.min(devicePixelRatio,2));
+const S=new THREE.Scene(),Cam=new THREE.PerspectiveCamera(55,1,.1,300),G=new THREE.Group();S.add(G);
+S.add(new THREE.AmbientLight(0x8877cc,.9));
+const L1=new THREE.PointLight(0xffffff,1.7,0,0);L1.position.set(6,8,10);S.add(L1);
+const L2=new THREE.PointLight(0x7aa7ff,1.2,0,0);L2.position.set(-8,-4,6);S.add(L2);
+const sph=r=>{const u=rnd()*2-1,t=rnd()*6.283,s=Math.sqrt(1-u*u);return[r*s*Math.cos(t),r*u,r*s*Math.sin(t)]};
+const gt=(()=>{const c=document.createElement('canvas');c.width=c.height=64;const x=c.getContext('2d'),g=x.createRadialGradient(32,32,0,32,32,32);g.addColorStop(0,'rgba(255,255,255,1)');g.addColorStop(.3,'rgba(255,255,255,.35)');g.addColorStop(1,'rgba(255,255,255,0)');x.fillStyle=g;x.fillRect(0,0,64,64);return new THREE.CanvasTexture(c)})();
+const glow=(c,s)=>{const m=new THREE.Sprite(new THREE.SpriteMaterial({map:gt,color:c,blending:THREE.AdditiveBlending,depthWrite:false,transparent:true}));m.scale.set(s,s,1);return m};
+const ball=(r,c,e=.4)=>new THREE.Mesh(new THREE.SphereGeometry(r,28,20),new THREE.MeshStandardMaterial({color:c,emissive:c,emissiveIntensity:e,roughness:.25,metalness:.15}));
+const ring=(r,c,o=.45)=>new THREE.Mesh(new THREE.TorusGeometry(r,.02,8,120),new THREE.MeshBasicMaterial({color:c,transparent:true,opacity:o}));
+const pts=(n,fn,size,op=1)=>{const p=new Float32Array(n*3),c=new Float32Array(n*3);for(let i=0;i<n;i++){const[x,y,z,col]=fn(i);p.set([x,y,z],i*3);C.set(col);c.set([C.r,C.g,C.b],i*3)}const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(p,3));g.setAttribute('color',new THREE.BufferAttribute(c,3));const m=new THREE.Points(g,new THREE.PointsMaterial({size,vertexColors:true,transparent:true,opacity:op,depthWrite:false,blending:THREE.AdditiveBlending}));m.P=p;return m};
+const bg=pts(2000,()=>[...sph(50+rnd()*60),'#cfd8ff'],.2,.8);S.add(bg);
+
+/* ---------- periodic data ---------- */
+const SY="H He Li Be B C N O F Ne Na Mg Al Si P S Cl Ar K Ca Sc Ti V Cr Mn Fe Co Ni Cu Zn Ga Ge As Se Br Kr Rb Sr Y Zr Nb Mo Tc Ru Rh Pd Ag Cd In Sn Sb Te I Xe Cs Ba La Ce Pr Nd Pm Sm Eu Gd Tb Dy Ho Er Tm Yb Lu Hf Ta W Re Os Ir Pt Au Hg Tl Pb Bi Po At Rn Fr Ra Ac Th Pa U Np Pu Am Cm Bk Cf Es Fm Md No Lr Rf Db Sg Bh Hs Mt Ds Rg Cn Nh Fl Mc Lv Ts Og".split(' ');
+const FA={H:'هیدروژن',He:'هلیم',Li:'لیتیم',C:'کربن',N:'نیتروژن',O:'اکسیژن',Ne:'نئون',Na:'سدیم',Mg:'منیزیم',Al:'آلومینیوم',Si:'سیلیسیم',S:'گوگرد',Cl:'کلر',K:'پتاسیم',Ca:'کلسیم',Fe:'آهن',Co:'کبالت',Cu:'مس',Ag:'نقره',I:'ید',Au:'طلا',Hg:'جیوه',Pb:'سرب',U:'اورانیم',Tc:'تکنسیم',Pm:'پرومتیم',Np:'نپتونیم',Pu:'پلوتونیم',Og:'اُگانسون'};
+const OC=['#ffd27a','#ff6b4a','#7aa7ff','#3de0c2'],ON=['زادهٔ مهبانگ','زادهٔ ستاره‌ها (همجوشی)','زادهٔ ابرنواختر / برخورد ستاره‌های نوترونی','ساخت انسان'];
+const org=z=>z<=2?0:z<=26?1:(z===43||z===61||z>=93)?3:2;
+const place=z=>z===1?[1,1]:z===2?[1,18]:z<=4?[2,z-2]:z<=10?[2,z+8]:z<=12?[3,z-10]:z<=18?[3,z]:z<=36?[4,z-18]:z<=54?[5,z-36]:z<=56?[6,z-54]:z<=71?[9,z-54]:z<=86?[6,z-68]:z<=88?[7,z-86]:z<=103?[10,z-86]:[7,z-100];
+const ORD="1s 2s 2p 3s 3p 4s 3d 4p 5s 4d 5p 6s 4f 5d 6p 7s 5f 6d 7p".split(' '),CAP={s:2,p:6,d:10,f:14},SUP='⁰¹²³⁴⁵⁶⁷⁸⁹';
+function cfg(z){let e=z,o=[];for(const k of ORD){const n=Math.min(e,CAP[k[1]]);if(n<=0)break;o.push([k,n]);e-=n}
+ const sw=(a,b,c,d)=>o.forEach(x=>{if(x[0]===a)x[1]=b;if(x[0]===c)x[1]=d});if(z===24)sw('4s',1,'3d',5);if(z===29)sw('4s',1,'3d',10);
+ o.sort((a,b)=>a[0][0]-b[0][0]||'spdf'.indexOf(a[0][1])-'spdf'.indexOf(b[0][1]));const m=Math.max(...o.map(x=>+x[0][0]));
+ return{s:o.map(([k,n])=>k+String(n).replace(/\d/g,d=>SUP[d])).join(' '),v:o.filter(x=>+x[0][0]===m).reduce((a,x)=>a+x[1],0)}}
+
+/* ---------- chapters ---------- */
+const CH=[];
+/* 0 big bang */
+CH.push((()=>{const g=new THREE.Group(),m=pts(3500,()=>{const r=Math.pow(rnd(),.45);C.setHSL(.1-.07*r,1,.75-.3*r);return[...sph(r),'#'+C.getHexString()]},.08),D=m.P.slice(),gl=glow(0xffd27a,3),H=new THREE.Group(),He=new THREE.Group();
+ H.add(ball(.5,0xff5a4a));H.position.set(-2.6,-1,4);
+ [[.3,.2,0,0xff5a4a],[-.3,-.2,.1,0xff5a4a],[.1,-.3,.3,0x4f8bff],[-.1,.3,-.3,0x4f8bff]].forEach(a=>{const b=ball(.4,a[3]);b.position.set(a[0],a[1],a[2]);He.add(b)});He.position.set(2.6,-1,4);
+ g.add(m,gl,H,He);let Rr=.05,tR=.05,gs=3,gv=3,hs=.001;
+ return{g,n:'مهبانگ',z:14,
+ s:['همه‌چیز از یک نقطهٔ بی‌نهایت داغ و چگال آغاز شد. روی تصویر کلیک کن تا مهبانگ رخ دهد.','مهبانگ (Big Bang): حدود ۱۳٫۷ میلیارد سال پیش جهان با یک انبساط عظیم زاده شد و با گسترش، سرد شد.','در دقایق نخست نخستین عنصرها ساخته شدند: هیدروژن (H، قرمز = پروتون) و هلیم (He، آبی = نوترون). این دو هنوز فراوان‌ترین عنصرهای جهان‌اند.'],
+ enter(){Rr=.05;tR=.05;gv=3},go(k){tR=k?9:.05;gs=[3,1,0][k];if(k===1)gv=12;hs=k===2?1:.001},
+ tick(t){Rr=lerp(Rr,tR,.022);for(let i=0;i<D.length;i++)m.P[i]=D[i]*Rr;m.geometry.attributes.position.needsUpdate=true;gv=lerp(gv,gs,.04);const s=(gv*2+Math.sin(t*5)*.2);gl.scale.set(s,s,1);H.scale.setScalar(lerp(H.scale.x,hs,.06));He.scale.setScalar(H.scale.x);H.rotation.y=He.rotation.y=t;g.rotation.y=t*.08}}})());
+/* 1 atom */
+CH.push((()=>{const g=new THREE.Group(),nu=new THREE.Group(),E=[],orb=[];for(let i=0;i<12;i++){const b=ball(.34,i%2?0x4f8bff:0xff5a4a);b.position.set(...sph(.75*Math.cbrt(rnd())));nu.add(b)}
+ const cl=pts(2500,()=>[...sph(2.5+rnd()*3.5),'#3de0c2'],.06,.9);g.add(nu,cl);
+ [[2.3,1.1,2],[3.7,-.5,4]].forEach(([r,tx,n])=>{const o=new THREE.Group();o.rotation.set(tx,0,tx*.7);o.add(ring(r,0x3de0c2,.5));for(let k=0;k<n;k++){const e=ball(.15,0x3de0c2,1);o.add(e);E.push([e,r,k/n*6.283,1.7/r])}orb.push(o);o.scale.setScalar(.001);g.add(o)});
+ let ns=.12,co=.9,os=.001;const o={g,n:'اتم',z:14,
+ s:['اتم تقریباً تهی است: الکترون‌ها در ابری بزرگ پیرامون هسته‌ای بسیار کوچک حضور دارند. روی تصویر کلیک کن تا به هسته نزدیک شویم.','هسته از پروتون (قرمز، بار ‎+۱‎) و نوترون (آبی، بی‌بار) ساخته شده و جرم هرکدام ≈ ۱ amu است. عدد اتمی Z = شمار پروتون‌ها و عدد جرمی A = Z + N.','الکترون‌ها (فیروزه‌ای، بار ‎−۱‎، جرم ≈ ۱/۱۸۳۶ amu) در لایه‌ها می‌چرخند. در اتم خنثی شمار الکترون = شمار پروتون. این اتم کربن است: Z=۶ و A=۱۲.'],
+ go(k){ns=[.12,1,1][k];co=[.9,.12,.3][k];os=k===2?1:.001;o.z=[14,7,12][k]},
+ tick(t,dt){nu.scale.setScalar(lerp(nu.scale.x,ns,.06));cl.material.opacity=lerp(cl.material.opacity,co,.05);orb.forEach(x=>x.scale.setScalar(lerp(x.scale.x,os,.06)));E.forEach(e=>{e[2]+=dt*e[3];e[0].position.set(Math.cos(e[2])*e[1],Math.sin(e[2])*e[1],0)});nu.rotation.y=t*.5;g.rotation.y=t*.15}};return o})());
+/* 2 star */
+CH.push((()=>{const g=new THREE.Group(),RS=[.8,1.5,2.2,2.9,3.6],CL=[0xa7b4d8,0xd9b34a,0x4aa8ff,0xff6b4a,0xffd27a],
+ sh=RS.map((r,i)=>{const m=new THREE.Mesh(new THREE.SphereGeometry(r,40,28),new THREE.MeshStandardMaterial({color:CL[i],emissive:CL[i],emissiveIntensity:.5,transparent:true,opacity:.5,roughness:.4}));g.add(m);return m}),
+ bu=pts(1800,()=>[...sph(rnd()),rnd()<.5?'#ffb86b':'#9ec3ff'],.09,0),BD=bu.P.slice(),gl=glow(0xffc06b,9);g.add(bu,gl);
+ let tg=[.001,.001,.001,.001,1],op=.5,B=0,gv=9,gt2=9;
+ return{g,n:'ستاره',z:15,
+ s:['سحابی‌های هیدروژن و هلیم با گرانش فشرده می‌شوند و ستاره می‌زایند. در دل ستاره، همجوشی هسته‌ای H را به He تبدیل می‌کند.','ستاره‌های سنگین لایه‌به‌لایه عنصر می‌سازند، مثل پیاز: He ← C ← O ← … ← Fe در مرکز. همجوشی تا آهن (Fe) انرژی آزاد می‌کند.','سرانجام ستاره به ابرنواختر تبدیل می‌شود. عنصرهای سنگین‌تر از آهن در ابرنواختر و برخورد ستاره‌های نوترونی ساخته و در فضا پخش می‌شوند. ما از غبار ستاره‌ای ساخته شده‌ایم.'],
+ enter(){B=0},go(k){tg=k===0?[.001,.001,.001,.001,1]:k===1?[1,1,1,1,1]:[1,1,1,1,1].map(()=>9);op=k===2?0:.5;B=k===2?10:0;gt2=k===2?4:9;if(k===2)gv=40},
+ tick(t){sh.forEach((m,i)=>{const s=lerp(m.scale.x,tg[i],.035+i*.012);m.scale.setScalar(s);m.material.opacity=lerp(m.material.opacity,op,.04);m.rotation.y=t*.3});
+  const b=bu.userB=lerp(bu.userB||0,B,.03);for(let i=0;i<BD.length;i++)bu.P[i]=BD[i]*b;bu.geometry.attributes.position.needsUpdate=true;bu.material.opacity=lerp(bu.material.opacity,B?1:0,.05);
+  gv=lerp(gv,gt2,.04);gl.scale.set(gv,gv,1);g.rotation.y=t*.12}}})());
+/* 3 isotopes */
+CH.push((()=>{const g=new THREE.Group(),A=[];
+ [0,1,2].forEach(j=>{const a=new THREE.Group();a.position.x=(j-1)*5;const p=ball(.42,0xff5a4a);p.position.set(-.25,0,0);a.add(p);for(let k=0;k<j;k++){const n=ball(.42,0x4f8bff);n.position.set(.35,k?-.45:.4,k*.2);a.add(n)}
+  const o=new THREE.Group();o.rotation.x=1.2;o.add(ring(1.7,0x3de0c2,.5));const e=ball(.14,0x3de0c2,1);o.add(e);a.add(o);a.scale.setScalar(.001);g.add(a);A.push({a,e,v:j?.001:1})});
+ const rg=glow(0x7dff7a,6);A[2].a.add(rg);rg.material.opacity=0;let rad=0;
+ return{g,n:'ایزوتوپ',z:14,
+ s:['ایزوتوپ‌ها اتم‌های یک عنصرند با Z برابر و N متفاوت. هیدروژن‌-۱ (پروتیم): یک پروتون و بدون نوترون.','هیدروژن‌-۲ (دوتریم) یک نوترون دارد. خواص شیمیایی یکسان است ولی جرم و چگالی (خواص فیزیکی) فرق می‌کند.','هیدروژن‌-۳ (تریتیم) پرتوزاست. رادیوایزوتوپ‌ها کاربرد دارند: I-131 (تیروئید)، Tc-99m (تصویربرداری)، Co-60 (پرتودرمانی)، U-235 (سوخت راکتور). نیمه‌عمر: زمان لازم تا نصف ماده پرتوزا واپاشی شود.'],
+ go(k){A.forEach((x,i)=>x.v=i<=k?1:.001);rad=k===2},
+ tick(t){A.forEach((x,i)=>{x.a.scale.setScalar(lerp(x.a.scale.x,x.v,.07));x.a.rotation.y=t*.4;x.e.position.set(Math.cos(t*2+i)*1.7,Math.sin(t*2+i)*1.7,0)});rg.material.opacity=lerp(rg.material.opacity,rad?.5+.4*Math.sin(t*6):0,.1)}}})());
+/* 4 Bohr */
+CH.push((()=>{const g=new THREE.Group(),RR=[1.3,2.5,3.8,5.2],nu=ball(.5,0xff5a4a,.7),e=ball(.2,0x3de0c2,1),ph=ball(.22,0xffffff,1),pg=glow(0xffffff,1.6);
+ g.rotation.x=.9;g.add(nu,e,ph,pg);RR.forEach(r=>{const t=ring(r,0x7aa7ff);t.rotation.x=Math.PI/2;g.add(t)});ph.visible=pg.visible=false;
+ let n=1,rr=1.3,a=0,P={t:1};const fire=(f,to,c,abs)=>{P={f,to,t:0,abs};ph.material.color.set(c);ph.material.emissive.set(c);pg.material.color.set(c)};
+ return{g,n:'مدل بور',z:15,
+ s:['مدل بور: الکترون در لایه‌هایی با انرژی معین می‌چرخد. n=۱ کم‌انرژی‌ترین لایه (حالت پایه) است و برای هیدروژن E = −۲٫۱۸×۱۰⁻¹⁸ / n² ژول.','با جذب انرژی (فوتون)، الکترون به لایهٔ بالاتر می‌جهد: از n=۱ به n=۳.','بازگشت به لایهٔ پایین‌تر با نشر نور همراه است. بازگشت به n=۲ نور مرئی می‌دهد (در هیدروژن خط قرمز ۶۵۶ nm). طیف نشری خطی اثر انگشت هر عنصر است.','بازگشت به n=۱ پرتو فرابنفش (نامرئی) می‌دهد. مدل بور فقط برای اتم‌های تک‌الکترونی مثل H درست است؛ مدل کوانتومی، الکترون را در اوربیتال با احتمال حضور توصیف می‌کند (ظرفیت زیرلایه‌ها: s=2، p=6، d=10، f=14).'],
+ go(k){if(k===0){n=1}else if(k===1){fire(new V(9,3,6),e.position,'#ffe08a',1);setTimeout(()=>n=3,1100)}else if(k===2){const d=e.position.clone().normalize();fire(e.position.clone(),d.multiplyScalar(11),'#ff3b3b');n=2}else{const d=e.position.clone().normalize();fire(e.position.clone(),d.multiplyScalar(11),'#b58cff');n=1}},
+ tick(t,dt){rr=lerp(rr,RR[n-1],.05);a+=dt*1.6/(rr*.4+.6);e.position.set(Math.cos(a)*rr,0,Math.sin(a)*rr);
+  if(P.t<1){P.t+=dt*.9;ph.visible=pg.visible=true;ph.position.lerpVectors(P.f,P.to,P.t);pg.position.copy(ph.position)}else ph.visible=pg.visible=false;g.rotation.y=Math.sin(t*.2)*.4}}})());
+/* 5 table */
+const tiles=[];let sel=0,flt=-1;
+CH.push((()=>{const g=new THREE.Group(),o={g,n:'جدول ۱۱۸ عنصر',t0:0,
+ z:a=>Math.max(15,10.6/(.52*a)),
+ s:['۱۱۸ عنصر، همه با زادگاه‌شان. روی هر کاشی کلیک کن تا نام، آرایش الکترونی و الکترون‌های ظرفیتش را ببینی. (ترتیب آفبا: 1s 2s 2p 3s 3p 4s 3d … ؛ استثنا: Cr و Cu)','زرد: زادگاه مهبانگ. فقط H و He (با ردّی از Li).','نارنجی: عنصرهای ۳ تا ۲۶ (تا آهن) در دل ستاره‌ها با همجوشی ساخته می‌شوند.','آبی: عنصرهای سنگین‌تر که در ابرنواختر و برخورد ستاره‌های نوترونی پدید می‌آیند. جهان تا اورانیم ۹۲ عنصر طبیعی دارد.','فیروزه‌ای: ساخت انسان. Tc (Z=۴۳) نخستین عنصر ساختگی است و همهٔ عنصرهای ۹۳ تا ۱۱۸ و Pm نیز ساختگی‌اند.'],
+ enter(){o.t0=clk.getElapsedTime();tiles.forEach(m=>{m.position.set(...sph(30));m.rotation.set(rnd()*6,rnd()*6,0)})},go(k){flt=k-1;sel=0},
+ tick(t){tiles.forEach(m=>{const u=m.userData;if(t-o.t0<u.z*.012)return;m.position.x=lerp(m.position.x,u.x,.07);m.position.y=lerp(m.position.y,u.y,.07);m.position.z=lerp(m.position.z,sel===u.z?1.4:0,.08);m.rotation.x=lerp(m.rotation.x,0,.07);m.rotation.y=lerp(m.rotation.y,0,.07);
+  const v=(flt<0||u.o===flt)?1:.12;m.material.color.setScalar(lerp(m.material.color.r,v,.1));m.material.emissiveIntensity=.5*m.material.color.r;m.scale.setScalar(lerp(m.scale.x,sel===u.z?1.3:1,.12))})}};
+ SY.forEach((s,i)=>{const z=i+1,[r,c]=place(z),q=org(z),cv=document.createElement('canvas');cv.width=cv.height=96;const x=cv.getContext('2d');x.fillStyle=OC[q];x.fillRect(0,0,96,96);x.strokeStyle='rgba(0,0,0,.3)';x.lineWidth=5;x.strokeRect(2,2,92,92);x.fillStyle='#120a28';x.textAlign='center';x.font='800 44px sans-serif';x.fillText(s,48,62);x.font='500 15px sans-serif';x.textAlign='left';x.fillText(z,8,20);
+  const tx=new THREE.CanvasTexture(cv),m=new THREE.Mesh(new THREE.BoxGeometry(.92,.92,.3),new THREE.MeshStandardMaterial({map:tx,emissiveMap:tx,emissive:0xffffff,emissiveIntensity:.5,roughness:.4}));m.userData={z,o:q,x:(c-9.5)*1.02,y:(5.5-r)*1.02};m.position.set(...sph(30));g.add(m);tiles.push(m)});return o})());
+/* 6 collider */
+CH.push((()=>{const g=new THREE.Group(),rg=new THREE.Mesh(new THREE.TorusGeometry(5,.22,16,100),new THREE.MeshStandardMaterial({color:0x8892b0,metalness:.8,roughness:.3})),b1=ball(.3,0xffa94a,1),b2=ball(.3,0x7aa7ff,1),g1=glow(0xffa94a,2.4),g2=glow(0x7aa7ff,2.4),nw=ball(.9,0x3de0c2,.9),fl=glow(0xffffff,1);
+ g.rotation.x=.9;g.add(rg,b1,b2,g1,g2,nw,fl);nw.position.set(5,0,0);fl.position.set(5,0,0);nw.scale.setScalar(.001);let a=0,mode=0,hit=0,ns=.001,fv=0;
+ return{g,n:'ساخت انسان',z:15,
+ s:['عنصرهای ساخت انسان در شتاب‌دهنده‌ها پدید می‌آیند: هسته‌ها را شتاب می‌دهند تا با سرعت زیاد به هم برخورد کنند.','برخورد! هستهٔ جدیدی ساخته شد؛ مثلاً Tc، نخستین عنصر ساختگی (Z=۴۳).','این هسته‌های ساختگی ناپایدارند و بیشترشان در کسری از ثانیه واپاشی می‌کنند. ۹۲ عنصر طبیعی داریم و بقیه ساختهٔ دست بشرند.'],
+ go(k){mode=k;if(k===0){hit=0;ns=.001;b1.visible=b2.visible=g1.visible=g2.visible=true}if(k===2)hit=2},
+ tick(t,dt){if(mode===0)a+=dt*1.3;else if(mode===1){a=Math.atan2(Math.sin(a),Math.cos(a));a*=1-Math.min(1,dt*1.6)}
+  if(mode===1&&!hit&&Math.abs(a)<.12){hit=1;fv=1;ns=1;b1.visible=b2.visible=g1.visible=g2.visible=false}
+  b1.position.set(Math.cos(a)*5,Math.sin(a)*5,0);b2.position.set(Math.cos(-a)*5,Math.sin(-a)*5,0);g1.position.copy(b1.position);g2.position.copy(b2.position);
+  if(hit===2)ns=lerp(ns,.001,.02)*(1+.1*Math.sin(t*30));nw.scale.setScalar(lerp(nw.scale.x,ns,.1));fv*=.95;fl.scale.set(fv*14+.01,fv*14+.01,1);nw.rotation.y=t}}})());
+/* ===== helpers ===== */
+const lab=(t,col='#fff',k=1)=>{const c=document.createElement('canvas');c.width=512;c.height=128;const x=c.getContext('2d');x.font='800 52px Vazirmatn,Tahoma,sans-serif';const w0=x.measureText(t).width;if(w0>490)x.font='800 '+(52*490/w0)+'px Vazirmatn,Tahoma,sans-serif';x.textAlign='center';x.textBaseline='middle';x.shadowColor='#000';x.shadowBlur=8;x.fillStyle=col;x.fillText(t,256,64);const s=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(c),transparent:true,depthWrite:false}));s.scale.set(4*k,k,1);return s};
+const tex=fn=>{const c=document.createElement('canvas');c.width=512;c.height=256;fn(c.getContext('2d'));const t=new THREE.CanvasTexture(c);t.wrapS=THREE.RepeatWrapping;return t};
+const fa=(v,d=1)=>v.toLocaleString('fa-IR',{minimumFractionDigits:d,maximumFractionDigits:d});
+const bars=(d,k,hue)=>{const b=new THREE.Group();d.forEach(([s,v],i)=>{const h=Math.max(.15,v*k),c=new THREE.Color().setHSL(hue+i*.04,.8,.55),m=new THREE.Mesh(new THREE.BoxGeometry(.7,h,.7),new THREE.MeshStandardMaterial({color:c,emissive:c,emissiveIntensity:.4}));m.position.set(i*1.05,h/2,0);const l=lab(s,'#fff',.9);l.position.set(i*1.05,-.45,0);const p=lab(fa(v)+'٪','#ffd27a',.8);p.position.set(i*1.05,h+.45,0);b.add(m,l,p)});b.scale.setScalar(.001);return b};
+const earthT=tex(x=>{x.fillStyle='#1c5fb8';x.fillRect(0,0,512,256);for(let i=0;i<60;i++){x.fillStyle=rnd()<.7?'#3f9a4d':'#b58a4a';x.beginPath();x.ellipse(rnd()*512,30+rnd()*196,10+rnd()*34,6+rnd()*18,rnd()*3,0,6.3);x.fill()}x.fillStyle='rgba(255,255,255,.5)';for(let i=0;i<50;i++){x.beginPath();x.ellipse(rnd()*512,rnd()*256,14+rnd()*30,4+rnd()*6,0,0,6.3);x.fill()}x.fillRect(0,0,512,14);x.fillRect(0,242,512,14)});
+const jupT=tex(x=>{const cs=['#d8b48a','#b8845a','#efe0c8','#9c6a48','#c99a6c'];let y=0;while(y<256){const h=8+rnd()*22;x.fillStyle=cs[(rnd()*5)|0];x.fillRect(0,y,512,h);y+=h}x.strokeStyle='rgba(255,255,255,.22)';x.lineWidth=3;for(let i=0;i<40;i++){x.beginPath();const y0=rnd()*256;x.moveTo(0,y0);for(let u=0;u<=512;u+=32)x.lineTo(u,y0+Math.sin(u*.05+i)*5);x.stroke()}x.fillStyle='#b5472f';x.beginPath();x.ellipse(340,172,36,18,0,0,6.3);x.fill()});
+const lv=(o,t,k)=>{o.position.x=lerp(o.position.x,t[0],k);o.position.y=lerp(o.position.y,t[1],k);o.position.z=lerp(o.position.z,t[2]||0,k);o.scale.setScalar(lerp(o.scale.x,t[3],k))};
+/* 7 Earth vs Jupiter */
+CH.push((()=>{const g=new THREE.Group(),E=new THREE.Mesh(new THREE.SphereGeometry(.6,40,30),new THREE.MeshStandardMaterial({map:earthT,roughness:.7})),J=new THREE.Mesh(new THREE.SphereGeometry(3.2,48,36),new THREE.MeshStandardMaterial({map:jupT,roughness:.9})),hz=glow(0xffa36b,13),sh=pts(900,()=>[...sph(3.4+rnd()*.5),'#ffd9b0'],.05,.5);
+ J.add(hz,sh);const bE=bars([['Fe',32.1],['O',30.1],['Si',15.1],['Mg',13.9],['S',2.9],['Ni',1.8],['Ca',1.5],['Al',1.4]],.11,.02),bJ=bars([['H',89.8],['He',10.2]],.04,.1),lE=lab('زمین (درصد جرمی)','#7aa7ff',1.1),lJ=lab('مشتری (درصد مولی گازها)','#ffb27a',1.1);
+ bE.position.set(-2.6,-2.2,0);bJ.position.set(.5,-2.2,0);lE.position.set(1.5,-3.7,0);lJ.position.set(.5,-3.7,0);lE.visible=lJ.visible=false;g.add(E,J,bE,bJ,lE,lJ);
+ let tE=[-5.5,0,0,1],tJ=[2.2,0,0,1],be=.001,bj=.001;
+ return{g,n:'زمین و مشتری',z:15,
+ s:['زمین سیاره‌ای سنگی و جامد با هستهٔ آهنی است. مشتری یک غول گازی است: سطح جامد ندارد و سراسر از گاز ساخته شده. قطر مشتری حدود ۱۱ برابر زمین است.','ترکیب زمین (درصد جرمی): آهن Fe ≈ ۳۲٫۱ ، اکسیژن O ≈ ۳۰٫۱ ، سیلیسیم Si ≈ ۱۵٫۱ ، منیزیم Mg ≈ ۱۳٫۹ ، گوگرد S ≈ ۲٫۹ ، نیکل Ni ≈ ۱٫۸ ، کلسیم Ca ≈ ۱٫۵ ، آلومینیم Al ≈ ۱٫۴. بیشتر زمین را عنصرهای سنگین و فلزی ساخته‌اند.','مشتری گازی است: نزدیک به ۱۰۰٪ آن دو گاز سبک است، هیدروژن H حدود ۹۰٪ و هلیم He حدود ۱۰٪ (ردّی از متان، آمونیاک و بخار آب). لایه‌های رنگی و لکهٔ سرخ، طوفان‌های همین گازها هستند.','مقایسه: زمین سنگی ⟸ عنصرهای سنگین (Fe، O، Si). مشتری گازی ⟸ عنصرهای سبک (H و He) و ترکیبی نزدیک به نخستین عنصرهای مهبانگ. همهٔ سیاره‌ها از یک غبار ستاره‌ای ساخته شده‌اند ولی نسبت عنصرها فرق می‌کند.'],
+ go(k){tE=[[-5.5,0,0,1],[-5.5,2.4,0,2.2],[8,3.5,0,.8],[-1.6,-1.8,3,1.4]][k];tJ=[[2.2,0,0,1],[8.5,3.8,0,.3],[-5,2.4,0,.55],[1.6,.4,0,1.15]][k];be=k===1?1:.001;bj=k===2?1:.001;lE.visible=k===1;lJ.visible=k===2},
+ tick(t,dt){lv(E,tE,.05);lv(J,tJ,.05);bE.scale.setScalar(lerp(bE.scale.x,be,.07));bJ.scale.setScalar(lerp(bJ.scale.x,bj,.07));E.rotation.y+=dt*.3;J.rotation.y+=dt*.25;jupT.offset.x+=dt*.012;sh.rotation.y-=dt*.5}}})());
+/* 8 uses of elements */
+CH.push((()=>{const g=new THREE.Group(),Q=[['Fe',1,'ساختمان و ماشین'],['Cu',1,'سیم و کابل'],['Si',1,'تراشه و پنل خورشیدی'],['Au',1,'الکترونیک و جواهر'],['I',2,'ید-۱۳۱: تیروئید'],['Tc',2,'Tc-99m: تصویربرداری'],['Co',2,'کبالت-۶۰: پرتودرمانی'],['He',2,'خنک‌کنندهٔ MRI'],['U',3,'سوخت راکتور'],['H',3,'سوخت و همجوشی']],ring=new THREE.Group(),O=[];
+ g.rotation.x=.4;g.add(ring);Q.forEach(([s,tg,u],i)=>{const a=i/Q.length*6.283,o=new THREE.Group(),c=OC[org(SY.indexOf(s)+1)],b=ball(.6,c,.5),l=lab(s,'#fff',1.1),us=lab(u,'#ffd27a',.9);l.position.z=.8;us.position.y=-1.5;us.visible=false;o.add(b,l,us);o.position.set(Math.cos(a)*5,Math.sin(i*1.7)*.8,Math.sin(a)*5);ring.add(o);O.push({o,tg,b,us,s:1})});
+ return{g,n:'فواید عنصرها',z:15,
+ s:['هر عنصر کاربردی دارد: از ساختن پل و ساختمان تا پزشکی و تأمین انرژی. روی تصویر کلیک کن تا گروه‌ها را ببینی.','صنعت و فناوری: آهن (Fe) برای ساختمان و ماشین، مس (Cu) برای سیم و کابل، سیلیسیم (Si) برای تراشه و پنل خورشیدی، طلا (Au) برای الکترونیک و جواهر.','پزشکی: ید-۱۳۱ برای درمان تیروئید، Tc-99m برای تصویربرداری، کبالت-۶۰ برای پرتودرمانی؛ هلیم (He) هم برای خنک‌کردن دستگاه MRI به کار می‌رود.','انرژی: اورانیم-۲۳۵ سوخت راکتور هسته‌ای است و هیدروژن (با ایزوتوپ‌هایش) سوخت و مادهٔ همجوشی است. برخی کاربردها فقط به یک ایزوتوپ خاص نیاز دارند؛ برای همین به «غنی‌سازی ایزوتوپی» می‌رسیم.'],
+ go(k){O.forEach(x=>{x.s=k===0?1:x.tg===k?1.6:.6;x.us.visible=k>0&&x.tg===k})},
+ tick(t){ring.rotation.y=t*.2;O.forEach(x=>{x.o.scale.setScalar(lerp(x.o.scale.x,x.s,.08));x.b.material.emissiveIntensity=lerp(x.b.material.emissiveIntensity,x.s>1?1:x.s<1?.1:.5,.1)})}}})());
+/* 9 uranium & enrichment */
+CH.push((()=>{const g=new THREE.Group(),n=1000,m=pts(n,()=>[0,0,0,'#9aa3c7'],.14,.95),T1=new Float32Array(n*3),T2=new Float32Array(n*3);
+ for(let i=0;i<n;i++){T1.set([(rnd()-.5)*6,(rnd()-.5)*6,(rnd()-.5)*6],i*3);const a=rnd()*6.283,r=1.6*Math.sqrt(rnd());T2.set([Math.cos(a)*r,(rnd()-.5)*7,Math.sin(a)*r],i*3)}m.P.set(T1);
+ const rc=oc=>{const c=m.geometry.attributes.color.array;for(let i=0;i<n;i++){C.set(i<oc?'#ff8a2b':'#8c95bd');c.set([C.r,C.g,C.b],i*3)}m.geometry.attributes.color.needsUpdate=true};rc(7);
+ const L=[lab('≈۰٫۷٪ از اتم‌ها U-235 (نارنجی)','#ffb27a',1.3),lab('سانتریفیوژ: UF₆ گازی با سرعت می‌چرخد','#7aa7ff',1.3),lab('≈۴٪ U-235 (سوخت نیروگاه)','#ffb27a',1.3)];L.forEach(l=>{l.position.set(0,-4.6,0);l.visible=false});L[0].visible=true;
+ const F=new THREE.Group(),U=ball(1.2,0xff8a2b,.6),nn=ball(.22,0xffffff,1),A=ball(.8,0x3de0c2,.5),B=ball(.7,0x7aa7ff,.5),N3=[0,1,2].map(()=>ball(.18,0xffffff,1)),fl=glow(0xffe0a0,1),lf=lab('U-235 + n ← Ba + Kr + ۳n + انرژی','#fff',1.4);lf.position.set(0,-4.2,0);
+ F.add(U,nn,A,B,fl,lf,...N3);F.visible=false;g.add(m,F,...L);let mode=0,ft=0;
+ return{g,n:'اورانیم و غنی‌سازی',z:15,
+ s:['اورانیم (U) مشهورترین عنصر در واکنشگاه (راکتور) هسته‌ای است. اورانیم طبیعی ≈ ۹۹٫۳٪ U-238 و فقط ≈ ۰٫۷٪ U-235 دارد (نقطه‌های نارنجی)؛ تنها U-235 به‌آسانی شکافته می‌شود.','غنی‌سازی ایزوتوپی: ایزوتوپ‌ها خواص شیمیایی یکسان و جرم اندکی متفاوت دارند، پس با روش فیزیکی جدا می‌شوند. UF₆ گازی را در سانتریفیوژ (گریز از مرکز) می‌چرخانند و ایزوتوپ سنگین‌تر (U-238) بیشتر به دیواره می‌رود.','با تکرار این کار درصد U-235 بالا می‌رود. برای سوخت نیروگاه (مثل بوشهر) حدود ۳ تا ۵٪ لازم است و راکتورهای پژوهشی (مثل راکتور تهران) حدود ۲۰٪ استفاده می‌کنند.','شکافت هسته‌ای: نوترونی به U-235 می‌خورد، هسته به دو هستهٔ کوچک‌تر می‌شکند و انرژی و ۲ تا ۳ نوترون آزاد می‌شود. این نوترون‌ها شکافت‌های بعدی را می‌انگیزند (واکنش زنجیره‌ای). گرما آب را بخار می‌کند و توربین را می‌چرخاند.'],
+ go(k){mode=k;ft=0;m.visible=k<3;F.visible=k===3;L.forEach((l,i)=>l.visible=i===k);rc(k===2?40:7)},
+ tick(t,dt){const T=mode===1?T2:T1;for(let i=0;i<n*3;i++)m.P[i]=lerp(m.P[i],T[i],.04);m.geometry.attributes.position.needsUpdate=true;m.rotation.y+=dt*(mode===1?6:.3);
+  if(mode===3){ft+=dt;const h=ft>1.4,e=ft-1.4;nn.position.set(h?99:lerp(-7,-1.2,Math.min(1,ft/1.4)),0,0);U.visible=!h;A.visible=B.visible=h;A.position.set(-e*1.6,e*.5,0);B.position.set(e*1.6,-e*.5,0);N3.forEach((x,i)=>{x.visible=h;x.position.set((i-1)*e*2.2,(i?1:-1)*e*2,(i-1)*e)});fl.scale.set(h?Math.max(.1,8*Math.exp(-e*2)):.1,h?Math.max(.1,8*Math.exp(-e*2)):.1,1);if(ft>6)ft=0;U.scale.setScalar(1+.05*Math.sin(t*20))}g.rotation.x=.2}}})());
+/* 10 subatomic mass & charge (before average mass and mole) */
+CH.push((()=>{const g=new THREE.Group(),P=[['پروتون p⁺',0xff5a4a,-5,.9,'جرم ≈ ۱٫۶۷۳×۱۰⁻²⁴ g ≈ ۱ amu','بار: ‎+۱٫۶۰۲×۱۰⁻¹⁹ C ‏(نسبی ‎+۱)'],['نوترون n',0x4f8bff,0,.9,'جرم ≈ ۱٫۶۷۵×۱۰⁻²⁴ g ≈ ۱ amu','بار: صفر'],['الکترون e⁻',0x3de0c2,5,.07,'جرم ≈ ۹٫۱۱×۱۰⁻²⁸ g ≈ ۱/۱۸۳۶ amu','بار: ‎−۱٫۶۰۲×۱۰⁻¹⁹ C ‏(نسبی ‎−۱)']],O=[];
+ P.forEach(([n,c,x,r,m,q])=>{const o=new THREE.Group(),b=ball(r,c,.6),l=lab(n,'#fff',1.4),a=lab(m,'#ffd27a',1.2),d=lab(q,'#fff',1.2);l.position.y=1.9;a.position.y=-1.9;d.position.y=-2.9;o.position.x=x;o.add(b,l,a,d);if(r<.2)o.add(glow(c,.9));g.add(o);O.push({o,s:1})});
+ return{g,n:'جرم و بار ذره‌ها',z:15,
+ s:['جمع‌بندی ذره‌های زیراتمی: پروتون و نوترون تقریباً هم‌جرم‌اند (≈ ۱ amu) و الکترون بسیار سبک‌تر است. اندازه‌ها در تصویر نمایشی‌اند.','پروتون: جرم ≈ ۱٫۶۷۳×۱۰⁻²⁴ g (≈ ۱٫۰۰۷ amu، یعنی تقریباً ۱ amu)؛ بار الکتریکی ‎+۱٫۶۰۲×۱۰⁻¹⁹ C که آن را بار نسبی ‎+۱‎ می‌نامند.','نوترون: جرم ≈ ۱٫۶۷۵×۱۰⁻²⁴ g (≈ ۱٫۰۰۹ amu، یعنی تقریباً ۱ amu)؛ بی‌بار (صفر).','الکترون: جرم ≈ ۹٫۱۱×۱۰⁻²⁸ g ≈ ۵٫۴۹×۱۰⁻⁴ amu (حدود ۱/۱۸۳۶ جرم پروتون)؛ بار ‎−۱٫۶۰۲×۱۰⁻¹⁹ C یعنی ‎−۱‎ نسبی. چون جرم الکترون ناچیز است، جرم اتم عملاً همان جرم هسته است و در اتم خنثی بار پروتون‌ها و الکترون‌ها یکدیگر را خنثی می‌کنند.'],
+ go(k){O.forEach((x,i)=>x.s=k===0?1:i===k-1?1.4:.65)},
+ tick(t){O.forEach((x,i)=>{x.o.scale.setScalar(lerp(x.o.scale.x,x.s,.08));x.o.position.y=Math.sin(t*1.5+i)*.2})}}})());
+/* 11 amu, average mass, mole */
+CH.push((()=>{const g=new THREE.Group(),A=new THREE.Group(),phi=(1+Math.sqrt(5))/2,vs=[];[-1,1].forEach(a=>[-1,1].forEach(b=>vs.push([0,a,b*phi],[a,b*phi,0],[b*phi,0,a])));
+ const NB=vs.map((v,i)=>{const d=new V(...v).normalize(),b=ball(.5,i%2?0x4f8bff:0xff5a4a);A.add(b);return{b,d}});const gl1=glow(0xffe08a,3),c12=lab('C-12 = ۱۲ amu','#fff',1.4);c12.position.y=-3;const l1=lab('۱ amu = ۱/۱۲ جرم C-12 ≈ ۱٫۶۶×۱۰⁻²⁴ g','#ffd27a',1.5);l1.position.set(0,-3.8,0);A.add(c12,l1,gl1);l1.visible=false;
+ const B=bars([['Cl-35',75.77],['Cl-37',24.23]],.05,.55);B.position.set(-1,-2,0);const lb=lab('M̄ ≈ ۳۵٫۵ amu','#ffd27a',1.6);lb.position.set(0,-3.4,0);B.add(lb);lb.position.set(.5,-1.4,0);
+ const P=new THREE.Group();[['C',12,'#7aa7ff',-4.2],['Cl',35.5,'#7dff9a',0],['Li',6.9,'#ff9a7a',4.2]].forEach(([s,M,c,x])=>{const r=Math.cbrt(M)*.7,p=pts(500,()=>[...sph(r*Math.cbrt(rnd())),c],.1,.9),l=lab(s+': '+fa(M)+' g/mol','#fff',1.2),l2=lab('۱ mol = ۶٫۰۲×۱۰²³ اتم','#ffd27a',1.2);p.position.x=x;l.position.set(x,-2.7,0);l2.position.set(x,-3.6,0);P.add(p,l,l2)});
+ g.add(A,B,P);B.scale.setScalar(.001);P.scale.setScalar(.001);let sp=1,sa=1,sb=.001,spl=.001,lift=0;
+ return{g,n:'amu و مول',z:15,
+ s:['جرم اتم‌ها بسیار کوچک است؛ پس یکای ویژه‌ای به نام amu (یکای جرم اتمی) تعریف شد. مبنای آن اتم C-12 است: ۶ پروتون + ۶ نوترون.','یک amu برابر یک‌دوازدهم جرم اتم C-12 است، پس جرم اتم C-12 دقیقاً ۱۲ amu است. ۱ amu ≈ ۱٫۶۶×۱۰⁻²⁴ g (و ۱ g ≈ ۶٫۰۲×۱۰²³ amu).','جرم اتمی میانگین: میانگین وزنی جرم ایزوتوپ‌ها. M̄ = (m₁F₁ + m₂F₂ + …) ÷ ۱۰۰ که F درصد فراوانی است. مثال کلر: Cl-35 (۷۵٫۷۷٪) و Cl-37 (۲۴٫۲۳٪) ⟸ M̄ ≈ ۳۵٫۵ amu.','مول: ۶٫۰۲×۱۰²³ ذره (عدد آووگادرو). جرم مولی = جرم یک مول ماده بر حسب گرم و از نظر عددی برابر جرم اتمی میانگین است. روابط: n = m ÷ M و تعداد ذره‌ها = n × ۶٫۰۲×۱۰²³. جرم یک اتم (g) = M ÷ ۶٫۰۲×۱۰²³.'],
+ go(k){sa=k<2?1:.001;sb=k===2?1:.001;spl=k===3?1:.001;lift=k===1;l1.visible=k===1;c12.visible=k===0},
+ tick(t,dt){A.scale.setScalar(lerp(A.scale.x,sa,.07));B.scale.setScalar(lerp(B.scale.x,sb,.07));P.scale.setScalar(lerp(P.scale.x,spl,.07));
+  NB.forEach((x,i)=>{const s=lift?2.1:1.2;let tp=x.d.clone().multiplyScalar(s);if(lift&&i===0)tp.set(5,1,0);x.b.position.lerp(tp,.06)});NB[0].b.material.emissiveIntensity=lift?1:.4;gl1.position.copy(NB[0].b.position);gl1.visible=!!lift;A.rotation.y=t*.4;B.rotation.y=Math.sin(t*.5)*.3}}})());
+/* 12 second average formula + hydrogen + units */
+CH.push((()=>{const g=new THREE.Group(),R=new THREE.Group(),rod=new THREE.Mesh(new THREE.CylinderGeometry(.08,.08,10,12),new THREE.MeshStandardMaterial({color:0x8892b0,metalness:.6,roughness:.4}));rod.rotation.z=Math.PI/2;
+ const b1=ball(.6,0x4f8bff,.6),b2=ball(.6,0xff8a2b,.6),mk=new THREE.Mesh(new THREE.OctahedronGeometry(.45),new THREE.MeshStandardMaterial({color:0xffffff,emissive:0xffffff,emissiveIntensity:.8})),mg=glow(0xffffff,2.2);b1.position.x=-5;b2.position.x=5;mk.position.y=mg.position.y=1.1;
+ const mkS=(a,b,c)=>{const s=new THREE.Group(),x=lab(a,'#9ec3ff',1.1),y=lab(b,'#ffb27a',1.1);x.position.set(-4,-1.4,0);y.position.set(4,-1.4,0);s.add(x,y);s.m=lab(c,'#fff',1.4);s.m.position.y=2.3;R.add(s,s.m);return s};
+ const S0=mkS('Cl-35 ‏(۷۵٫۷۷٪) M₁=۳۵','Cl-37 ‏(۲۴٫۲۳٪) M₂=۳۷','M̄ = ۳۵ + ۰٫۲۴۲۳×۲ = ۳۵٫۴۸ amu'),S1=mkS('H-1 ‏(۹۹٫۹۸۸٪) A=۱','H-2 ‏(۰٫۰۱۱۵٪) A=۲','M̄ ≈ ۱٫۰۰۸ amu');
+ R.add(rod,b1,b2,mk,mg);
+ const Cc=new THREE.Group();[['عدد جرمی A (بدون یکا)','۱',0x3de0c2,-4.6],['جرم اتمی میانگین','۱٫۰۰۸ amu',0xff8a2b,0],['جرم مولی','۱٫۰۰۸ g/mol',0x7aa7ff,4.6]].forEach(([n,v,c,x])=>{const col=new THREE.Color(c),m=new THREE.Mesh(new THREE.BoxGeometry(1.8,3,1.8),new THREE.MeshStandardMaterial({color:col,emissive:col,emissiveIntensity:.4}));m.position.set(x,0,0);const a=lab(v,'#fff',1.3),b=lab(n,'#ffd27a',1.1);a.position.set(x,2.2,0);b.position.set(x,-2.2,0);Cc.add(m,a,b)});
+ const eq=lab('۱٫۰۰۸ amu × ۱٫۶۶×۱۰⁻²⁴ g/amu × ۶٫۰۲×۱۰²³ /mol ≈ ۱٫۰۰۸ g/mol','#ffd27a',2);eq.position.set(0,-3.4,0);Cc.add(eq);Cc.scale.setScalar(.001);
+ g.add(R,Cc);let tx=-2.58,sr=1,sc=.001;
+ return{g,n:'میانگین جرمی و هیدروژن',z:15,f:[`<span style="text-decoration:overline;text-decoration-thickness:2px">M</span> = <span class="m">M<sub>1</sub></span> + (<span class="m">M<sub>2</sub></span> − <span class="m">M<sub>1</sub></span>)<span class="fr"><span>F<sub>2</sub></span><span>F<sub class="fa">کل</sub></span></span>`,`<span style="text-decoration:overline;text-decoration-thickness:2px">M</span> = <span class="m">M<sub>1</sub></span> + (<span class="m">M<sub>2</sub></span> − <span class="m">M<sub>1</sub></span>)<span class="fr"><span>F<sub>2</sub></span><span>F<sub class="fa">کل</sub></span></span>`],
+ s:['فرمول دوم جرم اتمی میانگین بالای این متن نوشته شده است. در آن M₁ جرم ایزوتوپ سبک‌تر، M₂ جرم ایزوتوپ سنگین‌تر، F₂ درصد فراوانی ایزوتوپ سنگین‌تر و F_کل مجموع درصدها (۱۰۰) است. این فرمول از جای‌گذاری F₁ = F_کل − F₂ در فرمول اول به دست می‌آید. میانگین به‌اندازهٔ سهم ایزوتوپ سنگین‌تر از M₁ به سمت M₂ می‌رود. مثال کلر: ۳۵ + ۰٫۲۴۲۳ × ۲ = ۳۵٫۴۸.','هیدروژن: H-1 ‏(≈۹۹٫۹۸۸٪) و H-2 ‏(≈۰٫۰۱۱۵٪). عدد جرمی H-1 برابر ۱ است (شمار پروتون + نوترون، بدون یکا) و جرم اتم H-1 ≈ ۱٫۰۰۷۸ amu. با فرمول: M̄ ≈ ۱٫۰۰۷۸ + ۰٫۰۰۰۱۱۵ × (۲٫۰۱۴۱ − ۱٫۰۰۷۸) ≈ ۱٫۰۰۸ amu. چون H-2 بسیار کم‌یاب است، میانگین تقریباً روی H-1 می‌افتد.','اثبات هم‌عددی: جرم یک اتم H ≈ ۱٫۰۰۸ amu = ۱٫۰۰۸ × ۱٫۶۶×۱۰⁻²⁴ g. جرم ۶٫۰۲×۱۰²³ اتم = ۱٫۰۰۸ × (۱٫۶۶×۱۰⁻²⁴ × ۶٫۰۲×۱۰²³) ≈ ۱٫۰۰۸ g ؛ پس جرم مولی ≈ ۱٫۰۰۸ g/mol. عدد جرمی، جرم اتمی میانگین و جرم مولی تقریباً یک عددند، اما یکایشان فرق دارد: بدون یکا، amu و g/mol.'],
+ go(k){tx=k===0?-2.58:-5+10*.000115;sr=k<2?1:.001;sc=k===2?1:.001;S0.visible=S0.m.visible=k===0;S1.visible=S1.m.visible=k===1},
+ tick(t){R.scale.setScalar(lerp(R.scale.x,sr,.07));Cc.scale.setScalar(lerp(Cc.scale.x,sc,.07));mk.position.x=mg.position.x=lerp(mk.position.x,tx,.06);S0.m.position.x=S1.m.position.x=mk.position.x;mk.rotation.y=t*2;g.rotation.y=Math.sin(t*.4)*.2}}})());
+/* 13 equivalences */
+CH.push((()=>{const g=new THREE.Group(),Nd=[['جرم (g)',0x3de0c2,-5.5,1],['مول (mol)',0xffd27a,0,1.3],['تعداد ذره',0x7aa7ff,5.5,1]];
+ Nd.forEach(([n,c,x,r])=>{const b=ball(r,c,.5),l=lab(n,'#fff',1.3);b.position.x=x;l.position.set(x,r+1,0);g.add(b,l)});
+ const ed=x=>{const m=new THREE.Mesh(new THREE.CylinderGeometry(.09,.09,5.5,10),new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:.2}));m.rotation.z=Math.PI/2;m.position.x=x;g.add(m);return m},eA=ed(-2.85),eB=ed(2.85);
+ [['× ‏(۱ mol ÷ M g)',-2.85,1.1],['× ‏(M g ÷ ۱ mol)',-2.85,-1.1],['× ‏(۶٫۰۲×۱۰²³ ÷ ۱ mol)',2.85,1.1],['× ‏(۱ mol ÷ ۶٫۰۲×۱۰²³)',2.85,-1.1]].forEach(([t,x,y])=>{const l=lab(t,'#ffd27a',.95);l.position.set(x,y,0);g.add(l)});
+ const ex=['۱ mol = ۶٫۰۲×۱۰²³ ذره  ⟸  دو کسر وارون هم','۰٫۵ mol Al × (۶٫۰۲×۱۰²³ ÷ ۱ mol) = ۳٫۰۱×۱۰²³ اتم','۱۱ g CO₂ × (۱ mol ÷ ۴۴ g) = ۰٫۲۵ mol','۹ g H₂O ← ۰٫۵ mol ← ۳٫۰۱×۱۰²³ مولکول','جرم یک اتم (g) = M ÷ ۶٫۰۲×۱۰²³'].map(t=>{const l=lab(t,'#fff',1.8);l.position.set(0,-3.6,0);l.visible=false;g.add(l);return l});
+ const pb=ball(.25,0xffffff,1),pg=glow(0xffffff,1.6);g.add(pb,pg);let W=[-5.5,0,5.5],ea=.2,eb=.2,u=0;
+ return{g,n:'هم‌ارزی و مسئله',z:15,
+ s:['هم‌ارزی یعنی دو مقدار با یکای متفاوت که با هم برابرند، مثل ۱ mol = ۶٫۰۲×۱۰²³ ذره. از هر هم‌ارزی دو کسر (وارون هم) ساخته می‌شود: (۶٫۰۲×۱۰²³ ذره ÷ ۱ mol) و (۱ mol ÷ ۶٫۰۲×۱۰²³ ذره). کسری را بزن که یکای داده‌شده در مخرجش باشد تا ساده شود.','تیپ ۱ — هم‌ارزی مول و تعداد: ۰٫۵ mol آلومینیم چند اتم دارد؟ ۰٫۵ mol × (۶٫۰۲×۱۰²³ اتم ÷ ۱ mol) = ۳٫۰۱×۱۰²³ اتم.','تیپ ۲ — هم‌ارزی مول و جرم: ۱ mol = M g (جرم مولی). ۱۱ g گاز CO₂ چند مول است؟ M = ۱۲ + ۲×۱۶ = ۴۴ g/mol ⟸ ۱۱ g × (۱ mol ÷ ۴۴ g) = ۰٫۲۵ mol. برعکسش: جرم = n × M.','تیپ ۳ — هم‌ارزی جرم و تعداد که به واسطهٔ مول است: جرم ← مول ← تعداد. ۹ g آب (M=۱۸) چند مولکول است؟ ۹ g × (۱ mol ÷ ۱۸ g) × (۶٫۰۲×۱۰²³ ÷ ۱ mol) = ۳٫۰۱×۱۰²³ مولکول؛ چون هر مولکول ۳ اتم دارد، ۹٫۰۳×۱۰²³ اتم.','تیپ‌های دیگر: جرم یک اتم یا مولکول (g) = M ÷ ۶٫۰۲×۱۰²³ (کربن: ۱۲ ÷ ۶٫۰۲×۱۰²³ ≈ ۲×۱۰⁻²³ g)؛ شمار اتم‌های یک عنصر در ترکیب = تعداد مولکول × اندیس؛ و برای مقایسهٔ دو ماده، هر دو را به مول تبدیل کن.'],
+ go(k){ex.forEach((l,i)=>l.visible=i===k);W=[[-5.5,0,5.5],[0,5.5],[-5.5,0],[-5.5,0,5.5],[-5.5,0,5.5]][k];ea=[.3,.1,1,1,.3][k];eb=[.3,1,.1,1,.3][k];u=0},
+ tick(t,dt){u+=dt*.4;const f=(u%1)*(W.length-1),i=Math.min(W.length-2,Math.floor(f)),x=lerp(W[i],W[i+1],f-i);pb.position.x=pg.position.x=x;eA.material.opacity=lerp(eA.material.opacity,ea,.1);eB.material.opacity=lerp(eB.material.opacity,eb,.1);g.rotation.y=Math.sin(t*.4)*.15}}})());
+CH.forEach(c=>{c.g.visible=false;G.add(c.g)});
+
+/* ---------- controller ---------- */
+const clk=new THREE.Clock();let ci=0,si=0,iv,camZ=14,mx=0,my=0;
+const tabs=$('tabs');CH.forEach((c,i)=>{const b=document.createElement('button');b.textContent=c.n;b.onclick=()=>go(i,0);tabs.appendChild(b)});
+function type(s){clearInterval(iv);const el=$('txt');el.classList.remove('done');el.textContent='';let i=0;iv=setInterval(()=>{el.textContent=s.slice(0,++i);if(i>=s.length){clearInterval(iv);el.classList.add('done')}},18);el.onclick=()=>{clearInterval(iv);el.textContent=s;el.classList.add('done')}}
+function go(c,s){if(c!==ci||!CH[c].g.visible){CH[ci].g.visible=false;ci=c;const h=CH[c];h.g.visible=true;h.g.scale.setScalar(.01);h.enter&&h.enter()}si=s;const h=CH[c];h.go(s);
+ [...tabs.children].forEach((b,i)=>b.classList.toggle('on',i===c));$('ttl').textContent=h.n;{const fm=$('fm'),f=h.f&&h.f[s];fm.innerHTML=f||'';fm.style.display=f?'block':'none'}$('dots').innerHTML=h.s.map((_,i)=>`<i class="${i===s?'on':''}"></i>`).join('');type(h.s[s]);
+ const z=typeof h.z==='function'?h.z(Cam.aspect):h.z;camZ=z*(Cam.aspect<1&&c!==5?1.55:1)}
+const next=()=>si<CH[ci].s.length-1?go(ci,si+1):ci<CH.length-1&&go(ci+1,0),prev=()=>si>0?go(ci,si-1):ci>0&&go(ci-1,0);
+$('nx').onclick=next;$('pv').onclick=prev;addEventListener('keydown',e=>{if(e.key==='ArrowLeft')next();if(e.key==='ArrowRight')prev()});
+function resize(){R.setSize(innerWidth,innerHeight);Cam.aspect=innerWidth/innerHeight;Cam.updateProjectionMatrix();const h=CH[ci];if(h){const z=typeof h.z==='function'?h.z(Cam.aspect):h.z;camZ=z*(Cam.aspect<1&&ci!==5?1.55:1)}}
+addEventListener('resize',resize);
+let dx=0,dy=0;const cvs=$('c'),RC=new THREE.Raycaster();
+cvs.addEventListener('pointerdown',e=>{dx=e.clientX;dy=e.clientY});
+cvs.addEventListener('pointermove',e=>{mx=e.clientX/innerWidth-.5;my=e.clientY/innerHeight-.5});
+cvs.addEventListener('pointerup',e=>{if(Math.hypot(e.clientX-dx,e.clientY-dy)>8)return;
+ if(ci===5){RC.setFromCamera(new THREE.Vector2(e.clientX/innerWidth*2-1,-(e.clientY/innerHeight)*2+1),Cam);const h=RC.intersectObjects(tiles)[0];if(h){const z=h.object.userData.z,s=SY[z-1],q=cfg(z);sel=z;type(`${s}${FA[s]?' ('+FA[s]+')':''} — عدد اتمی ${z} — ${ON[org(z)]}. آرایش الکترونی: \u2066${q.s}\u2069 — الکترون ظرفیت (بیرونی‌ترین لایه): ${q.v}`)}}else next()});
+
+/* ---------- background music ---------- */
+addEventListener('DOMContentLoaded',()=>{try{
+const T=[...document.querySelectorAll('audio.trk')],sel=$('mpt'),sk=$('mps'),pp=$('mpp'),vol=$('mpv'),mu=$('mu'),mp=$('mp');
+const audioParts=[{mime:"audio/mp4;base64",count:13},{mime:"audio/mpeg;base64",count:10},{mime:"audio/mp4;base64",count:6}];
+const AUDIO_BASE=new URL('assets/audio/',location.href).href;
+const loads=[];
+let i=0,want=true,started=false,drag=false;const cur=()=>T[i];
+const fmt=x=>{x=Math.max(0,x|0);return(x/60|0)+':'+String(x%60).padStart(2,'0')};
+const ui=()=>{const a=cur(),on=!a.paused;pp.textContent=on?'⏸':'▶';mu.classList.toggle('on',on);if(!drag&&a.duration)sk.value=a.currentTime/a.duration*1000;$('mpc').textContent=fmt(a.currentTime);$('mpd').textContent=isFinite(a.duration)?fmt(a.duration):'0:00'};
+async function ensureAudio(k){
+ if(T[k].src) return;
+ if(!loads[k]) loads[k]=(async()=>{
+  const p=audioParts[k];
+  const chunks=await Promise.all(Array.from({length:p.count},(_,j)=>fetch(AUDIO_BASE+'track-'+k+'-'+String(j).padStart(2,'0')+'.txt').then(r=>{if(!r.ok)throw new Error('audio asset '+r.status);return r.text()})));
+  const raw=atob(chunks.join('')),bytes=new Uint8Array(raw.length);
+  for(let n=0;n<raw.length;n++)bytes[n]=raw.charCodeAt(n);
+  T[k].src=URL.createObjectURL(new Blob([bytes],{type:p.mime}));T[k].load();
+ })();
+ return loads[k];
+}
+const play=()=>ensureAudio(i).then(()=>cur().play()).then(ui).catch(()=>{pp.textContent='↻';$('mpd').textContent='خطا در بارگذاری';});
+const pick=(n,go)=>{const was=!cur().paused||go;cur().pause();i=(n+T.length)%T.length;sel.value=i;cur().currentTime=0;sk.value=0;if(was)play();ui()};
+T.forEach((a,k)=>{a.volume=+vol.value;['timeupdate','play','pause','loadedmetadata'].forEach(ev=>a.addEventListener(ev,()=>{if(k===i)ui()}));a.addEventListener('ended',()=>{if(k===i)pick(i+1,true)})});
+pp.onclick=()=>{const a=cur();if(a.paused){want=true;play()}else{want=false;a.pause()}};
+$('mpb').onclick=()=>{cur().currentTime=Math.max(0,cur().currentTime-10)};
+$('mpf').onclick=()=>{const a=cur();if(a.duration)a.currentTime=Math.min(a.duration-.3,a.currentTime+10)};
+$('mpn').onclick=()=>pick(i+1);$('mpq').onclick=()=>pick(i-1);sel.onchange=()=>pick(+sel.value);
+vol.oninput=()=>T.forEach(a=>a.volume=+vol.value);
+sk.oninput=()=>{drag=true;const a=cur();if(a.duration){a.currentTime=sk.value/1000*a.duration;$('mpc').textContent=fmt(a.currentTime)}};
+sk.onchange=()=>{drag=false;ui()};
+mu.onclick=e=>{e.stopPropagation();mp.hidden=!mp.hidden};
+mp.addEventListener('keydown',e=>e.stopPropagation());
+const first=e=>{if(started||mp.contains(e.target)||e.target.id==='mu')return;started=true;if(want)play()};
+addEventListener('pointerdown',first);addEventListener('keydown',first);ui()}catch(e){}});
+
+resize();go(0,0);CH[0].g.visible=true;
+(function loop(){requestAnimationFrame(loop);const dt=Math.min(clk.getDelta(),.05),t=clk.elapsedTime,h=CH[ci];
+ h.tick(t,dt);h.g.scale.setScalar(lerp(h.g.scale.x,1,.06));
+ Cam.position.z=lerp(Cam.position.z,camZ,.05);Cam.position.y=-.2*Cam.position.z;
+ G.rotation.y=lerp(G.rotation.y,mx*.5,.05);G.rotation.x=lerp(G.rotation.x,my*.3,.05);bg.rotation.y=t*.004;R.render(S,Cam)})();
+</script><audio class="trk" preload="none"></audio>
+<audio class="trk" preload="none"></audio>
+<audio class="trk" preload="none"></audio>
+</body></html>
