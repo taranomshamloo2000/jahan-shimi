@@ -27,20 +27,20 @@
 @media(max-width:700px){#fm{font-size:22px}}
 
 
-#cosmosMusic{position:fixed;z-index:9999;left:16px;bottom:calc(env(safe-area-inset-bottom,0px) + 104px);width:min(340px,calc(100vw - 32px));font-family:Vazirmatn,sans-serif;color:#f7f1ff;background:rgba(16,10,35,.96);border:1px solid rgba(255,210,122,.4);border-radius:18px;box-shadow:0 12px 40px #0009;backdrop-filter:blur(16px);padding:13px;direction:rtl}
+#cosmosMusic{position:fixed;z-index:9999;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 18px);width:min(900px,calc(100% - 24px));font-family:Vazirmatn,sans-serif;color:#f7f1ff;background:rgba(12,9,34,.94);border:1px solid rgba(255,255,255,.18);border-radius:28px;box-shadow:0 18px 55px #000a;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);padding:20px 26px;direction:rtl}
 #cosmosMusic[hidden]{display:none!important}
-#cosmosMusic .cm-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:9px}
-#cosmosMusic .cm-title{font-weight:800;font-size:14px;color:var(--ac)}
-#cosmosMusic .cm-sub{font-size:11px;color:#bcb0d8}
-#cosmosMusic select{width:100%;background:#21183c;color:#fff;border:1px solid #594779;border-radius:10px;padding:9px;font:inherit;font-size:12px;margin:3px 0 8px}
-#cosmosMusic button{border:1px solid #715b98;background:#30224d;color:#fff;border-radius:11px;padding:8px 11px;font:inherit;cursor:pointer}
-#cosmosMusic button.main{background:linear-gradient(135deg,#a77be8,#7152ba);font-weight:800;min-width:48px}
-#cosmosMusic .cm-controls{display:flex;align-items:center;justify-content:center;gap:7px;flex-wrap:wrap}
-#cosmosMusic input[type=range]{width:100%;accent-color:#ffd27a}
-#cosmosMusic .cm-time{display:flex;justify-content:space-between;font-size:10px;color:#c5badb;direction:ltr}
-#cosmosMusic .cm-bottom{display:flex;align-items:center;gap:8px;margin-top:7px;font-size:11px;color:#c5badb}
-#cosmosMusic .cm-bottom input{flex:1;min-width:40px}
-@media(max-width:700px){#cosmosMusic{left:12px;bottom:calc(env(safe-area-inset-bottom,0px) + 94px);width:min(340px,calc(100vw - 24px))}}
+#cosmosMusic .cm-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+#cosmosMusic .cm-title{font-weight:800;font-size:26px;color:var(--ac)}
+#cosmosMusic .cm-sub{font-size:13px;color:#c9c2dc}
+#cosmosMusic select{background:#100c24;color:#fff;border:1px solid var(--line);border-radius:999px;padding:10px 16px;font:inherit;font-size:14px;max-width:100%}
+#cosmosMusic button{border:1px solid var(--line);background:rgba(10,8,30,.75);color:#fff;border-radius:999px;padding:10px 18px;font:inherit;cursor:pointer;min-width:64px}
+#cosmosMusic button.main{background:var(--ac);color:#21162c;border-color:var(--ac);font-weight:800;min-width:110px}
+#cosmosMusic .cm-controls{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:14px}
+#cosmosMusic input[type=range]{width:100%;accent-color:var(--ac)}
+#cosmosMusic .cm-time{display:flex;justify-content:space-between;font-size:12px;color:#c5badb;direction:ltr}
+#cosmosMusic .cm-bottom{display:flex;align-items:center;gap:10px;margin-top:12px;font-size:12px;color:#c5badb}
+#cosmosMusic .cm-bottom input{flex:1;min-width:40px;max-width:180px}
+@media(max-width:700px){#cosmosMusic{padding:16px 18px;border-radius:26px}#cosmosMusic .cm-title{font-size:23px}#cosmosMusic .cm-controls{justify-content:center;gap:8px}#cosmosMusic button{padding:9px 14px}#cosmosMusic .cm-bottom{justify-content:center}}
 
 </style>
 </head><body>
@@ -246,18 +246,19 @@ resize();go(0,0);CH[0].g.visible=true;
 </script>
 
 <section id="cosmosMusic" hidden aria-label="پخش‌کننده موسیقی کیهان">
- <div class="cm-head"><div><div class="cm-title">♫ موسیقی سفر کیهانی</div><div class="cm-sub">همراهی موسیقی با جهان عناصر</div></div><button id="cmClose" type="button" aria-label="بستن">✕</button></div>
+ <div class="cm-head"><div><div class="cm-title">موسیقی کیهان</div><div class="cm-sub">آهنگ همراه سفرت را انتخاب کن</div></div><button id="cmClose" type="button" aria-label="بستن">✕</button></div>
+ <div class="cm-sub" id="cmStatus" role="status">برای شروع، دکمهٔ پخش را بزن.</div>
  <select id="cmTrack" aria-label="انتخاب آهنگ">
   <option value="0">On the Nature of Daylight — Max Richter</option>
   <option value="1">Day One — Interstellar</option>
   <option value="2">Succession</option>
  </select>
- <audio id="cmAudio" preload="metadata"></audio>
+ <audio id="cmAudio" preload="auto"></audio>
  <input id="cmSeek" type="range" min="0" max="1000" value="0" aria-label="موقعیت آهنگ">
  <div class="cm-time"><span id="cmElapsed">0:00</span><span id="cmDuration">0:00</span></div>
  <div class="cm-controls"><button id="cmPrev" type="button">قبلی</button><button id="cmBack" type="button">↶ ۱۰</button><button class="main" id="cmPlay" type="button">▶ پخش</button><button id="cmForward" type="button">۱۰ ↷</button><button id="cmNext" type="button">بعدی</button></div>
  <div class="cm-bottom"><span>صدا</span><input id="cmVolume" type="range" min="0" max="1" step=".01" value=".75"></div>
- <div class="cm-sub" id="cmStatus" role="status">برای شروع، دکمهٔ پخش را بزن.</div>
+ 
 </section>
 <script>
 (()=> {
