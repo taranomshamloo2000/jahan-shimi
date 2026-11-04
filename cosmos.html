@@ -262,13 +262,14 @@ resize();go(0,0);CH[0].g.visible=true;
 </section>
 <script>
 (()=> {
- const ids=['1Zxfo8WK1fko5ra78NDCcIejNtUy2MAZl','1JyAzCRruhfEjf760zeJPN6xrOKn-qJ-a','1cpQWRemd3mMqje4LzX85lNauganNku9q'];
- const tracks=ids.map(id=>'https://drive.google.com/uc?export=download&id='+id);
+ const ids=['1Zxfo8WK1fko5ra78NDCcIejNtUy2MAZl','1JyAzCRruhfEjf760zeJPN6xrOKn-qJ-a','1cpQWRemd3mMqje4LzX85lNauganNku9q9'];
+ const sources=ids.map(id=>['https://drive.google.com/uc?export=download&id='+id,'https://drive.usercontent.google.com/download?id='+id+'&export=download&confirm=t']);
  const $=id=>document.getElementById(id),audio=$('cmAudio'),panel=$('cosmosMusic'),open=$('musicOpen'),play=$('cmPlay'),seek=$('cmSeek'),status=$('cmStatus'),select=$('cmTrack');
- let index=0;
+ let index=0,sourceAttempt=0;
  const fmt=n=>Number.isFinite(n)?Math.floor(n/60)+':'+String(Math.floor(n%60)).padStart(2,'0'):'0:00';
- function setTrack(i){index=(i+tracks.length)%tracks.length;select.value=String(index);audio.pause();audio.src=tracks[index];audio.load();$('cmElapsed').textContent='0:00';$('cmDuration').textContent='0:00';seek.value='0';status.textContent='آهنگ انتخاب شد؛ برای پخش دکمه را بزن.';play.textContent='▶ پخش';}
- async function start(){if(!audio.src)setTrack(index);status.textContent='در حال بارگذاری آهنگ…';try{await audio.play();status.textContent='در حال پخش';}catch(e){status.textContent='پخش نشد؛ اتصال اینترنت یا دسترسی فایل موسیقی را بررسی کن و دوباره بزن.';}}
+ function loadSource(){audio.pause();audio.src=sources[index][sourceAttempt];audio.load();}
+ function setTrack(i){index=(i+sources.length)%sources.length;sourceAttempt=0;select.value=String(index);loadSource();$('cmElapsed').textContent='0:00';$('cmDuration').textContent='0:00';seek.value='0';status.textContent='آهنگ انتخاب شد؛ برای پخش دکمه را بزن.';play.textContent='▶ پخش';}
+ async function start(){if(!audio.src)setTrack(index);status.textContent='در حال بارگذاری آهنگ…';try{await audio.play();status.textContent='در حال پخش';}catch(e){status.textContent='پخش شروع نشد؛ دوباره تلاش کن یا آهنگ دیگری انتخاب کن.';}}
  open.addEventListener('click',()=>{panel.hidden=!panel.hidden;open.setAttribute('aria-expanded',String(!panel.hidden));if(!panel.hidden)status.textContent=audio.paused?'برای شروع، دکمهٔ پخش را بزن.':'در حال پخش';});
  $('cmClose').addEventListener('click',()=>{panel.hidden=true;open.setAttribute('aria-expanded','false')});
  play.addEventListener('click',()=>audio.paused?start():audio.pause());
@@ -280,11 +281,12 @@ resize();go(0,0);CH[0].g.visible=true;
  $('cmVolume').addEventListener('input',e=>audio.volume=Number(e.target.value));audio.volume=.75;
  seek.addEventListener('input',()=>{if(Number.isFinite(audio.duration))audio.currentTime=Number(seek.value)/1000*audio.duration});
  audio.addEventListener('loadedmetadata',()=>{$('cmDuration').textContent=fmt(audio.duration);status.textContent='آهنگ آمادهٔ پخش است.'});
+ audio.addEventListener('canplay',()=>{if(!audio.paused)status.textContent='در حال پخش'});
  audio.addEventListener('timeupdate',()=>{$('cmElapsed').textContent=fmt(audio.currentTime);if(Number.isFinite(audio.duration)&&audio.duration>0)seek.value=String(audio.currentTime/audio.duration*1000)});
  audio.addEventListener('play',()=>{play.textContent='Ⅱ توقف';status.textContent='در حال پخش'});
  audio.addEventListener('pause',()=>{play.textContent='▶ پخش';if(audio.currentTime>0)status.textContent='پخش متوقف شد.'});
  audio.addEventListener('ended',()=>{setTrack(index+1);start()});
- audio.addEventListener('error',()=>{status.textContent='این فایل موسیقی از منبع فعلی دریافت نشد. دسترسی عمومی فایل باید فعال باشد.';play.textContent='▶ تلاش دوباره'});
+ audio.addEventListener('error',()=>{if(sourceAttempt===0){sourceAttempt=1;status.textContent='در حال تلاش از مسیر جایگزین…';loadSource();}else{status.textContent='فایل از گوگل‌درایو دریافت نشد؛ دسترسی عمومی لینک را بررسی کن.';play.textContent='▶ تلاش دوباره';}});
  setTrack(0);
 })();
 </script>
