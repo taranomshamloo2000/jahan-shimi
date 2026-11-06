@@ -312,7 +312,7 @@ mp.addEventListener('keydown',e=>e.stopPropagation());
 const first=e=>{if(started||mp.contains(e.target)||e.target.id==='mu')return;started=true;if(want)play()};
 addEventListener('pointerdown',first);addEventListener('keydown',first);ui()}catch(e){}});
 
-resize();go(0,0);CH[0].g.visible=true;
+resize();go(14,0);tabs.children[14]?.scrollIntoView({block:'nearest',inline:'center'});
 (function loop(){requestAnimationFrame(loop);const dt=Math.min(clk.getDelta(),.05),t=clk.elapsedTime,h=CH[ci];
  h.tick(t,dt);h.g.scale.setScalar(lerp(h.g.scale.x,1,.06));
  Cam.position.z=lerp(Cam.position.z,camZ,.05);Cam.position.y=-.2*Cam.position.z;
