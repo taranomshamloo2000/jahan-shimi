@@ -41,6 +41,11 @@
 @media(max-width:700px){#xc{font-size:12.5px;padding:8px 10px;max-height:24vh}}
 
 </style></head><body>
+<div id="boot-fallback" style="position:fixed;z-index:99999;inset:auto 12px 18px 12px;display:block;padding:18px 20px;border:1px solid rgba(255,210,122,.65);border-radius:18px;background:#120d2e;color:#fff;font:15px/2 Tahoma,sans-serif;text-align:right;box-shadow:0 8px 40px #0009">
+<strong style="display:block;color:#ffd27a;font-size:20px">جهان سه‌بعدی شیمی</strong>
+<span>همه‌چیز از یک نقطهٔ بی‌نهایت داغ و چگال آغاز شد. جهان با مهبانگ آغاز به گسترش کرد. این متن حتی در صورت بارگذاری‌نشدن صحنهٔ سه‌بعدی باید نمایش داده شود.</span>
+</div>
+<style>#boot-fallback{visibility:visible!important;opacity:1!important}#panel{display:block!important;visibility:visible!important;opacity:1!important;z-index:100000!important}#txt{display:block!important;visibility:visible!important;opacity:1!important}</style>
 <canvas id="c"></canvas><nav id="tabs"></nav>
 <div id="mp" hidden><select id="mpt" aria-label="انتخاب آهنگ"><option value="0">On the Nature of Daylight — Max Richter</option><option value="1">Day One — Interstellar</option><option value="2">Succession</option></select>
 <div class="r"><span class="t" id="mpc">0:00</span><input type="range" id="mps" min="0" max="1000" value="0" aria-label="جلو و عقب بردن آهنگ"><span class="t" id="mpd">0:00</span></div>
@@ -52,9 +57,13 @@
 window.__world3dReady=false;
 window.addEventListener('error',function(){
  if(window.__world3dReady)return;
- const title=document.getElementById('ttl'),txt=document.getElementById('txt');
+ const title=document.getElementById('ttl'),txt=document.getElementById('txt'),fallback=document.getElementById('boot-fallback');
  if(title)title.textContent='جهان سه‌بعدی شیمی';
- if(txt){txt.textContent='متن آموزشی در دسترس است؛ اما موتور سه‌بعدی در این دستگاه بارگذاری نشد. صفحه را یک‌بار تازه‌سازی کن. اگر مشکل ادامه داشت، حالت صرفه‌جویی باتری یا محدودیت گرافیکی مرورگر را خاموش کن.';txt.classList.add('done');}
+ if(txt){txt.textContent='موتور سه‌بعدی بارگذاری نشد؛ متن آموزشی پایه همچنان نمایش داده می‌شود.';txt.classList.add('done');}
+ if(fallback)fallback.style.display='block';
+});
+window.addEventListener('unhandledrejection',function(){
+ if(!window.__world3dReady){const f=document.getElementById('boot-fallback');if(f)f.style.display='block';}
 });
 </script>
 <script src="assets/three.min.js" onerror="document.getElementById('txt').textContent='بارگذاری موتور سه‌بعدی ناموفق بود؛ متن آموزشی همچنان در دسترس است.'"></script>
@@ -496,7 +505,7 @@ mp.addEventListener('keydown',e=>e.stopPropagation());
 const first=e=>{if(started||mp.contains(e.target)||e.target.id==='mu')return;started=true;if(want)play()};
 addEventListener('pointerdown',first);addEventListener('keydown',first);ui()}catch(e){}});
 
-resize();go(0,0);CH[0].g.visible=true;window.__world3dReady=true;
+resize();go(0,0);CH[0].g.visible=true;window.__world3dReady=true;document.getElementById('boot-fallback').style.display='none';
 (function loop(){requestAnimationFrame(loop);const dt=Math.min(clk.getDelta(),.05),t=clk.elapsedTime,h=CH[ci];
  h.tick(t,dt);h.g.scale.setScalar(lerp(h.g.scale.x,1,.06));
  Cam.position.z=lerp(Cam.position.z,camZ,.05);Cam.position.y=-.2*Cam.position.z;
