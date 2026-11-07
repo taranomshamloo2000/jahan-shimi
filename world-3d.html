@@ -40,6 +40,9 @@
 #xc table{width:100%;border-collapse:collapse;font-size:13px}#xc td,#xc th{border:1px solid var(--line);padding:3px 6px;text-align:center}
 @media(max-width:700px){#xc{font-size:12.5px;padding:8px 10px;max-height:24vh}}
 
+#panel.tools-mode #txt,#panel.tools-mode #fm,#panel.tools-mode #speedbox{display:none!important}
+#panel:not(.tools-mode) #xc{display:none!important}
+#panel.tools-mode #xc{display:block!important}
 </style></head><body>
 <canvas id="c"></canvas><nav id="tabs"></nav>
 <div id="mp" hidden><select id="mpt" aria-label="انتخاب آهنگ"><option value="0">On the Nature of Daylight — Max Richter</option><option value="1">Day One — Interstellar</option><option value="2">Succession</option></select>
@@ -356,10 +359,14 @@ CH.forEach(c=>{c.g.visible=false;G.add(c.g)});
 /* ---------- controller ---------- */
 const clk=new THREE.Clock();let ci=0,si=0,iv,camZ=14,mx=0,my=0;
 const tabs=$('tabs');CH.forEach((c,i)=>{const b=document.createElement('button');b.textContent=c.n;b.onclick=()=>go(i,0);tabs.appendChild(b)});
-let textSpeed=1,currentText='',textIndex=0;function revealSceneControls(){const x=$('xc');if(x.childElementCount||x.innerHTML.trim())x.style.display='block'}function startTyping(){clearInterval(iv);const el=$('txt');iv=setInterval(()=>{textIndex=Math.min(currentText.length,textIndex+1);el.textContent=currentText.slice(0,textIndex);if(textIndex>=currentText.length){clearInterval(iv);el.classList.add('done');revealSceneControls()}},Math.max(1,18/textSpeed))}function type(s){currentText=s;textIndex=0;const el=$('txt');el.classList.remove('done');el.textContent='';$('xc').style.display='none';startTyping();el.onclick=()=>{clearInterval(iv);textIndex=currentText.length;el.textContent=currentText;el.classList.add('done');revealSceneControls()}}$('txspeed').onchange=e=>{textSpeed=Number(e.target.value)||1;if(textIndex<currentText.length)startTyping()};
+let textSpeed=1,currentText='',textIndex=0;
+function setPanelMode(showTools){$('panel').classList.toggle('tools-mode',!!showTools);if(showTools){const x=$('xc');if(x.childElementCount||x.innerHTML.trim())x.style.display='block'}else $('xc').style.display='none'}
+function startTyping(){clearInterval(iv);const el=$('txt');iv=setInterval(()=>{textIndex=Math.min(currentText.length,textIndex+1);el.textContent=currentText.slice(0,textIndex);if(textIndex>=currentText.length){clearInterval(iv);el.classList.add('done')}},Math.max(1,18/textSpeed))}
+function type(s){setPanelMode(false);currentText=s;textIndex=0;const el=$('txt');el.classList.remove('done');el.textContent='';$('xc').style.display='none';startTyping();el.onclick=()=>{clearInterval(iv);textIndex=currentText.length;el.textContent=currentText;el.classList.add('done')}}
+$('txspeed').onchange=e=>{textSpeed=Number(e.target.value)||1;if(textIndex<currentText.length)startTyping()};if(textIndex<currentText.length)startTyping()};
 function xcSet(h){const x=$('xc');x.replaceChildren();x.style.display='none';if(typeof h.ui==='function'){h.el=h.el||h.ui();if(h.el)x.appendChild(h.el)}else if(h.ui){x.innerHTML=h.ui;if(h.bind)h.bind()}}
 
-function go(c,s){if(c!==ci||!CH[c].g.visible){CH[ci].g.visible=false;ci=c;const h=CH[c];h.g.visible=true;h.g.scale.setScalar(.01);h.enter&&h.enter()}si=s;const h=CH[c];h.go(s);xcSet(h);
+function go(c,s){setPanelMode(false);if(c!==ci||!CH[c].g.visible){CH[ci].g.visible=false;ci=c;const h=CH[c];h.g.visible=true;h.g.scale.setScalar(.01);h.enter&&h.enter()}si=s;const h=CH[c];h.go(s);xcSet(h);
  [...tabs.children].forEach((b,i)=>b.classList.toggle('on',i===c));$('ttl').textContent=h.n;{const fm=$('fm'),f=h.f&&h.f[s];fm.innerHTML=f||'';fm.style.display=f?'block':'none'}$('dots').innerHTML=h.s.map((_,i)=>`<i class="${i===s?'on':''}"></i>`).join('');type(h.s[s]);
  const z=typeof h.z==='function'?h.z(Cam.aspect):h.z;camZ=z*(Cam.aspect<1&&c!==5?1.55:1)}
 const next=()=>si<CH[ci].s.length-1?go(ci,si+1):ci<CH.length-1&&go(ci+1,0),prev=()=>si>0?go(ci,si-1):ci>0&&go(ci-1,0);
@@ -370,7 +377,7 @@ let dx=0,dy=0;const cvs=$('c'),RC=new THREE.Raycaster();
 cvs.addEventListener('pointerdown',e=>{dx=e.clientX;dy=e.clientY});
 cvs.addEventListener('pointermove',e=>{mx=e.clientX/innerWidth-.5;my=e.clientY/innerHeight-.5});
 cvs.addEventListener('pointerup',e=>{if(Math.hypot(e.clientX-dx,e.clientY-dy)>8)return;
- if(ci===5){RC.setFromCamera(new THREE.Vector2(e.clientX/innerWidth*2-1,-(e.clientY/innerHeight)*2+1),Cam);const h=RC.intersectObjects(tiles)[0];if(h){const z=h.object.userData.z,s=SY[z-1],q=cfg(z);sel=z;type(`${s}${FA[s]?' ('+FA[s]+')':''} — عدد اتمی ${z} — ${ON[org(z)]}. آرایش الکترونی: \u2066${q.s}\u2069 — الکترون ظرفیت (بیرونی‌ترین لایه): ${q.v}`)}}else if(CH[ci].pick){RC.setFromCamera(new THREE.Vector2(e.clientX/innerWidth*2-1,-(e.clientY/innerHeight)*2+1),Cam);CH[ci].pick(RC)}else if(ci<14)next()});
+ if(ci===5){RC.setFromCamera(new THREE.Vector2(e.clientX/innerWidth*2-1,-(e.clientY/innerHeight)*2+1),Cam);const h=RC.intersectObjects(tiles)[0];if(h){const z=h.object.userData.z,s=SY[z-1],q=cfg(z);sel=z;type(`${s}${FA[s]?' ('+FA[s]+')':''} — عدد اتمی ${z} — ${ON[org(z)]}. آرایش الکترونی: \u2066${q.s}\u2069 — الکترون ظرفیت (بیرونی‌ترین لایه): ${q.v}`)}}else if(CH[ci].pick){RC.setFromCamera(new THREE.Vector2(e.clientX/innerWidth*2-1,-(e.clientY/innerHeight)*2+1),Cam);CH[ci].pick(RC)}else if(ci<14)next()setPanelMode(!$('panel').classList.contains('tools-mode'));});
 
 /* ---------- background music ---------- */
 addEventListener('DOMContentLoaded',()=>{try{
