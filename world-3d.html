@@ -46,8 +46,18 @@
 <div class="r"><span class="t" id="mpc">0:00</span><input type="range" id="mps" min="0" max="1000" value="0" aria-label="جلو و عقب بردن آهنگ"><span class="t" id="mpd">0:00</span></div>
 <div class="r"><button id="mpq" aria-label="آهنگ قبلی">⏮</button><button id="mpb" aria-label="۱۰ ثانیه عقب">⏪ 10</button><button id="mpp" aria-label="پخش و توقف">▶</button><button id="mpf" aria-label="۱۰ ثانیه جلو">10 ⏩</button><button id="mpn" aria-label="آهنگ بعدی">⏭</button></div>
 <div class="r"><span>🔈</span><input type="range" id="mpv" min="0" max="1" step="0.01" value="0.5" aria-label="میزان صدا"><span>🔊</span></div></div>
-<div id="panel"><h2 id="ttl"></h2><div id="fm" dir="ltr"></div><div id="speedbox"><label for="txspeed">سرعت نمایش متن:</label><select id="txspeed" aria-label="سرعت نمایش متن"><option value="0.5">×۰٫۵</option><option value="0.75">×۰٫۷۵</option><option value="1" selected>×۱</option><option value="1.5">×۱٫۵</option><option value="2">×۲</option></select></div><p id="txt"></p><div id="xc"></div><div id="ctl"><button id="pv">قبلی</button><span id="dots"></span><button id="mu" type="button">♪ موسیقی</button><button id="nx">ادامه ◂</button></div></div>
-<script src="assets/three.min.js"></script>
+<div id="panel"><h2 id="ttl">مهبانگ</h2><div id="fm" dir="ltr"></div><div id="speedbox"><label for="txspeed">سرعت نمایش متن:</label><select id="txspeed" aria-label="سرعت نمایش متن"><option value="0.5">×۰٫۵</option><option value="0.75">×۰٫۷۵</option><option value="1" selected>×۱</option><option value="1.5">×۱٫۵</option><option value="2">×۲</option></select></div><p id="txt">همه‌چیز از یک نقطهٔ بی‌نهایت داغ و چگال آغاز شد. روی صحنه لمس کن تا مهبانگ رخ دهد.</p><div id="xc"></div><div id="ctl"><button id="pv">قبلی</button><span id="dots"></span><button id="mu" type="button">♪ موسیقی</button><button id="nx">ادامه ◂</button></div></div>
+<script>
+/* Always keep the first lesson visible if WebGL or the main script fails. */
+window.__world3dReady=false;
+window.addEventListener('error',function(){
+ if(window.__world3dReady)return;
+ const title=document.getElementById('ttl'),txt=document.getElementById('txt');
+ if(title)title.textContent='جهان سه‌بعدی شیمی';
+ if(txt){txt.textContent='متن آموزشی در دسترس است؛ اما موتور سه‌بعدی در این دستگاه بارگذاری نشد. صفحه را یک‌بار تازه‌سازی کن. اگر مشکل ادامه داشت، حالت صرفه‌جویی باتری یا محدودیت گرافیکی مرورگر را خاموش کن.';txt.classList.add('done');}
+});
+</script>
+<script src="assets/three.min.js" onerror="document.getElementById('txt').textContent='بارگذاری موتور سه‌بعدی ناموفق بود؛ متن آموزشی همچنان در دسترس است.'"></script>
 <script>
 const $=id=>document.getElementById(id),rnd=Math.random,lerp=(a,b,k)=>a+(b-a)*k,C=new THREE.Color(),V=THREE.Vector3;
 const desktop=matchMedia('(min-width:900px)').matches;const R=new THREE.WebGLRenderer({canvas:$('c'),antialias:!desktop,powerPreference:'high-performance',precision:'mediump'});R.setPixelRatio(Math.min(devicePixelRatio,desktop?1:1.5));
@@ -486,7 +496,7 @@ mp.addEventListener('keydown',e=>e.stopPropagation());
 const first=e=>{if(started||mp.contains(e.target)||e.target.id==='mu')return;started=true;if(want)play()};
 addEventListener('pointerdown',first);addEventListener('keydown',first);ui()}catch(e){}});
 
-resize();go(0,0);CH[0].g.visible=true;
+resize();go(0,0);CH[0].g.visible=true;window.__world3dReady=true;
 (function loop(){requestAnimationFrame(loop);const dt=Math.min(clk.getDelta(),.05),t=clk.elapsedTime,h=CH[ci];
  h.tick(t,dt);h.g.scale.setScalar(lerp(h.g.scale.x,1,.06));
  Cam.position.z=lerp(Cam.position.z,camZ,.05);Cam.position.y=-.2*Cam.position.z;
