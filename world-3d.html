@@ -363,7 +363,7 @@ let textSpeed=1,currentText='',textIndex=0;
 function setPanelMode(showTools){$('panel').classList.toggle('tools-mode',!!showTools);if(showTools){const x=$('xc');if(x.childElementCount||x.innerHTML.trim())x.style.display='block'}else $('xc').style.display='none'}
 function startTyping(){clearInterval(iv);const el=$('txt');iv=setInterval(()=>{textIndex=Math.min(currentText.length,textIndex+1);el.textContent=currentText.slice(0,textIndex);if(textIndex>=currentText.length){clearInterval(iv);el.classList.add('done')}},Math.max(1,18/textSpeed))}
 function type(s){setPanelMode(false);currentText=s;textIndex=0;const el=$('txt');el.classList.remove('done');el.textContent='';$('xc').style.display='none';startTyping();el.onclick=()=>{clearInterval(iv);textIndex=currentText.length;el.textContent=currentText;el.classList.add('done')}}
-$('txspeed').onchange=e=>{textSpeed=Number(e.target.value)||1;if(textIndex<currentText.length)startTyping()};if(textIndex<currentText.length)startTyping()};
+$('txspeed').onchange=e=>{textSpeed=Number(e.target.value)||1;if(textIndex<currentText.length)startTyping()};
 function xcSet(h){const x=$('xc');x.replaceChildren();x.style.display='none';if(typeof h.ui==='function'){h.el=h.el||h.ui();if(h.el)x.appendChild(h.el)}else if(h.ui){x.innerHTML=h.ui;if(h.bind)h.bind()}}
 
 function go(c,s){setPanelMode(false);if(c!==ci||!CH[c].g.visible){CH[ci].g.visible=false;ci=c;const h=CH[c];h.g.visible=true;h.g.scale.setScalar(.01);h.enter&&h.enter()}si=s;const h=CH[c];h.go(s);xcSet(h);
