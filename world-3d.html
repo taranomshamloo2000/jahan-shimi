@@ -421,7 +421,7 @@ CH.push((()=>{const g=new THREE.Group();
  enter(){S5=-1;T5=0;em=false;rr=R5[2];ph.visible=pg.visible=wv.visible=false},go(){},
  ui(x){x.className='on';x.innerHTML=LN.map((l,i)=>`<button data-i="${i}"><i style="background:${l[3]}"></i>${fa(l[0],0)} nm</button>`).join('')+'<div class="i">روی یکی از خط‌های طیف کلیک کن.</div>';
   x.querySelectorAll('button').forEach(b=>b.onclick=()=>pickL(+b.dataset.i));$('tb').style.display='block';tbl()},
- pick(ev){RC.setFromCamera(new THREE.Vector2(ev.clientX/innerWidth*2-1,-(ev.clientY/innerHeight)*2+1),Cam);const h=RC.intersectObjects(HB)[0];if(h)pickL(h.object.userData.i)},
+ pick(ev){RC.setFromCamera(new THREE.Vector2(ev.clientX/innerWidth*2-1,-(ev.clientY/innerHeight)*2+1),Cam);const h=RC.intersectObjects(HB)[0];if(h){pickL(h.object.userData.i);return true}return false},
  tick(t,dt){const k=1-Math.exp(-dt*4);A.scale.setScalar(lerp(A.scale.x,S5>=0?1:.001,k));let lit=0;
   if(S5>=0){T5+=dt;const l=LN[S5],r0=R5[l[2]-1],r1=R5[1],p=Math.min(1,Math.max(0,(T5-.6)/1.2)),q=p*p*(3-2*p);rr=r0+(r1-r0)*q;lit=T5<1?l[2]:2;
    const c=new THREE.Color(l[3]);ph.material.color.copy(c);ph.material.emissive.copy(c);pg.material.color.copy(c);wv.material.color.copy(c);
@@ -449,7 +449,7 @@ let dx=0,dy=0;const cvs=$('c'),RC=new THREE.Raycaster();
 cvs.addEventListener('pointerdown',e=>{dx=e.clientX;dy=e.clientY});$('panel').addEventListener('click',e=>{if(!interactionMode)return;if(e.target.closest('#xc'))return;setInteractionMode(false)});
 cvs.addEventListener('pointermove',e=>{mx=e.clientX/innerWidth-.5;my=e.clientY/innerHeight-.5});
 cvs.addEventListener('pointerup',e=>{if(Math.hypot(e.clientX-dx,e.clientY-dy)>8)return;if(!interactionMode){setInteractionMode(true);return}
- if(ci===5){RC.setFromCamera(new THREE.Vector2(e.clientX/innerWidth*2-1,-(e.clientY/innerHeight)*2+1),Cam);const h=RC.intersectObjects(tiles)[0];if(h){const z=h.object.userData.z,s=SY[z-1],q=cfg(z);sel=z;type(`${s}${FA[s]?' ('+FA[s]+')':''} — عدد اتمی ${z} — ${ON[org(z)]}. آرایش الکترونی: \u2066${q.s}\u2069 — الکترون ظرفیت (بیرونی‌ترین لایه): ${q.v}`)}}else if(CH[ci].pick){RC.setFromCamera(new THREE.Vector2(e.clientX/innerWidth*2-1,-(e.clientY/innerHeight)*2+1),Cam);CH[ci].pick(RC)}else if(ci<14)next()});
+ if(ci===5){RC.setFromCamera(new THREE.Vector2(e.clientX/innerWidth*2-1,-(e.clientY/innerHeight)*2+1),Cam);const h=RC.intersectObjects(tiles)[0];if(h){const z=h.object.userData.z,s=SY[z-1],q=cfg(z);sel=z;type(`${s}${FA[s]?' ('+FA[s]+')':''} — عدد اتمی ${z} — ${ON[org(z)]}. آرایش الکترونی: \u2066${q.s}\u2069 — الکترون ظرفیت (بیرونی‌ترین لایه): ${q.v}`)}}else if(CH[ci].pick){if(!CH[ci].pick(e))setInteractionMode(false)}else if(ci<14)next();else setInteractionMode(false)});
 
 /* ---------- background music ---------- */
 addEventListener('DOMContentLoaded',()=>{try{
