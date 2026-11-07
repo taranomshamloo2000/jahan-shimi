@@ -359,7 +359,7 @@ CH.forEach(c=>{c.g.visible=false;G.add(c.g)});
 /* ---------- controller ---------- */
 const clk=new THREE.Clock();let ci=0,si=0,iv,camZ=14,mx=0,my=0;
 const tabs=$('tabs');CH.forEach((c,i)=>{const b=document.createElement('button');b.textContent=c.n;b.onclick=()=>go(i,0);tabs.appendChild(b)});
-let textSpeed=1,currentText='',textIndex=0;
+let textSpeed=1,currentText='',lessonText='',textIndex=0;
 function setPanelMode(showTools){$('panel').classList.toggle('tools-mode',!!showTools);if(showTools){const x=$('xc');if(x.childElementCount||x.innerHTML.trim())x.style.display='block'}else $('xc').style.display='none'}
 function startTyping(){clearInterval(iv);const el=$('txt');iv=setInterval(()=>{textIndex=Math.min(currentText.length,textIndex+1);el.textContent=currentText.slice(0,textIndex);if(textIndex>=currentText.length){clearInterval(iv);el.classList.add('done')}},Math.max(1,18/textSpeed))}
 function type(s){setPanelMode(false);currentText=s;textIndex=0;const el=$('txt');el.classList.remove('done');el.textContent='';$('xc').style.display='none';startTyping();el.onclick=()=>{clearInterval(iv);textIndex=currentText.length;el.textContent=currentText;el.classList.add('done')}}
@@ -367,7 +367,7 @@ $('txspeed').onchange=e=>{textSpeed=Number(e.target.value)||1;if(textIndex<curre
 function xcSet(h){const x=$('xc');x.replaceChildren();x.style.display='none';if(typeof h.ui==='function'){h.el=h.el||h.ui();if(h.el)x.appendChild(h.el)}else if(h.ui){x.innerHTML=h.ui;if(h.bind)h.bind()}}
 
 function go(c,s){setPanelMode(false);if(c!==ci||!CH[c].g.visible){CH[ci].g.visible=false;ci=c;const h=CH[c];h.g.visible=true;h.g.scale.setScalar(.01);h.enter&&h.enter()}si=s;const h=CH[c];h.go(s);xcSet(h);
- [...tabs.children].forEach((b,i)=>b.classList.toggle('on',i===c));$('ttl').textContent=h.n;{const fm=$('fm'),f=h.f&&h.f[s];fm.innerHTML=f||'';fm.style.display=f?'block':'none'}$('dots').innerHTML=h.s.map((_,i)=>`<i class="${i===s?'on':''}"></i>`).join('');type(h.s[s]);
+ [...tabs.children].forEach((b,i)=>b.classList.toggle('on',i===c));$('ttl').textContent=h.n;{const fm=$('fm'),f=h.f&&h.f[s];fm.innerHTML=f||'';fm.style.display=f?'block':'none'}$('dots').innerHTML=h.s.map((_,i)=>`<i class="${i===s?'on':''}"></i>`).join('');lessonText=h.s[s]||'برای این بخش هنوز متن آموزشی ثبت نشده است.';type(lessonText);
  const z=typeof h.z==='function'?h.z(Cam.aspect):h.z;camZ=z*(Cam.aspect<1&&c!==5?1.55:1)}
 const next=()=>si<CH[ci].s.length-1?go(ci,si+1):ci<CH.length-1&&go(ci+1,0),prev=()=>si>0?go(ci,si-1):ci>0&&go(ci-1,0);
 $('nx').onclick=next;$('pv').onclick=prev;$('xc').addEventListener('keydown',e=>e.stopPropagation());addEventListener('keydown',e=>{if(e.key==='ArrowLeft')next();if(e.key==='ArrowRight')prev()});
@@ -376,8 +376,24 @@ addEventListener('resize',resize);
 let dx=0,dy=0;const cvs=$('c'),RC=new THREE.Raycaster();
 cvs.addEventListener('pointerdown',e=>{dx=e.clientX;dy=e.clientY});
 cvs.addEventListener('pointermove',e=>{mx=e.clientX/innerWidth-.5;my=e.clientY/innerHeight-.5});
-cvs.addEventListener('pointerup',e=>{if(Math.hypot(e.clientX-dx,e.clientY-dy)>8)return;
- if(ci===5){RC.setFromCamera(new THREE.Vector2(e.clientX/innerWidth*2-1,-(e.clientY/innerHeight)*2+1),Cam);const h=RC.intersectObjects(tiles)[0];if(h){const z=h.object.userData.z,s=SY[z-1],q=cfg(z);sel=z;type(`${s}${FA[s]?' ('+FA[s]+')':''} — عدد اتمی ${z} — ${ON[org(z)]}. آرایش الکترونی: \u2066${q.s}\u2069 — الکترون ظرفیت (بیرونی‌ترین لایه): ${q.v}`)}}else if(CH[ci].pick){RC.setFromCamera(new THREE.Vector2(e.clientX/innerWidth*2-1,-(e.clientY/innerHeight)*2+1),Cam);CH[ci].pick(RC)}else if(ci<14)next();setPanelMode(!$('panel').classList.contains('tools-mode'));});
+cvs.addEventListener('pointerup',e=>{
+ if(Math.hypot(e.clientX-dx,e.clientY-dy)>8)return;
+ const panel=$('panel'),toolsVisible=panel.classList.contains('tools-mode');
+ // First tap only switches from the lesson to its controls; it never advances the lesson.
+ if(!toolsVisible){setPanelMode(true);return}
+ let picked=false;
+ RC.setFromCamera(new THREE.Vector2(e.clientX/innerWidth*2-1,-(e.clientY/innerHeight)*2+1),Cam);
+ if(ci===5){
+  const hit=RC.intersectObjects(tiles)[0];
+  if(hit){const z=hit.object.userData.z,sym=SY[z-1],q=cfg(z);sel=z;
+   type(`${sym}${FA[sym]?' ('+FA[sym]+')':''} — عدد اتمی ${z} — ${ON[org(z)]}. آرایش الکترونی: \u2066${q.s}\u2069 — الکترون ظرفیت (بیرونی‌ترین لایه): ${q.v}`);
+   picked=true;
+  }
+ }else if(CH[ci].pick){picked=CH[ci].pick(RC)===true}
+ if(picked){setPanelMode(true);return}
+ // A tap on empty scene space returns to this exact lesson's text.
+ type(lessonText);
+});
 
 /* ---------- background music ---------- */
 addEventListener('DOMContentLoaded',()=>{try{
