@@ -237,120 +237,199 @@ sci=v=>{const[a,b]=v.toExponential(2).split('e');return fa(+a,2)+'×۱۰'+[...St
 lvC=(a,b)=>{const nm=1239.84/(13.6*(1/(a*a)-1/(b*b))),col=nm>=380&&nm<=780?wl(nm):nm<380?'#c9a8ff':'#ff4a3a';return{nm,col,tag:nm<380?' (فرابنفش، نامرئی؛ با رنگ بنفش روشن نمایش داده شده)':nm>780?' (فروسرخ، نامرئی؛ با قرمز تیره نمایش داده شده)':''}};
 
 /* ---- ماژول ۱: منشور و طیف نور (رصدخانهٔ کوهستانی روی زمین) ---- */
-CH.push((()=>{const g=new THREE.Group();let mode=0,lam=550,info=null;
- [[-9,-3,-9,3.2,5],[-3,-3.4,-11,4,6.5],[7,-3.2,-10,3.6,5.5],[12,-3,-8,2.6,4]].forEach(([x,y,z,r,h])=>{const m=new THREE.Mesh(new THREE.ConeGeometry(r,h,5),new THREE.MeshStandardMaterial({color:0x2a2750,roughness:1,flatShading:true}));m.position.set(x,y,z);g.add(m)});
- const sun=glow(0xffd27a,9);sun.position.set(-10,5,-10);g.add(sun);
- const gr=new THREE.Mesh(new THREE.PlaneGeometry(44,26),new THREE.MeshStandardMaterial({color:0x14122e,roughness:1}));gr.rotation.x=-Math.PI/2;gr.position.y=-3.2;g.add(gr);
- const dm=new THREE.Mesh(new THREE.SphereGeometry(1.5,24,12,0,6.283,0,1.57),new THREE.MeshStandardMaterial({color:0x9aa6c8,metalness:.6,roughness:.35}));dm.position.set(8.5,-3.2,-4);g.add(dm);
- const sh=new THREE.Shape();sh.moveTo(-1.5,-1.3);sh.lineTo(1.5,-1.3);sh.lineTo(0,1.3);sh.closePath();
- const pg=new THREE.ExtrudeGeometry(sh,{depth:1.2,bevelEnabled:false});pg.translate(0,0,-.6);
- const pr=new THREE.Mesh(pg,new THREE.MeshPhysicalMaterial({color:0xbfe6ff,transparent:true,opacity:.3,roughness:.05,clearcoat:1,depthWrite:false}));
- pr.add(new THREE.LineSegments(new THREE.EdgesGeometry(pg),new THREE.LineBasicMaterial({color:0xffffff,transparent:true,opacity:.8})));g.add(pr);
- const SL=[...Array(8)].map(()=>({i:BM(),o:BM(),e:glow(0xffffff,1.4)})),w0=BM();SL.forEach(s=>{s.e.visible=false;g.add(s.i,s.o,s.e)});g.add(w0);
- const LAM=[680,610,580,530,470,440,410],Y0=-.1,
- ray=l=>{const n=1.5+12000/(l*l),P1=[-1.5+1.5*(Y0+1.3)/2.6,Y0],d1=refr([1,0],[-.866,.5],1/n),P2=isect(P1,d1,[0,1.3],[1.5,-1.3]),d2=refr(d1,[-.866,-.5],n)||d1;return{n,P1,P2,d2,dev:Math.abs(Math.atan2(d2[1],d2[0]))*57.2958}},
- show=(s,l,w,op)=>{const r=ray(l),c=wl(l),E=[r.P2[0]+r.d2[0]*6,r.P2[1]+r.d2[1]*6];setB(s.i,r.P1,r.P2,c,w*.7);setB(s.o,r.P2,E,c,w);s.i.material.opacity=s.o.material.opacity=op;s.e.material.color.set(c);s.e.material.opacity=op;s.e.position.set(E[0],E[1],0);s.e.visible=true},
- refresh=()=>{setB(w0,[-7,Y0],ray(550).P1,'#ffffff',.09);SL.forEach(s=>{s.i.visible=s.o.visible=s.e.visible=false});
-  if(mode===1){const r=ray(550);setB(SL[0].i,r.P1,r.P2,'#ffffff',.07);SL[0].i.material.opacity=.9}
-  if(mode>=2)LAM.forEach((l,k)=>show(SL[k],l,.07,mode===3?.22:.95));
-  if(mode===3)show(SL[7],lam,.12,1);
-  if(info){const r=ray(lam);info.innerHTML=`<span style="color:${wl(lam)}">●</span> λ = ${fa(lam,0)} نانومتر<br>ضریب شکست ≈ ${fa(r.n,3)} — زاویهٔ انحراف ≈ ${fa(r.dev,1)}°<br>${lam<500?'طول موج کوتاه‌تر ⟸ شکست بیشتر (به‌سوی بنفش)':'طول موج بلندتر ⟸ شکست کمتر (به‌سوی قرمز)'}<br><small style="color:var(--mute)">اختلاف ضریب شکست برای دیده‌شدن بهتر کمی اغراق‌شده است.</small>`}};
- return{g,n:'منشور و طیف نور',z:12,
- s:['در رصدخانه‌ای کوهستانی، پرتوی نور سفید خورشید از چپ به یک منشور شیشه‌ای می‌تابد. نور سفید ترکیبی از طول موج‌های گوناگونِ نور مرئی است.','هنگام ورود به شیشه، سرعت نور کم می‌شود و پرتو می‌شکند. ضریب شکست شیشه برای هر طول موج اندکی فرق دارد، پس هر رنگ به اندازهٔ متفاوتی منحرف می‌شود.','پس از خروج، نور سفید به طیف هفت‌رنگ (قرمز، نارنجی، زرد، سبز، آبی، نیلی، بنفش) تجزیه می‌شود. زاویهٔ شکست بنفش از قرمز بیشتر است؛ منشور به دلیل شکست متفاوت طول موج‌ها رنگ‌ها را از هم جدا می‌کند.','اسلایدر را بکش و طول موج دلخواهت را بین ۴۰۰ تا ۷۰۰ نانومتر انتخاب کن. با کوتاه‌تر شدن طول موج، رنگ به بنفش نزدیک‌تر و زاویهٔ شکست بیشتر می‌شود.'],
- go(k){mode=k;refresh()},
- ui(){const d=mkEl('<b>طول موج (λ)</b><input type="range" min="400" max="700" value="550" dir="ltr" aria-label="طول موج"><div class="xi"></div>'),sl=d.querySelector('input');info=d.querySelector('.xi');sl.oninput=()=>{lam=+sl.value;mode=3;refresh()};refresh();return d},
- tick(t){SL.forEach((s,k)=>s.e.scale.setScalar(1.3+.2*Math.sin(t*4+k)))}}})());
+/* ================= پنج ماژول «نور، کلید شناخت جهان» (جایگزین فصل جرم و مول) ================= */
+/* تبدیل طول موج (نانومتر) به رنگ مرئی */
+const wl=n=>{n=Math.max(380,Math.min(750,n));let r=0,g=0,b=0;if(n<440){r=(440-n)/60;b=1}else if(n<490){g=(n-440)/50;b=1}else if(n<510){g=1;b=(510-n)/20}else if(n<580){r=(n-510)/70;g=1}else if(n<645){r=1;g=(645-n)/65}else r=1;
+ const f=n<420?.3+.7*(n-380)/40:n>700?.3+.7*(750-n)/50:1;return new THREE.Color(Math.pow(r*f,.8),Math.pow(g*f,.8),Math.pow(b*f,.8))};
+/* پرتو نورانی: هستهٔ باریک + هالهٔ پهن (با ترکیب جمعی) */
+const seg=(col,w)=>{const gr=new THREE.Group();[[w,1],[w*5,.16]].forEach(([ww,o])=>{const m=new THREE.Mesh(new THREE.BoxGeometry(1,1,1),new THREE.MeshBasicMaterial({color:col,transparent:true,opacity:o,blending:THREE.AdditiveBlending,depthWrite:false}));m.userData.w=ww;m.userData.o=o;gr.add(m)});return gr};
+const setSeg=(gr,a,b,col,op)=>{const dx=b[0]-a[0],dy=b[1]-a[1],L=Math.hypot(dx,dy)||.001;gr.position.set((a[0]+b[0])/2,(a[1]+b[1])/2,0);gr.rotation.z=Math.atan2(dy,dx);gr.children.forEach(m=>{m.scale.set(L,m.userData.w,m.userData.w);m.material.color.copy(col);m.material.opacity=m.userData.o*op})};
+const SUPS='⁰¹²³⁴⁵⁶⁷⁸⁹';
+const sci=x=>{const e=Math.floor(Math.log10(x)),m=x/Math.pow(10,e);return fa(m,2)+'×۱۰'+(e<0?'⁻':'')+String(Math.abs(e)).replace(/\d/g,d=>SUPS[d])};
+const fmtL=L=>L>=1?fa(L,1)+' متر':L>=1e-3?fa(L*1e3,1)+' میلی‌متر':L>=1e-6?fa(L*1e6,1)+' میکرومتر':L>=1e-9?fa(L*1e9,1)+' نانومتر':fa(L*1e12,2)+' پیکومتر';
 
-/* ---- ماژول ۲: امواج الکترومغناطیسی و E = hc/λ (فضای کیهانی) ---- */
-CH.push((()=>{const g=new THREE.Group(),N=360;let tg=6.26,cs=6.26,info=null,sl=null,last=-99;
- const mk=c=>{const m=pts(N,()=>[0,0,0,'#ffffff'],.13,1);m.material.color.set(c);g.add(m);return m},E=mk('#ffffff'),B=mk('#7aa7ff');
- [[-6,3,-6,0x6a3cff,13],[7,-2,-8,0x3de0c2,11],[0,5,-10,0xff6ad0,12]].forEach(([x,y,z,c,s])=>{const n=glow(c,s);n.position.set(x,y,z);n.material.opacity=.35;g.add(n)});
- const gd=new THREE.GridHelper(18,18,0x3de0c2,0x3de0c2);gd.material.transparent=true;gd.material.opacity=.2;gd.position.y=-2.6;g.add(gd);
- /* s = −log10(λ بر حسب متر) ؛ نواحی طیف: [نام، شروع، پایان، مقدار نمونه] */
- const RG=[['امواج رادیویی',-3,1,0],['مایکروویو',1,3,2],['فروسرخ (IR)',3,6.155,5],['نور مرئی',6.155,6.42,6.26],['فرابنفش (UV)',6.42,8,7.3],['پرتو ایکس',8,11,9.5],['پرتو گاما',11,13,12]],
- fL=m=>m>=1?fa(m,2)+' متر':m>=1e-3?fa(m*1e3,2)+' میلی‌متر':m>=1e-6?fa(m*1e6,2)+' میکرومتر':m>=1e-9?fa(m*1e9,2)+' نانومتر':fa(m*1e12,2)+' پیکومتر';
- return{g,n:'امواج و انرژی',z:13,f:Array(5).fill('<i>E</i> = <i>hc</i> ⁄ <i>λ</i>'),
- s:['به فضای کیهانی آمدی. نور یک موج الکترومغناطیسی است و مرئی‌ترین بخش آن، باریکه‌ای کوچک از یک طیف بسیار گسترده است. با اسلایدر یا دکمهٔ «ناحیهٔ بعدی» در سراسر طیف حرکت کن.','امواج رادیویی بلندترین طول موج، کمترین فرکانس و کمترین انرژی فوتون را دارند. دامنهٔ موج در تصویر فقط برای زیبایی است و نمایندهٔ انرژی نیست.','فروسرخ (IR) میان مایکروویو و نور مرئی است. رابطه: E = hc ⁄ λ؛ انرژی فوتون با طول موج رابطهٔ وارون دارد (h ثابت پلانک و c سرعت نور).','هرچه طول موج کوتاه‌تر باشد، فرکانس و انرژی هر فوتون بیشتر است. پرتوهای پرانرژی مانند پرتو ایکس و گاما می‌توانند برای بافت‌های زنده خطرناک باشند.','پرتو گاما کوتاه‌ترین طول موج و بیشترین انرژی را دارد. سرعت همهٔ این موج‌ها در خلأ یکسان است (c ≈ ۳×۱۰⁸ m/s)؛ آنچه فرق می‌کند طول موج، فرکانس و انرژی فوتون است.'],
- go(k){tg=[6.26,0,5,9.5,12][k];if(sl)sl.value=tg},
- ui(){const d=mkEl('<b>طول موج (λ)</b><input type="range" min="-3" max="13" step="0.01" value="6.26" dir="ltr" aria-label="طول موج"><div style="display:flex;justify-content:space-between;font-size:12px;color:var(--mute)" dir="rtl"><span>کوتاه‌تر ▸</span><span>◂ بلندتر</span></div><button type="button">ناحیهٔ بعدی ▸</button><div class="xi"></div>');sl=d.querySelector('input');info=d.querySelector('.xi');sl.value=tg;sl.oninput=()=>{tg=+sl.value};d.querySelector('button').onclick=()=>{const i=RG.findIndex(r=>cs>=r[1]&&cs<r[2]);tg=RG[(i+1)%RG.length][3];sl.value=tg};return d},
- tick(t,dt){cs=lerp(cs,tg,Math.min(1,dt*3));const u=(cs+3)/16,lam=Math.pow(10,-cs),nm=lam*1e9,k=(1.4+u*11)*6.283/16,col=nm>=380&&nm<=780?wl(nm):'#'+C.setHSL(.78*u,1,.6).getHexString();
-  for(let i=0;i<N;i++){const x=-8+16*i/(N-1),y=1.3*Math.sin(k*(x-3*t));E.P.set([x,y,0],i*3);B.P.set([x,0,y],i*3)}
-  E.geometry.attributes.position.needsUpdate=B.geometry.attributes.position.needsUpdate=true;E.material.color.set(col);
-  if(info&&Math.abs(cs-last)>.004){last=cs;const r=RG.find(r=>cs>=r[1]&&cs<=r[2])||RG[6];info.innerHTML=`<span style="color:${col}">●</span> <b>${r[0]}</b><br>λ = ${fL(lam)}<br>f = ${sci(299792458/lam)} هرتز<br>E = ${sci(1239.84/nm)} eV<br><small style="color:var(--mute)">c در خلأ ثابت است؛ دامنه فقط نمایشی است.</small>`}}}})());
+/* 14 ماژول ۱: منشور و طیف نور (رصدخانهٔ کوهستانی روی زمین) */
+CH.push((()=>{const g=new THREE.Group();
+ /* محیط: کوه‌ها، گنبد رصدخانه، خورشید و سکو */
+ const mt=new THREE.MeshStandardMaterial({color:0x2a3358,flatShading:true,roughness:1});
+ [[-9,3,-9],[-3.5,4,-12],[8.5,3.4,-10],[3,2.2,-7]].forEach(([x,r,z])=>{const h=r*2,m=new THREE.Mesh(new THREE.ConeGeometry(r,h,6),mt);m.position.set(x,-4+h/2,z);g.add(m)});
+ const dm=new THREE.Mesh(new THREE.SphereGeometry(1,24,12,0,6.283,0,1.571),new THREE.MeshStandardMaterial({color:0xcfd6ee,roughness:.5,metalness:.3}));dm.scale.setScalar(1.3);dm.position.set(7,-3.6,-4);g.add(dm);
+ const sun=glow(0xffe0a0,9);sun.position.set(-7,3,-7);g.add(sun);
+ const pf=new THREE.Mesh(new THREE.CylinderGeometry(2.3,2.5,.3,40),new THREE.MeshStandardMaterial({color:0x56607f,metalness:.6,roughness:.4}));pf.position.y=-1.1;g.add(pf);
+ /* منشور شیشه‌ای مثلثی */
+ const sh=new THREE.Shape();sh.moveTo(-1.6,-.92);sh.lineTo(1.6,-.92);sh.lineTo(0,1.85);sh.closePath();
+ const pg=new THREE.ExtrudeGeometry(sh,{depth:1.4,bevelEnabled:false});pg.translate(0,0,-.7);
+ const pr=new THREE.Mesh(pg,new THREE.MeshStandardMaterial({color:0xaee4ff,transparent:true,opacity:.26,roughness:.05,metalness:.2,emissive:0x2a5a8a,emissiveIntensity:.4,depthWrite:false,side:THREE.DoubleSide}));
+ pr.add(new THREE.LineSegments(new THREE.EdgesGeometry(pg),new THREE.LineBasicMaterial({color:0xdff6ff})));g.add(pr);
+ /* ردیابی پرتو با قانون اسنل؛ ضریب شکست با رابطهٔ کوشی (پراکندگی اغراق‌شده برای دیده‌شدن) */
+ const nO=nm=>1.5046+.021/Math.pow(nm/1000,2),Tp=[0,1.85],Bp=[1.6,-.92],M=[-.8,.465],nL=[-.866,.5],nR=[.866,.5],a0=.349,d0=[Math.cos(a0),Math.sin(a0)];
+ const rf=(d,n,n1,n2)=>{let c=-(d[0]*n[0]+d[1]*n[1]);if(c<0){n=[-n[0],-n[1]];c=-c}const e=n1/n2,k=1-e*e*(1-c*c);if(k<0)return null;const q=e*c-Math.sqrt(k);return[d[0]*e+n[0]*q,d[1]*e+n[1]*q]};
+ const ht=(P,d)=>{const vx=Tp[0]-Bp[0],vy=Tp[1]-Bp[1],det=-d[0]*vy+vx*d[1],rx=Bp[0]-P[0],ry=Bp[1]-P[1],u=(-rx*vy+vx*ry)/det;return[P[0]+u*d[0],P[1]+u*d[1]]};
+ const tr=nm=>{const n=nO(nm),d1=rf(d0,nL,1,n),E=ht(M,d1),d2=rf(d1,nR,n,1);return{E,d2,dev:d2?(Math.atan2(d0[1],d0[0])-Math.atan2(d2[1],d2[0]))*180/Math.PI:0}};
+ const SP=[700,610,580,540,475,445,410],mk=()=>({a:seg(0xffffff,.05),b:seg(0xffffff,.05),e:glow(0xffffff,1.2)}),RY=SP.map(mk),SL=mk(),W=seg(0xffffff,.09),Wg=glow(0xffffff,2),LL=6.4,WH=new THREE.Color(0xffffff);
+ [...RY,SL].forEach(r=>g.add(r.a,r.b,r.e));g.add(W,Wg);Wg.position.set(M[0],M[1],0);
+ let mode=0,sel=550;
+ const put=(r,nm,op)=>{const t=tr(nm),c=wl(nm),on=op>0;r.a.visible=r.b.visible=r.e.visible=on;if(!on)return;setSeg(r.a,M,t.E,c,op*.8);if(!t.d2){r.b.visible=r.e.visible=false;return}const e2=[t.E[0]+t.d2[0]*LL,t.E[1]+t.d2[1]*LL];setSeg(r.b,t.E,e2,c,op);r.e.position.set(e2[0],e2[1],0);r.e.material.color.copy(c);r.e.material.opacity=op*.9};
+ const lay=()=>{RY.forEach((r,i)=>put(r,SP[i],mode?.16:1));put(SL,sel,mode?1:0);setSeg(W,[M[0]-LL*d0[0],M[1]-LL*d0[1]],M,WH,1)};
+ const nmName=n=>n<450?'بنفش/نیلی':n<495?'آبی':n<570?'سبز':n<590?'زرد':n<620?'نارنجی':'قرمز';
+ return{g,n:'منشور و طیف نور',z:14,bgc:'#16295c',
+ s:['نور سفید ترکیبی از طول موج‌های مختلف نور مرئی است. وقتی پرتو سفید از چپ به منشور می‌رسد، هنگام ورود و خروج می‌شکند و به هفت رنگ قرمز، نارنجی، زرد، سبز، آبی، نیلی و بنفش تجزیه می‌شود.',
+ 'منشور چون هر طول موج را به اندازهٔ متفاوتی می‌شکند، رنگ‌ها را از هم جدا می‌کند. زاویهٔ شکست بنفش (طول موج کوتاه‌تر) از قرمز بیشتر است. نوار پایین را بکش و طول موج دلخواهت را انتخاب کن.'],
+ go(k){mode=k>0?1:0;lay()},enter(){lay()},
+ ui(x){x.className='on';x.innerHTML=`<span>طول موج: <b id="w1v"></b></span><input type="range" id="w1" min="400" max="700" step="1" value="${sel}" aria-label="طول موج"><div class="i" id="w1i"></div>`;
+  const u=()=>{const t=tr(sel);$('w1v').textContent=fa(sel,0)+' نانومتر — '+nmName(sel);$('w1i').textContent='زاویهٔ انحراف ≈ '+fa(t.dev,1)+'° (مقیاس پراکندگی اغراق‌شده است). طول موج کوتاه‌تر ⟸ شکست بیشتر.'};
+  $('w1').oninput=()=>{sel=+$('w1').value;mode=1;lay();u()};u()},
+ tick(t){Wg.material.opacity=.85+.15*Math.sin(t*3)}}})());
 
-/* ---- ماژول ۳: آزمایش شعله (آزمایشگاه شیمی روی زمین) ---- */
-CH.push((()=>{const g=new THREE.Group(),w=new THREE.Group();w.position.x=-1.4;g.add(w);let el=null,T=0,sel=null;
- const std=(c,o={})=>new THREE.MeshStandardMaterial({color:c,roughness:.5,...o}),
- tb=new THREE.Mesh(new THREE.BoxGeometry(14,.4,6),std(0x3a2f4f,{roughness:.8}));tb.position.set(1.5,-2.4,0);w.add(tb);
- const bn=new THREE.Mesh(new THREE.CylinderGeometry(.22,.3,1.6,16),std(0x9aa6c8,{metalness:.7}));bn.position.set(-1.5,-1.4,0);w.add(bn);
- [[ -5,.5,0x7aa7ff],[ -4.2,.8,0x3de0c2],[5.6,.6,0xffd27a]].forEach(([x,h,c])=>{const f=new THREE.Mesh(new THREE.CylinderGeometry(.35,.4,h*2,16),new THREE.MeshStandardMaterial({color:c,transparent:true,opacity:.28,roughness:.1}));f.position.set(x,-2.2+h,-1);w.add(f)});
- const FP=160,fl=pts(FP,()=>[0,0,0,'#ffffff'],.2,.9),fg=glow(0x6fa0ff,3),sm=new THREE.Group(),sb=ball(.18,0xdddddd,.3);sm.add(sb);w.add(sm);
- fl.position.set(-1.5,-.6,0);fg.position.set(-1.5,.4,0);w.add(fl,fg);
- const bm=pts(40,()=>[0,0,0,'#ffffff'],.16,1);w.add(bm);
- const cv=document.createElement('canvas');cv.width=512;cv.height=200;const cx=cv.getContext('2d'),tx=new THREE.CanvasTexture(cv),
- scr=new THREE.Mesh(new THREE.PlaneGeometry(5.2,2.03),new THREE.MeshBasicMaterial({map:tx}));scr.position.set(4.4,.6,0);scr.rotation.y=-.3;w.add(scr);
- const sp=new THREE.Mesh(new THREE.BoxGeometry(.15,.15,2),std(0x9aa6c8,{metalness:.6}));sp.position.set(4.4,-1.6,0);w.add(sp);
- const draw=(L,ap)=>{cx.fillStyle='#04030c';cx.fillRect(0,0,512,200);cx.fillStyle='#a9a3c9';cx.strokeStyle='rgba(255,255,255,.3)';cx.font='14px Vazirmatn,Tahoma';cx.textAlign='center';
-  for(let v=400;v<=700;v+=50){const x=(v-400)/300*480+16;cx.beginPath();cx.moveTo(x,160);cx.lineTo(x,170);cx.stroke();cx.fillText(fa(v,0),x,188)}
-  L.forEach(([v])=>{const x=(v-400)/300*480+16;cx.save();cx.globalAlpha=ap;cx.shadowColor=cx.fillStyle=wl(v);cx.shadowBlur=18;cx.fillRect(x-2,20,4,130);cx.restore()});tx.needsUpdate=true};
- /* خطوط طیفی: مدل آموزشی ساده‌شده، نه داده‌های دقیق آزمایشگاهی */
- const EL=[{c:0xff3b3b,L:[[671],[610]]},{c:0xffe14a,L:[[589],[590]]},{c:0x2fe0b0,L:[[510],[515],[522],[578]]}],nc=new THREE.Color(0x6fa0ff);draw([],0);
- return{g,n:'آزمایش شعله',z:13,
- s:['در آزمایشگاه شیمی، نمونه را وارد شعلهٔ مشعل بونزن می‌کنیم؛ رنگ شعله و طیف نور آن نشان‌دهندهٔ عنصر است. هر عنصر به دلیل ساختار انرژی الکترونی خود، طیف نشری ویژه‌ای دارد؛ درست مانند یک اثر انگشت نوری. از منوی بالا عنصر را انتخاب کن.','لیتیم: شعله سرخ‌فام می‌شود و نور به طیف‌سنج می‌رسد. خطوط قرمز و نارنجی نمایش داده شده‌اند. (تعداد و جای خطوط، مدل آموزشی ساده‌شده است، نه داده‌های دقیق آزمایشگاهی.)','سدیم: شعلهٔ زرد بسیار درخشان که با خط زرد شاخص طیف خود شناخته می‌شود. (خطوط، مدل ساده‌شدهٔ آموزشی‌اند.)','مس: شعله سبز مایل به آبی است و خطوط طیفی ویژهٔ خود را دارد. (خطوط، مدل ساده‌شدهٔ آموزشی‌اند.)'],
- go(k){el=k?EL[k-1]:null;T=0;sel&&(sel.value=k);draw([],0)},
- ui(){const d=mkEl('<b>عنصر نمونه</b><select aria-label="عنصر"><option value="0">— انتخاب عنصر —</option><option value="1">لیتیم (Li)</option><option value="2">سدیم (Na)</option><option value="3">مس (Cu)</option></select>');sel=d.querySelector('select');sel.onchange=()=>go(ci,+sel.value);return d},
- tick(t,dt){if(el)T+=dt;const ps=el?Math.min(1,T):0,e=ps*ps*(3-2*ps);sm.position.set(lerp(-4,-1.5,e),lerp(1.2,.15,e),0);sm.visible=!!el;
-  nc.lerp(new THREE.Color(el&&T>1?el.c:0x6fa0ff),Math.min(1,dt*4));fl.material.color.copy(nc);fg.material.color.copy(nc);fg.scale.setScalar(2.6+.3*Math.sin(t*9)+(el&&T>1?1:0));
-  for(let i=0;i<FP;i++){const u=(i*.618+t*1.1)%1,r=.32*Math.pow(1-u,.8);fl.P.set([Math.cos(i*2.4+t*3)*r,u*2.4,Math.sin(i*2.4+t*3)*r],i*3)}fl.geometry.attributes.position.needsUpdate=true;
-  const lt=el&&T>1.8&&T<3.4;bm.visible=!!lt;if(lt){bm.material.color.copy(nc);for(let i=0;i<40;i++){const f=(i/40+T*.6)%1;bm.P.set([lerp(-1.4,4,f)+3*0,lerp(.4,.6,f)+Math.sin(i*5)*.08,Math.sin(i*3)*.1],i*3)}bm.geometry.attributes.position.needsUpdate=true}
-  if(el&&T>3.2&&T<4.4)draw(el.L,Math.min(1,T-3.2));else if(el&&T>=4.4&&T<4.5)draw(el.L,1)}}})());
+/* 15 ماژول ۲: امواج الکترومغناطیسی در فضا */
+CH.push((()=>{const g=new THREE.Group(),N=400,XL=8,Wv=new THREE.Group();g.add(Wv);
+ const gr=new THREE.GridHelper(18,18,0x6a5cff,0x2b2a66);gr.position.y=-2.6;gr.material.transparent=true;gr.material.opacity=.4;g.add(gr);
+ const pl=new THREE.Mesh(new THREE.PlaneGeometry(18,18),new THREE.MeshBasicMaterial({color:0x4a3cff,transparent:true,opacity:.07,side:THREE.DoubleSide,depthWrite:false}));pl.rotation.x=-Math.PI/2;pl.position.y=-2.6;g.add(pl);
+ [[0x6a3cff,-9,3,-10,24],[0x1fb5c9,9,-1,-12,28],[0xff5ac8,0,4,-15,26]].forEach(([c,x,y,z,s])=>{const n=glow(c,s);n.material.opacity=.3;n.position.set(x,y,z);g.add(n)});
+ const pn=new THREE.Mesh(new THREE.SphereGeometry(1.3,32,24),new THREE.MeshStandardMaterial({map:earthT,roughness:.8}));pn.position.set(-8,-1,-6);g.add(pn);
+ /* موج میدان الکتریکی (محور y) و مغناطیسی (محور z)؛ خط و نقطه از یک هندسه */
+ const mkW=o=>{const geo=new THREE.BufferGeometry(),P=new Float32Array(N*3);geo.setAttribute('position',new THREE.BufferAttribute(P,3));const l=new THREE.Line(geo,new THREE.LineBasicMaterial({color:0xffffff,transparent:true,opacity:o})),p=new THREE.Points(geo,new THREE.PointsMaterial({color:0xffffff,size:.1,transparent:true,opacity:o,depthWrite:false,blending:THREE.AdditiveBlending}));l.P=P;Wv.add(l,p);return[l,p]};
+ const [El,Ep]=mkW(.95),[Bl,Bq]=mkW(.4);
+ const lE=lab('میدان الکتریکی E','#ffffff',.7),lB=lab('میدان مغناطیسی B','#9ec3ff',.7);lE.position.set(-5.8,2,0);lB.position.set(-5.8,-2,1.5);Wv.add(lE,lB);Wv.rotation.set(.12,-.55,0);
+ const RG=[1e-1,1e-3,7e-7,4e-7,1e-8,1e-11,0],RP=[1,1e-2,1e-5,5.5e-7,1e-7,1e-9,1e-12],RS=['امواج رادیویی','مایکروویو','فروسرخ','نور مرئی','فرابنفش','پرتو ایکس','پرتو گاما'],KC=['#ff5a4a','#ff9a3d','#ff3a2a',null,'#9a6bff','#7c8cff','#d28bff'];
+ let lg=Math.log10(5.5e-7),Lv=2;const col=new THREE.Color();
+ const ri=()=>{const L=Math.pow(10,lg);return RG.findIndex(r=>L>=r)};
+ const sync=()=>{const L=Math.pow(10,lg),i=ri();Lv=.35+4.65*(lg+12)/14;col.copy(i===3?wl(L*1e9):new THREE.Color(KC[i]));[El,Ep,Bl,Bq].forEach(m=>m.material.color.copy(col))};
+ const upd=t=>{const k=6.2832/Lv,A=1.5;for(let i=0;i<N;i++){const u=i/(N-1),x=-XL+2*XL*u,e=Math.sqrt(Math.sin(Math.PI*u)),ph=k*(x-3*t),y=A*e*Math.sin(ph),z=A*.8*e*Math.sin(ph);El.P[i*3]=x;El.P[i*3+1]=y;El.P[i*3+2]=0;Bl.P[i*3]=x;Bl.P[i*3+1]=0;Bl.P[i*3+2]=z}El.geometry.attributes.position.needsUpdate=true;Bl.geometry.attributes.position.needsUpdate=true};
+ const info=()=>{const L=Math.pow(10,lg);return`ناحیه: ${RS[ri()]} — λ = ${fmtL(L)} — f = ${sci(2.998e8/L)} هرتز — E = ${sci(1.23984e-6/L)} eV`};
+ return{g,n:'امواج و انرژی',z:14,f:['','E = hc / λ',''],
+ s:['امواج الکترومغناطیسی در خلأ همگی با سرعت ثابت (c ≈ ۳×۱۰⁸ m/s) منتشر می‌شوند و فقط در طول موج، فرکانس و انرژی فوتون با هم فرق دارند. نوار پایین را بکش یا با دکمه میان نواحی طیف جابه‌جا شو.',
+ 'هرچه طول موج کوتاه‌تر باشد، فرکانس و انرژی هر فوتون بیشتر است. پرتوهای پرانرژی مانند پرتو ایکس و گاما می‌توانند برای بافت‌های زنده خطرناک باشند. دامنهٔ موج در این نمایش فقط برای زیبایی است و نشان‌دهندهٔ انرژی نیست.',
+ 'ترتیب نواحی از طول موج بلند به کوتاه: رادیویی، مایکروویو، فروسرخ، مرئی، فرابنفش، ایکس و گاما. نور مرئی تنها بخش بسیار باریکی از این طیف است. رنگ موج در ناحیه‌های نامرئی نمایشی است.'],
+ go(){},enter(){sync()},
+ ui(x){x.className='on';x.innerHTML=`<button class="a" id="w2n">ناحیهٔ بعدی ◂</button><input type="range" id="w2" min="-12" max="2" step="0.01" value="${lg}" aria-label="طول موج"><div class="i" id="w2i"></div>`;
+  const u=()=>{$('w2i').textContent=info()};
+  $('w2').oninput=()=>{lg=+$('w2').value;sync();u()};
+  $('w2n').onclick=()=>{lg=Math.log10(RP[(ri()+1)%7]);$('w2').value=lg;sync();u()};sync();u()},
+ tick(t,dt){upd(t);pn.rotation.y+=dt*.1}}})());
 
-/* ---- ماژول ۴: مدل کوانتومی و پله‌های انرژی (فضای انتزاعی) ---- */
-CH.push((()=>{const g=new THREE.Group(),RL=[1.3,2.3,3.6,5.1],TL=1.1,orb=new THREE.Group();let lv=1,rr=RL[0],th=0,A=null,note='',info=null,bx=null,br=null;
- const rs=RL.map((r,i)=>{const m=ring(r,0x7aa7ff,.35);orb.add(m);const l=lab('n = '+fa(i+1,0),'#fff',.8);l.position.set(r*.72,r*.72,0);orb.add(l);return m});orb.rotation.x=TL;g.add(orb);
- const nu=ball(.55,0xff3b30,.9),ng=glow(0xff3b30,3.4),e=ball(.2,0x4f8bff,1.2),eg=glow(0x4f8bff,1.3),pb=ball(.14,0xffffff,1),pg=glow(0xffffff,1.8),ph=new THREE.Group(),WV=[0,1,2].map(()=>{const m=ring(1,0xffffff,0);m.visible=false;g.add(m);return m});
- ph.add(pb,pg);ph.visible=false;g.add(nu,ng,e,eg,ph);
- const ep=(r,a)=>[r*Math.cos(a),r*Math.sin(a)*Math.cos(TL),r*Math.sin(a)*Math.sin(TL)],ez=x=>x*x*(3-2*x),
- upd=()=>{if(bx){bx.disabled=!!A||lv>=4;br.disabled=!!A||lv<=1}if(info)info.innerHTML=`تراز فعلی: n = ${fa(lv,0)} — E = ${fa(-13.6/lv/lv,2)} eV${note?'<br>'+note:''}<br><small style="color:var(--mute)">حلقه‌ها نمایش شماتیک ترازهای انرژی‌اند، نه مسیر واقعی الکترون.</small>`};
- const colPh=c=>{pb.material.color.set(c);pb.material.emissive.set(c);pg.material.color.set(c)};
- return{g,n:'پله‌های انرژی اتم',z:13,
- s:['هسته (قرمز) در مرکز است و چهار تراز انرژی با فاصله‌های نابرابر دورش نمایش داده شده‌اند. این حلقه‌ها نمایش شماتیک ترازهای انرژی‌اند، نه مسیر واقعی حرکت الکترون. الکترون آبی روی تراز اول است.','دکمهٔ «برانگیختن الکترون» را بزن: فوتونی با انرژی مناسب جذب می‌شود و الکترون به تراز بالاتر می‌رود. سپس با «بازگشت الکترون»، الکترون فوتونی با رنگ متناسب با اختلاف انرژی دو تراز آزاد می‌کند (رنگ محاسبه می‌شود، تصادفی نیست).','الکترون فقط می‌تواند در ترازهای انرژی مشخصی قرار بگیرد. برای انتقال بین این ترازها باید مقدار معینی انرژی جذب یا آزاد کند: ΔE = E بالا − E پایین و λ = hc ⁄ ΔE.'],
- enter(){lv=1;rr=RL[0];A=null;note='';ph.visible=false;WV.forEach(m=>m.visible=false);upd()},go(){},
- ui(){const d=mkEl('<button type="button">برانگیختن الکترون</button> <button type="button">بازگشت الکترون</button><div class="xi"></div>');[bx,br]=d.querySelectorAll('button');info=d.querySelector('.xi');
-  bx.onclick=()=>{if(A||lv>=4)return;A={k:'a',t:0,a:lv,b:lv+1,...lvC(lv,lv+1)};colPh(A.col);ph.visible=true;upd()};
-  br.onclick=()=>{if(A||lv<=1)return;A={k:'e',t:0,a:lv-1,b:lv,...lvC(lv-1,lv)};colPh(A.col);upd()};upd();return d},
- tick(t,dt){th+=dt*2.2/Math.sqrt(rr);let cur=lv;
-  if(A){A.t+=dt;const q=ep(rr,th);
-   if(A.k==='a'){cur=A.t>1?A.b:A.a;if(A.t<1){const f=ez(A.t);ph.position.set(lerp(-9,q[0],f),lerp(3,q[1],f),lerp(0,q[2],f))}else{ph.visible=false;rr=lerp(RL[A.a-1],RL[A.b-1],ez(Math.min(1,(A.t-1)/.9)))}
-    if(A.t>1.9){lv=A.b;note=`جذب فوتون: λ ≈ ${fa(A.nm,0)} نانومتر${A.tag}`;A=null;upd()}}
-   else{cur=A.t>.9?A.a:A.b;rr=lerp(RL[A.b-1],RL[A.a-1],ez(Math.min(1,A.t/.9)));
-    if(A.t>.9){const s=A.t-.9;ph.visible=true;ph.position.set(q[0]+s*4,q[1]+s*2.4,q[2]);WV.forEach((m,i)=>{const z=Math.max(0,s-i*.35);m.visible=z>0&&z<1.6;m.position.set(q[0],q[1],q[2]);m.scale.setScalar(.3+z*3);m.material.color.set(A.col);m.material.opacity=Math.max(0,.8-z/1.6)})}
-    if(A.t>2.4){lv=A.a;note=`آزادسازی فوتون: λ ≈ ${fa(A.nm,0)} نانومتر${A.tag}`;ph.visible=false;WV.forEach(m=>m.visible=false);A=null;upd()}}}
-  const p=ep(rr,th);e.position.set(...p);eg.position.set(...p);rs.forEach((m,i)=>m.material.opacity=lerp(m.material.opacity,i+1===cur?1:.35,Math.min(1,dt*6)));
-  ng.scale.setScalar(3.4+.3*Math.sin(t*3));orb.rotation.z=t*.05}}})());
+/* 16 ماژول ۳: آزمایش شعله (آزمایشگاه شیمی) */
+CH.push((()=>{const g=new THREE.Group();
+ const EL=[{n:'لیتیم',s:'Li',c:'#ff2e3a',l:[[671,1],[610,.35],[497,.25]],t:'شعله سرخ‌فام و خط قرمز شاخص نزدیک ۶۷۱ نانومتر.'},
+ {n:'سدیم',s:'Na',c:'#ffd21a',l:[[588,1],[590,.9],[569,.3]],t:'شعلهٔ زرد بسیار درخشان و خط‌های زرد شاخص نزدیک ۵۸۹ نانومتر.'},
+ {n:'مس',s:'Cu',c:'#19e0b0',l:[[465,.4],[510,.8],[522,1],[578,.5]],t:'شعلهٔ سبز مایل به آبی و چند خط سبز و آبی میان ۴۶۰ تا ۵۸۰ نانومتر.'}];
+ const tb=new THREE.Mesh(new THREE.BoxGeometry(14,.3,4),new THREE.MeshStandardMaterial({color:0x3a3f55,roughness:.6,metalness:.2}));tb.position.y=-2.4;g.add(tb);
+ const wall=new THREE.Mesh(new THREE.PlaneGeometry(26,12),new THREE.MeshStandardMaterial({color:0x151a2e,roughness:1}));wall.position.set(0,2,-3);g.add(wall);
+ /* مشعل بونزن */
+ const bn=new THREE.Group(),mm=new THREE.MeshStandardMaterial({color:0x9aa3b8,metalness:.8,roughness:.3});bn.position.set(-3.2,-2.25,0);
+ const b1=new THREE.Mesh(new THREE.CylinderGeometry(.6,.7,.22,28),mm),b2=new THREE.Mesh(new THREE.CylinderGeometry(.16,.18,1.7,18),mm);b1.position.y=.11;b2.position.y=1.05;bn.add(b1,b2);g.add(bn);
+ const F=new THREE.Group();F.position.set(-3.2,-.35,0);g.add(F);
+ const fo=new THREE.Mesh(new THREE.ConeGeometry(.42,1.7,24,1,true).translate(0,.85,0),new THREE.MeshBasicMaterial({color:0x4a7dff,transparent:true,opacity:.55,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide}));
+ const fi=new THREE.Mesh(new THREE.ConeGeometry(.22,.95,20,1,true).translate(0,.48,0),new THREE.MeshBasicMaterial({color:0xbfe0ff,transparent:true,opacity:.8,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide}));
+ const fg=glow(0x4a7dff,3.4);fg.position.y=.6;const fl=new THREE.PointLight(0x4a7dff,1.4,9,2);fl.position.set(0,.7,.6);F.add(fo,fi,fg,fl);
+ /* شیشه‌آلات */
+ const gm=new THREE.MeshStandardMaterial({color:0xbfe6ff,transparent:true,opacity:.22,roughness:.05,metalness:.1,side:THREE.DoubleSide,depthWrite:false});
+ const bk=(x,z,h,c)=>{const b=new THREE.Group(),lq=new THREE.Mesh(new THREE.CylinderGeometry(.46,.46,h*.55,24),new THREE.MeshStandardMaterial({color:c,transparent:true,opacity:.7,emissive:c,emissiveIntensity:.25}));lq.position.y=-h*.22;b.add(new THREE.Mesh(new THREE.CylinderGeometry(.5,.5,h,24,1,true),gm),lq);b.position.set(x,-2.25+h/2,z);g.add(b)};
+ bk(1.2,-1.2,1.2,0x7fffd4);bk(2.3,-1,1.6,0xffe27a);bk(5.6,-1.1,1.3,0xff8fa0);
+ const fk=new THREE.Group(),fb=new THREE.Mesh(new THREE.SphereGeometry(.6,24,18),gm),fn=new THREE.Mesh(new THREE.CylinderGeometry(.14,.14,.8,14,1,true),gm);fn.position.y=.85;fb.position.y=.1;fk.add(fb,fn);fk.position.set(4.2,-1.85,-1.1);g.add(fk);
+ /* ظرف‌های نمونه (سه عنصر) و برچسب‌ها */
+ const BX=[-6.2,-5.1,-4],PC=[0xf2d8e0,0xf5f0d0,0x4fd0c8];
+ BX.forEach((x,i)=>{const o=new THREE.Mesh(new THREE.CylinderGeometry(.42,.34,.2,20),new THREE.MeshStandardMaterial({color:PC[i],roughness:.8}));o.position.set(x,-2.15,1.1);const l=lab(EL[i].s,'#ffffff',.6);l.position.set(x,-1.45,1.1);g.add(o,l)});
+ const hl=ring(.55,0xffd27a,.9);hl.rotation.x=Math.PI/2;hl.position.set(BX[0],-2.03,1.1);g.add(hl);
+ const probe=ball(.14,0xffffff,1.4);probe.visible=false;g.add(probe);
+ /* صفحهٔ طیف‌سنج با بوم دوبعدی */
+ const cv=document.createElement('canvas');cv.width=1024;cv.height=256;const cx=cv.getContext('2d'),tx=new THREE.CanvasTexture(cv),X=n=>40+(n-400)/300*944;
+ const draw=(el,a)=>{cx.globalAlpha=1;cx.shadowBlur=0;cx.fillStyle='#05060d';cx.fillRect(0,0,1024,256);cx.strokeStyle='rgba(255,255,255,.25)';cx.fillStyle='rgba(255,255,255,.65)';cx.font='22px Vazirmatn,Tahoma,sans-serif';cx.textAlign='center';
+  for(let n=400;n<=700;n+=50){cx.beginPath();cx.moveTo(X(n),200);cx.lineTo(X(n),214);cx.stroke();cx.fillText(fa(n,0),X(n),240)}
+  if(el&&a>0){el.l.forEach(([n,s])=>{const c='#'+wl(n).getHexString();cx.globalAlpha=a*(.4+.6*s);cx.shadowColor=c;cx.shadowBlur=22;cx.fillStyle=c;cx.fillRect(X(n)-4,20,8,170)});cx.globalAlpha=1;cx.shadowBlur=0}tx.needsUpdate=true};
+ const sc=new THREE.Group();sc.position.set(3.4,.35,0);const fr=new THREE.Mesh(new THREE.BoxGeometry(6.3,1.75,.12),new THREE.MeshStandardMaterial({color:0x0b0d1a,metalness:.5,roughness:.4})),pn=new THREE.Mesh(new THREE.PlaneGeometry(6,1.5),new THREE.MeshBasicMaterial({map:tx}));pn.position.z=.07;sc.add(fr,pn);g.add(sc);
+ const sl=lab('طیف‌سنج (طول موج بر حسب نانومتر)','#9ec3ff',.55);sl.position.set(3.4,1.45,0);g.add(sl);
+ const bm=seg(0xffffff,.06),bp=glow(0xffffff,1.1);bm.visible=bp.visible=false;g.add(bm,bp);
+ /* حالت و زمان‌بندی آزمایش (مستقل از نرخ فریم) */
+ let cur=0,at=0,said=true,lastA=-1,shown=false;const c1=new THREE.Color(),c2=new THREE.Color(),ec=new THREE.Color(),BL=new THREE.Color('#4a7dff'),BI=new THREE.Color('#bfe0ff'),WH=new THREE.Color(0xffffff);
+ const rst=()=>{shown=false;probe.visible=false;hl.visible=false;lastA=-1;draw(null,0)};
+ const run=(i,say)=>{cur=i;at=0;said=!say;lastA=-1;shown=true;probe.visible=true;hl.visible=true;hl.position.x=BX[i]};
+ const cl=(v,a,b)=>Math.min(b,Math.max(a,v));
+ return{g,n:'آزمایش شعله',z:14,bgc:'#0b1020',
+ s:['در این آزمایشگاه، نمونه‌هایی از نمک فلزها روی میز آماده‌اند. هر عنصر هنگام گرم شدن در شعله، نور مخصوص خودش را می‌تابد. از منوی پایین یک عنصر انتخاب کن.',
+ 'هر عنصر به دلیل ساختار انرژی الکترونی خود، طیف نشری ویژه‌ای دارد؛ درست مانند یک اثر انگشت نوری. نمونه وارد شعله می‌شود، رنگ شعله تغییر می‌کند و نور به طیف‌سنج می‌رسد.',
+ 'با عنصر دیگری هم آزمایش کن و خط‌ها را مقایسه کن. تعداد و جای خط‌ها در این نمایش، مدل آموزشی ساده‌شده است و داده‌های دقیق آزمایشگاهی نیست.'],
+ enter(){rst()},go(k){if(k===0)rst();else if(k===1)run(cur,false);else if(!shown)run(cur,false)},
+ ui(x){x.className='on';x.innerHTML=`<span>عنصر:</span><select id="fsel" aria-label="انتخاب عنصر">${EL.map((e,i)=>`<option value="${i}"${i===cur?' selected':''}>${e.n} (${e.s})</option>`).join('')}</select><button class="a" id="frun">اجرای آزمایش</button><div class="i" id="flameInfo">عنصر را انتخاب کن و آزمایش را اجرا کن.</div>`;
+  $('fsel').onchange=()=>run(+$('fsel').value,true);$('frun').onclick=()=>run(+$('fsel').value,true)},
+ tick(t,dt){F.scale.set(1+.04*Math.sin(t*21),1+.07*Math.sin(t*17)+.05*Math.sin(t*26.3),1);
+  const el=EL[cur];let f=0,p2=0,a=0;
+  if(shown){at+=dt;const p=cl(at,0,1),q=p*p*(3-2*p);probe.position.set(BX[cur]+(-3.2-BX[cur])*q,-1.9+1.9*q+Math.sin(Math.PI*p)*1.2,1.1-.9*q);f=cl(at-1,0,1);p2=cl((at-2)/1.2,0,1);a=cl((at-3.2)/1,0,1)}
+  c1.copy(BL);c2.copy(BI);if(f>0){C.set(el.c);c1.lerp(C,f);C.lerp(WH,.45);c2.lerp(C,f)}
+  fo.material.color.copy(c1);fi.material.color.copy(c2);fg.material.color.copy(c1);fl.color.copy(c1);fl.intensity=1.2+f*1.4;
+  if(p2>0){ec.set(el.c).lerp(WH,.3);setSeg(bm,[-2.9,.35],[-2.9+3.5*p2,.35],ec,.9);bm.visible=true;bp.visible=true;bp.position.set(-2.9+3.5*p2,.35,0);bp.material.color.copy(ec)}else bm.visible=bp.visible=false;
+  if(a!==lastA){lastA=a;draw(shown?el:null,a)}
+  if(shown&&!said&&at>4.4){said=true;const q=$('flameInfo');if(q)q.textContent=el.n+': '+el.t+' این یک مدل ساده‌شده است، نه داده‌های دقیق آزمایشگاهی.'}}}})());
 
-/* ---- ماژول ۵: طیف نشری هیدروژن — سری بالمر (رصدخانهٔ فضایی) ---- */
-CH.push((()=>{const g=new THREE.Group();let sel=-1,T=0,rows=null;
- const LN=[[656,'قرمز',3,'#ff3a3a'],[486,'فیروزه‌ای',4,'#2de6e0'],[434,'آبی',5,'#4d6bff'],[410,'بنفش',6,'#a24dff']],TL=.9,rl=n=>.35*n+.2,X=w=>(w-400)/300*10-5,
- scr=new THREE.Mesh(new THREE.BoxGeometry(10.8,2.3,.2),new THREE.MeshStandardMaterial({color:0x07051a,metalness:.4,roughness:.5,emissive:0x0a0830}));scr.position.set(0,2.5,-.2);g.add(scr);
- [400,450,500,550,600,650,700].forEach(w=>{const l=lab(fa(w,0)+' nm','#a9a3c9',.7);l.position.set(X(w),1.15,0);g.add(l)});
- const HIT=[],LM=LN.map(([w,,,c],i)=>{const m=new THREE.Mesh(new THREE.BoxGeometry(.14,1.9,.1),new THREE.MeshBasicMaterial({color:c,transparent:true,opacity:.7,blending:THREE.AdditiveBlending,depthWrite:false})),gl=glow(c,1.6),h=new THREE.Mesh(new THREE.BoxGeometry(.7,2.2,.4),new THREE.MeshBasicMaterial({transparent:true,opacity:0,depthWrite:false}));
-  m.position.set(X(w),2.5,0);gl.position.set(X(w),2.5,.1);h.position.copy(m.position);h.userData.k=i;HIT.push(h);g.add(m,gl,h);return{m,gl}});
- const at=new THREE.Group();at.position.set(0,-1.7,0);at.scale.setScalar(.8);g.add(at);const orb=new THREE.Group();orb.rotation.x=TL;at.add(orb);
- for(let n=1;n<=6;n++)orb.add(ring(rl(n),0x7aa7ff,n===2?.6:.25));
- const nu=ball(.28,0xff3b30,.9),e=ball(.13,0x4f8bff,1.2),eg=glow(0x4f8bff,.8),pb=ball(.12,0xffffff,1),pg=glow(0xffffff,1.6),ph=new THREE.Group();ph.add(pb,pg);ph.visible=false;at.add(nu);g.add(e,eg,ph);
- const ep=(r,a)=>[.8*r*Math.cos(a),-1.7+.8*r*Math.sin(a)*Math.cos(TL),.8*r*Math.sin(a)*Math.sin(TL)],ez=x=>x*x*(3-2*x);
- const tbl=()=>{if(!rows)return;const l=LN[sel];rows.innerHTML=l?`<tr><td style="color:${l[3]}">${l[1]}</td><td>${fa(l[0],0)} nm</td><td>n = ${fa(l[2],0)}</td><td>n = ${fa(2,0)}</td></tr>`:'<tr><td colspan="4">یک خط را انتخاب کن</td></tr>'};
+/* 17 ماژول ۴: پله‌های انرژی اتم (فضای انتزاعی میان ستاره‌ها) */
+CH.push((()=>{const g=new THREE.Group(),A=new THREE.Group();A.rotation.x=.85;g.add(A);
+ const RR=[1.2,2.4,3.5,4.4],EN=n=>-13.6/(n*n);
+ const nu=ball(.5,0xff3a2a,.9),ng=glow(0xff5a3a,4.5);A.add(nu,ng);
+ const RG=RR.map((r,i)=>{const t=ring(r,0x7aa7ff,.35);t.rotation.x=Math.PI/2;A.add(t);const l=lab(`n = ${fa(i+1,0)}  |  ${fa(EN(i+1),1)} eV`,'#ffffff',.55);l.position.set(0,.22,r);A.add(l);return t});
+ const e=ball(.17,0x4fa8ff,1.3),eg=glow(0x4fa8ff,1.7),ph=ball(.12,0xffffff,1.5),pg=glow(0xffffff,1.6),wv=glow(0xffffff,1);A.add(e,eg,ph,pg,wv);ph.visible=pg.visible=wv.visible=false;
+ const lg2=lab('ترازها نمایش شماتیک‌اند، نه مسیر واقعی الکترون','#9ec3ff',.5);lg2.position.set(0,3.4,0);g.add(lg2);
+ let lvl=1,rr=RR[0],tg=2,tg2=1,act=null,info='';const a0=.7,ev=new V(),PS=new V(-8,2.5,3),DR=new V(1,.6,.4).normalize();
+ const col=lam=>lam>=380&&lam<=750?wl(lam):new THREE.Color(lam<380?'#b78cff':'#ff6a3a'),reg=lam=>lam<380?'فرابنفش (نامرئی)':lam>750?'فروسرخ (نامرئی)':'نور مرئی';
+ const start=(up,to)=>{if(act)return;const from=lvl,lo=Math.min(from,to),hi=Math.max(from,to),dE=13.6*(1/(lo*lo)-1/(hi*hi)),lam=1239.84/dE,c=col(lam);
+  act={up,from,to,t:0,p0:null};ph.material.color.copy(c);ph.material.emissive.copy(c);pg.material.color.copy(c);wv.material.color.copy(c);
+  info=`${up?'جذب':'نشر'} فوتون: ΔE = ${fa(dE,2)} eV ⟹ λ = hc/ΔE ≈ ${fa(lam,0)} نانومتر (${reg(lam)})`;render()};
+ const render=()=>{const x=$('xc');x.className='on';let h='';
+  if(lvl===1)h=`<span>تراز مقصد:</span><select id="m4s">${[2,3,4].map(n=>`<option value="${n}"${n===tg?' selected':''}>${fa(n,0)}</option>`).join('')}</select><button class="a" id="m4b">برانگیختن الکترون</button>`;
+  else h=`<span>بازگشت به تراز:</span><select id="m4s">${Array.from({length:lvl-1},(_,i)=>`<option value="${i+1}"${i+1===Math.min(tg2,lvl-1)?' selected':''}>${fa(i+1,0)}</option>`).join('')}</select><button class="a" id="m4b">بازگشت الکترون</button>`;
+  h+=`<div class="i">تراز فعلی: ${fa(lvl,0)}${info?' — '+info:''}</div>`;x.innerHTML=h;
+  const b=$('m4b');b.disabled=!!act;b.onclick=()=>{const v=+$('m4s').value;if(lvl===1){tg=v;start(true,v)}else{tg2=v;start(false,v)}}};
+ return{g,n:'پله‌های انرژی اتم',z:14,f:['','','ΔE = hc / λ'],
+ s:['الکترون فقط می‌تواند در ترازهای انرژی مشخصی قرار بگیرد. برای انتقال بین این ترازها باید مقدار معینی انرژی جذب یا آزاد کند. حلقه‌ها نمایش شماتیک ترازهای انرژی‌اند، نه مسیر واقعی حرکت الکترون.',
+ 'با «برانگیختن الکترون»، الکترون با جذب فوتونی که انرژی‌اش دقیقاً برابر اختلاف دو تراز است به تراز بالاتر می‌رود. هنگام بازگشت، فوتونی با همان انرژی آزاد می‌شود و موج نوری به بیرون می‌رود.',
+ 'رنگ فوتون تصادفی نیست و از اختلاف انرژی دو تراز به دست می‌آید. این مدل هیدروژن‌گونه است: Eₙ = −۱۳٫۶ ÷ n² الکترون‌ولت. گذار ۱←۲ فرابنفش و نامرئی است، اما بازگشت‌های ۳←۲ یا ۴←۲ نور مرئی می‌دهند.'],
+ enter(){lvl=1;rr=RR[0];act=null;info='';ph.visible=pg.visible=wv.visible=false},go(){},ui(){render()},
+ tick(t,dt){let rt=RR[lvl-1];ev.set(Math.cos(a0)*rr,0,Math.sin(a0)*rr);
+  if(act){act.t+=dt;const T=act.t;
+   if(act.up){const p=Math.min(1,T/1.1);ph.visible=pg.visible=T<1.1;ph.position.lerpVectors(PS,ev,p);pg.position.copy(ph.position);if(T>=1.1&&lvl!==act.to){lvl=act.to;rt=RR[lvl-1]}if(T>2.6){act=null;render()}}
+   else{if(!act.p0){act.p0=ev.clone();lvl=act.to;rt=RR[lvl-1]}ph.visible=pg.visible=wv.visible=T<1.9;ph.position.copy(act.p0).addScaledVector(DR,T*4.5);pg.position.copy(ph.position);wv.position.copy(act.p0);wv.scale.setScalar(1+T*5);wv.material.opacity=Math.max(0,.55*(1-T/1.6));if(T>2.2){act=null;wv.visible=false;render()}}}
+  rr=lerp(rr,rt,1-Math.exp(-dt*3.5));e.position.set(Math.cos(a0)*rr,Math.sin(t*1.7)*.06,Math.sin(a0)*rr);eg.position.copy(e.position);
+  RG.forEach((m,i)=>{m.material.color.set(i+1===lvl?0xffd27a:0x7aa7ff);m.material.opacity=lerp(m.material.opacity,i+1===lvl?.95:.3,1-Math.exp(-dt*6))});
+  ng.scale.setScalar(4.5*(1+.06*Math.sin(t*2)))}}})());
+
+/* 18 ماژول ۵: طیف نشری هیدروژن (رصدخانهٔ فضایی) */
+CH.push((()=>{const g=new THREE.Group();
+ const LN=[[656,'قرمز',3,'#ff2a2a'],[486,'فیروزه‌ای',4,'#19e6d4'],[434,'آبی',5,'#3a5bff'],[410,'بنفش',6,'#a24bff']],X=n=>(n-400)/300*8.2-4.1,YB=-1.45;
+ [[0x6a3cff,-8,2,-10,22],[0x1fb5c9,9,-2,-12,24]].forEach(([c,x,y,z,s])=>{const n=glow(c,s);n.material.opacity=.28;n.position.set(x,y,z);g.add(n)});
+ /* نمایشگر طیف‌سنج */
+ const cv=document.createElement('canvas');cv.width=1024;cv.height=280;const cx=cv.getContext('2d'),px=n=>(X(n)+4.5)/9*1024;
+ cx.fillStyle='#04050c';cx.fillRect(0,0,1024,280);cx.strokeStyle='rgba(255,255,255,.3)';cx.fillStyle='rgba(255,255,255,.7)';cx.font='24px Vazirmatn,Tahoma,sans-serif';cx.textAlign='center';
+ for(let n=400;n<=700;n+=50){cx.beginPath();cx.moveTo(px(n),215);cx.lineTo(px(n),232);cx.stroke();cx.fillText(fa(n,0),px(n),258)}cx.fillText('نانومتر',990,258);
+ const sc=new THREE.Mesh(new THREE.BoxGeometry(9.3,2.7,.14),new THREE.MeshStandardMaterial({color:0x0b0d1a,metalness:.5,roughness:.4})),pn=new THREE.Mesh(new THREE.PlaneGeometry(9,2.52),new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(cv)}));
+ sc.position.set(0,-1.5,0);pn.position.set(0,-1.5,.08);g.add(sc,pn);
+ const BR=[],HL=[],HB=[];
+ LN.forEach((l,i)=>{const c=new THREE.Color(l[3]),b=new THREE.Mesh(new THREE.BoxGeometry(.1,1.5,.04),new THREE.MeshBasicMaterial({color:c,transparent:true,opacity:.85})),h=glow(c,1.6),hb=new THREE.Mesh(new THREE.BoxGeometry(.7,2,.3),new THREE.MeshBasicMaterial({transparent:true,opacity:0,depthWrite:false}));
+  b.position.set(X(l[0]),YB,.12);h.position.set(X(l[0]),YB,.1);h.material.opacity=.25;hb.position.set(X(l[0]),YB,.12);hb.userData.i=i;g.add(b,h,hb);BR.push(b);HL.push(h);HB.push(hb)});
+ /* اتم هیدروژن (ترازهای شماتیک ۱ تا ۶) */
+ const A=new THREE.Group();A.position.set(0,1.75,0);A.rotation.x=.9;A.scale.setScalar(.001);g.add(A);
+ const R5=[.3,.55,.8,1.05,1.28,1.5];A.add(ball(.2,0xff3a2a,.8),glow(0xff5a3a,1.6));
+ const RG=R5.map((r,i)=>{const t=ring(r,0x7aa7ff,.3);t.rotation.x=Math.PI/2;A.add(t);const l=lab(fa(i+1,0),'#ffffff',.26);l.position.set(0,.05,r);A.add(l);return t});
+ const e=ball(.07,0x4fa8ff,1.4),eg=glow(0x4fa8ff,.8);A.add(e,eg);
+ const ph=ball(.1,0xffffff,1.6),pg=glow(0xffffff,1.4),wv=glow(0xffffff,1);ph.visible=pg.visible=wv.visible=false;g.add(ph,pg,wv);
+ const hy=lab('اتم هیدروژن (H)','#9ec3ff',.5);hy.position.set(0,3.55,0);g.add(hy);
+ let S5=-1,T5=0,em=false,rr=R5[2];const pS=new V(),pL=new V(),a5=.8;
+ const tbl=()=>{$('tb').innerHTML='<table><tr><th>رنگ<th>طول موج<th>تراز اولیه<th>تراز نهایی</tr>'+LN.map((l,i)=>`<tr class="${i===S5?'s':''}"><td><i style="background:${l[3]}"></i>${l[1]}<td>${fa(l[0],0)} nm<td>${fa(l[2],0)}<td>${fa(2,0)}</tr>`).join('')+'</table>'};
+ const pickL=i=>{S5=i;T5=0;em=false;const l=LN[i];tbl();const q=$('hydrogenInfo');if(q)q.textContent=`خط ${l[1]} — ${fa(l[0],0)} نانومتر: الکترون از تراز ${fa(l[2],0)} به تراز ۲ می‌رود و فوتونی با همین رنگ آزاد می‌کند.`};
  return{g,n:'طیف نشری هیدروژن',z:13,
- s:['در رصدخانهٔ فضایی، طیف‌سنج بزرگ چهار خط مرئی سری بالمر هیدروژن را در جای درست محور طول موج نشان می‌دهد. روی هر خط کلیک کن یا از دکمه‌های کنار صفحه کمک بگیر.','۶۵۶ نانومتر (قرمز): الکترون از تراز ۳ به تراز ۲ می‌آید و فوتونی قرمز آزاد می‌کند.','۴۸۶ نانومتر (فیروزه‌ای): انتقال از تراز ۴ به تراز ۲.','۴۳۴ نانومتر (آبی): انتقال از تراز ۵ به تراز ۲. هرچه ترازها دورتر باشند، فوتون پرانرژی‌تر و طول موج کوتاه‌تر است.','۴۱۰ نانومتر (بنفش): انتقال از تراز ۶ به تراز ۲. این چهار خط، اثر انگشت نوری هیدروژن در ناحیهٔ مرئی‌اند.','اکنون می‌دانی نور فقط روشنایی نیست؛ زبانی است که جهان با آن خودش را معرفی می‌کند.'],
- go(k){sel=k>=1&&k<=4?k-1:-1;T=0;ph.visible=false;tbl()},
- pick(rc){const h=rc.intersectObjects(HIT)[0];if(h)go(ci,h.object.userData.k+1)},
- ui(){const d=mkEl('<table><thead><tr><th>رنگ</th><th>طول موج</th><th>تراز اولیه</th><th>تراز نهایی</th></tr></thead><tbody></tbody></table><div style="margin-top:6px;text-align:center"></div>');rows=d.querySelector('tbody');const bw=d.lastChild;LN.forEach((l,i)=>{const b=document.createElement('button');b.type='button';b.textContent=fa(l[0],0);b.style.borderColor=l[3];b.onclick=()=>go(ci,i+1);bw.appendChild(b)});tbl();return d},
- tick(t,dt){if(sel>=0)T+=dt;const l=LN[sel],a=t*1.4;let r=rl(l?l[2]:3);if(l&&T>.6)r=lerp(rl(l[2]),rl(2),ez(Math.min(1,(T-.6)/1)));
-  const q=ep(r,a);e.position.set(q[0],q[1],q[2]);eg.position.set(q[0],q[1],q[2]);
-  if(l&&T>1.6&&T<2.8){const f=ez((T-1.6)/1.2);ph.visible=true;pb.material.color.set(l[3]);pb.material.emissive.set(l[3]);pg.material.color.set(l[3]);ph.position.set(lerp(q[0],X(l[0]),f),lerp(q[1],2.5,f),lerp(q[2],0,f))}else ph.visible=false;
-  LM.forEach((o,i)=>{const on=sel===i,fl=on&&T>2.8?.4*Math.sin(t*10):0,k=Math.min(1,dt*6);o.m.material.opacity=lerp(o.m.material.opacity,on?1:sel<0?.7:.3,k);o.gl.scale.setScalar(lerp(o.gl.scale.x,on?2.4+fl:1,k))})}}})());
-
+ s:['در ناحیهٔ مرئی، طیف نشری هیدروژن چهار خط دارد (سری بالمر). روی هر خط طیف کلیک کن (یا از دکمه‌های پایین استفاده کن) تا گذار الکترونی پدیدآورندهٔ آن را ببینی.',
+ 'هر خط از بازگشت الکترون از یک تراز بالاتر به تراز ۲ پدید می‌آید: ۶۵۶ nm از ۳←۲، ۴۸۶ nm از ۴←۲، ۴۳۴ nm از ۵←۲ و ۴۱۰ nm از ۶←۲. هرچه اختلاف تراز بیشتر، طول موج کوتاه‌تر است.',
+ 'اکنون می‌دانی نور فقط روشنایی نیست؛ زبانی است که جهان با آن خودش را معرفی می‌کند.'],
+ enter(){S5=-1;T5=0;em=false;rr=R5[2];ph.visible=pg.visible=wv.visible=false},go(){},
+ ui(x){x.className='on';x.innerHTML=LN.map((l,i)=>`<button data-i="${i}"><i style="background:${l[3]}"></i>${fa(l[0],0)} nm</button>`).join('')+'<div class="i">روی یکی از خط‌های طیف کلیک کن.</div>';
+  x.querySelectorAll('button').forEach(b=>b.onclick=()=>pickL(+b.dataset.i));const q=document.createElement('div');q.className='i';q.id='hydrogenInfo';q.textContent='روی یکی از خط‌های طیف کلیک کن.';x.appendChild(q);$('tb').style.display='block';tbl()},
+ pick(rc){const h=rc.intersectObjects(HB)[0];if(h)pickL(h.object.userData.i)},
+ tick(t,dt){const k=1-Math.exp(-dt*4);A.scale.setScalar(lerp(A.scale.x,S5>=0?1:.001,k));let lit=0;
+  if(S5>=0){T5+=dt;const l=LN[S5],r0=R5[l[2]-1],r1=R5[1],p=Math.min(1,Math.max(0,(T5-.6)/1.2)),q=p*p*(3-2*p);rr=r0+(r1-r0)*q;lit=T5<1?l[2]:2;
+   const c=new THREE.Color(l[3]);ph.material.color.copy(c);ph.material.emissive.copy(c);pg.material.color.copy(c);wv.material.color.copy(c);
+   if(T5>=1.8&&!em){em=true;A.updateMatrixWorld();pS.copy(e.position);A.localToWorld(pS);g.worldToLocal(pS);pL.set(X(l[0]),YB,.15)}
+   if(em){const pp=Math.min(1,(T5-1.8)/1.2);ph.visible=pg.visible=pp<1;ph.position.lerpVectors(pS,pL,pp);pg.position.copy(ph.position);wv.visible=T5-1.8<1.2;wv.position.copy(pS);wv.scale.setScalar(.5+(T5-1.8)*3);wv.material.opacity=Math.max(0,.6*(1-(T5-1.8)/1.2))}}
+  e.position.set(Math.cos(a5)*rr,Math.sin(t*2)*.03,Math.sin(a5)*rr);eg.position.copy(e.position);
+  RG.forEach((m,i)=>{m.material.color.set(i+1===lit?0xffd27a:0x7aa7ff);m.material.opacity=i+1===lit?.95:.3});
+  BR.forEach((b,i)=>{const on=i===S5;b.material.opacity=lerp(b.material.opacity,S5<0?.85:on?1:.4,k);const h=HL[i],s=on?2.4+.4*Math.sin(t*4):.9;h.scale.set(s,s,1);h.material.opacity=on?.9:.25})}}})());
 CH.forEach(c=>{c.g.visible=false;G.add(c.g)});
 
 /* ---------- controller ---------- */
