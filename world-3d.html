@@ -374,10 +374,10 @@ const next=()=>si<CH[ci].s.length-1?go(ci,si+1):ci<CH.length-1&&go(ci+1,0),prev=
 $('nx').onclick=next;$('pv').onclick=prev;$('xc').addEventListener('keydown',e=>e.stopPropagation());addEventListener('keydown',e=>{if(e.key==='ArrowLeft')next();if(e.key==='ArrowRight')prev()});
 function resize(){R.setSize(innerWidth,innerHeight);Cam.aspect=innerWidth/innerHeight;Cam.updateProjectionMatrix();const h=CH[ci];if(h){const z=typeof h.z==='function'?h.z(Cam.aspect):h.z;camZ=z*(Cam.aspect<1&&ci!==5?1.55:1)}}
 addEventListener('resize',resize);
-let dx=0,dy=0,dragging=false,dragged=false,mx=0,my=0;const cvs=$('c'),RC=new THREE.Raycaster();cvs.style.touchAction='auto';
-cvs.addEventListener('pointerdown',e=>{dx=e.clientX;dy=e.clientY;dragging=true;dragged=false;if(ci>=14){try{cvs.setPointerCapture(e.pointerId)}catch(_){}}});
+let dx=0,dy=0,sx=0,sy=0,dragging=false,dragged=false,mx=0,my=0;const cvs=$('c'),RC=new THREE.Raycaster();cvs.style.touchAction='auto';
+cvs.addEventListener('pointerdown',e=>{dx=sx=e.clientX;dy=sy=e.clientY;dragging=true;dragged=false;if(ci>=14){try{cvs.setPointerCapture(e.pointerId)}catch(_){}}});
 cvs.addEventListener('pointermove',e=>{if(!dragging){if(ci<14){mx=e.clientX/innerWidth-.5;my=e.clientY/innerHeight-.5}return}const x=e.clientX-dx,y=e.clientY-dy;if(Math.hypot(x,y)>5)dragged=true;if(ci>=14&&dragged){rotY+=x*.008;rotX=Math.max(-1.15,Math.min(1.15,rotX+y*.006))}else if(ci<14){mx=e.clientX/innerWidth-.5;my=e.clientY/innerHeight-.5}dx=e.clientX;dy=e.clientY});
-cvs.addEventListener('pointerup',e=>{const wasDragged=dragged;dragging=false;dragged=false;if(ci>=14&&wasDragged)return;if(ci<14&&Math.hypot(e.clientX-dx,e.clientY-dy)>8)return;
+cvs.addEventListener('pointerup',e=>{const wasDragged=dragged;dragging=false;dragged=false;if(ci>=14&&wasDragged)return;if(ci<14&&Math.hypot(e.clientX-sx,e.clientY-sy)>8)return;
  if(ci===5){RC.setFromCamera(new THREE.Vector2(e.clientX/innerWidth*2-1,-(e.clientY/innerHeight)*2+1),Cam);const h=RC.intersectObjects(tiles)[0];if(h){const z=h.object.userData.z,s=SY[z-1],q=cfg(z);sel=z;type(s+(FA[s]?' ('+FA[s]+')':'')+' — عدد اتمی '+z+' — '+ON[org(z)]+'. آرایش الکترونی: \u2066'+q.s+'\u2069 — الکترون ظرفیت (بیرونی‌ترین لایه): '+q.v)}}else if(CH[ci].pick){RC.setFromCamera(new THREE.Vector2(e.clientX/innerWidth*2-1,-(e.clientY/innerHeight)*2+1),Cam);CH[ci].pick(RC)}else if(ci<14)next();setPanelMode(!$('panel').classList.contains('tools-mode'));});
 cvs.addEventListener('pointercancel',()=>{dragging=false;dragged=false});
 /* ---------- background music ---------- */
