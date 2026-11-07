@@ -350,7 +350,7 @@ CH.push((()=>{const g=new THREE.Group();
  'هر عنصر به دلیل ساختار انرژی الکترونی خود، طیف نشری ویژه‌ای دارد؛ درست مانند یک اثر انگشت نوری. نمونه وارد شعله می‌شود، رنگ شعله تغییر می‌کند و نور به طیف‌سنج می‌رسد.',
  'با عنصر دیگری هم آزمایش کن و خط‌ها را مقایسه کن. تعداد و جای خط‌ها در این نمایش، مدل آموزشی ساده‌شده است و داده‌های دقیق آزمایشگاهی نیست.'],
  enter(){rst()},go(k){if(k===0)rst();else if(k===1)run(cur,false);else if(!shown)run(cur,false)},
- ui(x){x.className='on';x.innerHTML=`<span>عنصر:</span><select id="fsel" aria-label="انتخاب عنصر">${EL.map((e,i)=>`<option value="${i}"${i===cur?' selected':''}>${e.n} (${e.s})</option>`).join('')}</select><button class="a" id="frun">اجرای آزمایش</button><div class="i" id="flameInfo">عنصر را انتخاب کن و آزمایش را اجرا کن.</div>`;
+ ui(x){x.className='on';x.innerHTML=`<span>عنصر:</span><select id="fsel" aria-label="انتخاب عنصر">${EL.map((e,i)=>`<option value="${i}"${i===cur?' selected':''}>${e.n} (${e.s})</option>`).join('')}</select><button class="a" id="frun">اجرای آزمایش</button>`;
   $('fsel').onchange=()=>run(+$('fsel').value,true);$('frun').onclick=()=>run(+$('fsel').value,true)},
  tick(t,dt){F.scale.set(1+.04*Math.sin(t*21),1+.07*Math.sin(t*17)+.05*Math.sin(t*26.3),1);
   const el=EL[cur];let f=0,p2=0,a=0;
@@ -359,7 +359,7 @@ CH.push((()=>{const g=new THREE.Group();
   fo.material.color.copy(c1);fi.material.color.copy(c2);fg.material.color.copy(c1);fl.color.copy(c1);fl.intensity=1.2+f*1.4;
   if(p2>0){ec.set(el.c).lerp(WH,.3);setSeg(bm,[-2.9,.35],[-2.9+3.5*p2,.35],ec,.9);bm.visible=true;bp.visible=true;bp.position.set(-2.9+3.5*p2,.35,0);bp.material.color.copy(ec)}else bm.visible=bp.visible=false;
   if(a!==lastA){lastA=a;draw(shown?el:null,a)}
-  if(shown&&!said&&at>4.4){said=true;const q=$('flameInfo');if(q)q.textContent=el.n+': '+el.t+' این یک مدل ساده‌شده است، نه داده‌های دقیق آزمایشگاهی.'}}}})());
+  if(shown&&!said&&at>4.4){said=true;type(el.n+': '+el.t+' این یک مدل ساده‌شده است، نه داده‌های دقیق آزمایشگاهی.')}}}})());
 
 /* 17 ماژول ۴: پله‌های انرژی اتم (فضای انتزاعی میان ستاره‌ها) */
 CH.push((()=>{const g=new THREE.Group(),A=new THREE.Group();A.rotation.x=.85;g.add(A);
@@ -413,15 +413,15 @@ CH.push((()=>{const g=new THREE.Group();
  const hy=lab('اتم هیدروژن (H)','#9ec3ff',.5);hy.position.set(0,3.55,0);g.add(hy);
  let S5=-1,T5=0,em=false,rr=R5[2];const pS=new V(),pL=new V(),a5=.8;
  const tbl=()=>{$('tb').innerHTML='<table><tr><th>رنگ<th>طول موج<th>تراز اولیه<th>تراز نهایی</tr>'+LN.map((l,i)=>`<tr class="${i===S5?'s':''}"><td><i style="background:${l[3]}"></i>${l[1]}<td>${fa(l[0],0)} nm<td>${fa(l[2],0)}<td>${fa(2,0)}</tr>`).join('')+'</table>'};
- const pickL=i=>{S5=i;T5=0;em=false;const l=LN[i];tbl();const q=$('hydrogenInfo');if(q)q.textContent=`خط ${l[1]} — ${fa(l[0],0)} نانومتر: الکترون از تراز ${fa(l[2],0)} به تراز ۲ می‌رود و فوتونی با همین رنگ آزاد می‌کند.`};
+ const pickL=i=>{S5=i;T5=0;em=false;const l=LN[i];tbl();type(`خط ${l[1]} — ${fa(l[0],0)} نانومتر: الکترون از تراز ${fa(l[2],0)} به تراز ۲ می‌رود و فوتونی با همین رنگ آزاد می‌کند.`)};
  return{g,n:'طیف نشری هیدروژن',z:13,
  s:['در ناحیهٔ مرئی، طیف نشری هیدروژن چهار خط دارد (سری بالمر). روی هر خط طیف کلیک کن (یا از دکمه‌های پایین استفاده کن) تا گذار الکترونی پدیدآورندهٔ آن را ببینی.',
  'هر خط از بازگشت الکترون از یک تراز بالاتر به تراز ۲ پدید می‌آید: ۶۵۶ nm از ۳←۲، ۴۸۶ nm از ۴←۲، ۴۳۴ nm از ۵←۲ و ۴۱۰ nm از ۶←۲. هرچه اختلاف تراز بیشتر، طول موج کوتاه‌تر است.',
  'اکنون می‌دانی نور فقط روشنایی نیست؛ زبانی است که جهان با آن خودش را معرفی می‌کند.'],
  enter(){S5=-1;T5=0;em=false;rr=R5[2];ph.visible=pg.visible=wv.visible=false},go(){},
  ui(x){x.className='on';x.innerHTML=LN.map((l,i)=>`<button data-i="${i}"><i style="background:${l[3]}"></i>${fa(l[0],0)} nm</button>`).join('')+'<div class="i">روی یکی از خط‌های طیف کلیک کن.</div>';
-  x.querySelectorAll('button').forEach(b=>b.onclick=()=>pickL(+b.dataset.i));const q=document.createElement('div');q.className='i';q.id='hydrogenInfo';q.textContent='روی یکی از خط‌های طیف کلیک کن.';x.appendChild(q);$('tb').style.display='block';tbl()},
- pick(rc){const h=rc.intersectObjects(HB)[0];if(h)pickL(h.object.userData.i)},
+  x.querySelectorAll('button').forEach(b=>b.onclick=()=>pickL(+b.dataset.i));$('tb').style.display='block';tbl()},
+ pick(ev){RC.setFromCamera(new THREE.Vector2(ev.clientX/innerWidth*2-1,-(ev.clientY/innerHeight)*2+1),Cam);const h=RC.intersectObjects(HB)[0];if(h)pickL(h.object.userData.i)},
  tick(t,dt){const k=1-Math.exp(-dt*4);A.scale.setScalar(lerp(A.scale.x,S5>=0?1:.001,k));let lit=0;
   if(S5>=0){T5+=dt;const l=LN[S5],r0=R5[l[2]-1],r1=R5[1],p=Math.min(1,Math.max(0,(T5-.6)/1.2)),q=p*p*(3-2*p);rr=r0+(r1-r0)*q;lit=T5<1?l[2]:2;
    const c=new THREE.Color(l[3]);ph.material.color.copy(c);ph.material.emissive.copy(c);pg.material.color.copy(c);wv.material.color.copy(c);
