@@ -10,13 +10,13 @@
 #tabs{position:fixed;top:env(safe-area-inset-top,0px);inset-inline:0;display:flex;gap:6px;padding:10px 12px;overflow-x:auto;z-index:3;scrollbar-width:none}
 #tabs button,#ctl button{font:inherit;font-size:13.5px;white-space:nowrap;padding:6px 14px;border-radius:99px;border:1px solid var(--line);background:rgba(10,8,30,.6);backdrop-filter:blur(10px);color:var(--ink);cursor:pointer}
 #tabs button.on{background:var(--ac);color:#1a1030;border-color:var(--ac)}
-#panel{position:fixed;bottom:env(safe-area-inset-bottom,0px);inset-inline:0;margin:0 auto 14px;width:min(900px,calc(100% - 24px));background:rgba(12,9,34,.72);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:22px;padding:16px 22px;z-index:3}
+#panel{position:fixed;bottom:env(safe-area-inset-bottom,0px);inset-inline:0;margin:0 auto 10px;width:min(900px,calc(100% - 24px));background:rgba(12,9,34,.82);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:22px;padding:14px 18px;z-index:3}
 #ttl{margin:0 0 4px;font-size:22px;font-weight:800;color:var(--ac)}
 #speedbox{display:flex;align-items:center;gap:9px;width:max-content;max-width:100%;margin:0 0 8px;padding:6px 10px;border:1px solid var(--ac);border-radius:10px;background:rgba(255,210,122,.12);color:var(--ink);font:13px Tahoma,sans-serif}#speedbox label{white-space:nowrap}#speedbox select{font:inherit;color:var(--ink);background:#21183f;border:1px solid var(--ac);border-radius:8px;padding:5px 8px;min-width:78px}#speedbox select option{background:#120d2e;color:#fff}
 #txt{margin:0;min-height:5.8em;line-height:1.95;font-size:16px;cursor:pointer}
 #txt::after{content:"▍";color:var(--ac);animation:b 1s steps(2) infinite}#txt.done::after{content:""}
 @keyframes b{50%{opacity:0}}
-#extra:empty{display:none}.xcontrols{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:8px 0;padding:9px 11px;border:1px solid rgba(125,160,255,.35);border-radius:13px;background:rgba(65,85,150,.16);font-size:13px}.xcontrols input[type=range]{flex:1;min-width:130px;accent-color:#8e9cff}.xcontrols select,.xcontrols button{font:inherit;color:#fff;background:#21183f;border:1px solid #8e9cff;border-radius:9px;padding:6px 10px}.xcontrols small,.xcontrols span{color:#ffe2a2}.xcontrols button{cursor:pointer}.xcontrols.spectrum button{font-size:12px}@media(max-width:700px){.xcontrols{font-size:11px;padding:7px}#panel{max-height:48vh;overflow:auto}}
+#extra:empty{display:none}.xcontrols{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:8px 0;padding:9px 11px;border:1px solid rgba(125,160,255,.35);border-radius:13px;background:rgba(65,85,150,.16);font-size:13px}.xcontrols input[type=range]{flex:1;min-width:130px;accent-color:#8e9cff}.xcontrols select,.xcontrols button{font:inherit;color:#fff;background:#21183f;border:1px solid #8e9cff;border-radius:9px;padding:6px 10px}.xcontrols small,.xcontrols span{color:#ffe2a2}.xcontrols button{cursor:pointer}.xcontrols.spectrum button{font-size:12px}@media(max-width:700px){.xcontrols{font-size:11px;padding:7px}#panel{max-height:58vh;overflow-y:auto;overscroll-behavior:contain}#txt{min-height:0;max-height:none}}
 #ctl{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;margin-top:8px}#dots{display:flex;gap:7px}#dots i{width:9px;height:9px;border-radius:50%;background:var(--line)}#dots i.on{background:var(--ac)}
 #ctl button:focus-visible,#tabs button:focus-visible{outline:2px solid #fff}
 @media(max-width:700px){#txt{font-size:14.5px}#panel{padding:12px 16px}}
@@ -34,15 +34,12 @@
 #mp #mpp{background:var(--ac);color:#1a1030;border-color:var(--ac);min-width:48px;font-size:16px}
 #mp input[type=range]{flex:1;accent-color:#ffd27a;min-width:0}#mp .t{color:var(--mute);font-variant-numeric:tabular-nums;min-width:34px;text-align:center}
 
-#xc{display:none;position:static;width:100%;max-height:30vh;overflow:auto;margin:10px 0 4px;background:rgba(12,9,34,.88);border:1px solid var(--line);border-radius:16px;padding:10px 12px;font-size:14px;line-height:1.8}
+#xc{display:block;position:static;width:100%;max-height:22vh;overflow:auto;margin:10px 0 4px;background:rgba(12,9,34,.88);border:1px solid var(--line);border-radius:16px;padding:10px 12px;font-size:14px;line-height:1.8}#xc:empty{display:none}
 #xc select,#xc button{font:inherit;font-size:14px;color:var(--ink);background:rgba(255,255,255,.08);border:1px solid var(--line);border-radius:12px;padding:6px 12px;cursor:pointer;margin:2px}
 #xc select{width:100%}#xc select option{background:#120d2e}#xc button:disabled{opacity:.4;cursor:default}#xc input[type=range]{width:100%;accent-color:#ffd27a}
 #xc table{width:100%;border-collapse:collapse;font-size:13px}#xc td,#xc th{border:1px solid var(--line);padding:3px 6px;text-align:center}
-@media(max-width:700px){#xc{font-size:12.5px;padding:8px 10px;max-height:24vh}}
+@media(max-width:700px){#xc{font-size:12.5px;padding:8px 10px;max-height:20vh}}
 
-#panel.tools-mode #txt,#panel.tools-mode #fm,#panel.tools-mode #speedbox{display:none!important}
-#panel:not(.tools-mode) #xc{display:none!important}
-#panel.tools-mode #xc{display:block!important}
 </style></head><body>
 <canvas id="c"></canvas><nav id="tabs"></nav>
 <div id="mp" hidden><select id="mpt" aria-label="انتخاب آهنگ"><option value="0">On the Nature of Daylight — Max Richter</option><option value="1">Day One — Interstellar</option><option value="2">Succession</option></select>
@@ -251,7 +248,7 @@ CH.push((()=>{const g=new THREE.Group();let mode=0,lam=550,info=null;
  pr.add(new THREE.LineSegments(new THREE.EdgesGeometry(pg),new THREE.LineBasicMaterial({color:0xffffff,transparent:true,opacity:.8})));g.add(pr);
  const SL=[...Array(8)].map(()=>({i:BM(),o:BM(),e:glow(0xffffff,1.4)})),w0=BM();SL.forEach(s=>{s.e.visible=false;g.add(s.i,s.o,s.e)});g.add(w0);
  const LAM=[680,610,580,530,470,440,410],Y0=-.1,
- ray=l=>{const n=1.5+12000/(l*l),P1=[-1.5+1.5*(Y0+1.3)/2.6,Y0],d1=refr([1,0],[-.866,.5],1/n),P2=isect(P1,d1,[0,1.3],[1.5,-1.3]),d2=refr(d1,[-.866,-.5],n)||d1;return{n,P1,P2,d2,dev:Math.abs(Math.atan2(d2[1],d2[0]))*57.2958}},
+ ray=l=>{const n=1.48+3000/(l*l),P1=[-1.5+1.5*(Y0+1.3)/2.6,Y0],d1=refr([1,0],[-.866,.5],1/n),P2=isect(P1,d1,[0,1.3],[1.5,-1.3]),d2=refr(d1,[-.866,-.5],n)||d1;return{n,P1,P2,d2,dev:Math.abs(Math.atan2(d2[1],d2[0]))*57.2958}},
  show=(s,l,w,op)=>{const r=ray(l),c=wl(l),E=[r.P2[0]+r.d2[0]*6,r.P2[1]+r.d2[1]*6];setB(s.i,r.P1,r.P2,c,w*.7);setB(s.o,r.P2,E,c,w);s.i.material.opacity=s.o.material.opacity=op;s.e.material.color.set(c);s.e.material.opacity=op;s.e.position.set(E[0],E[1],0);s.e.visible=true},
  refresh=()=>{setB(w0,[-7,Y0],ray(550).P1,'#ffffff',.09);SL.forEach(s=>{s.i.visible=s.o.visible=s.e.visible=false});
   if(mode===1){const r=ray(550);setB(SL[0].i,r.P1,r.P2,'#ffffff',.07);SL[0].i.material.opacity=.9}
@@ -360,11 +357,11 @@ CH.forEach(c=>{c.g.visible=false;G.add(c.g)});
 const clk=new THREE.Clock();let ci=0,si=0,iv,camZ=14,mx=0,my=0;
 const tabs=$('tabs');CH.forEach((c,i)=>{const b=document.createElement('button');b.textContent=c.n;b.onclick=()=>go(i,0);tabs.appendChild(b)});
 let textSpeed=1,currentText='',textIndex=0;
-function setPanelMode(showTools){$('panel').classList.toggle('tools-mode',!!showTools);if(showTools){const x=$('xc');if(x.childElementCount||x.innerHTML.trim())x.style.display='block'}else $('xc').style.display='none'}
-function startTyping(){clearInterval(iv);const el=$('txt');iv=setInterval(()=>{textIndex=Math.min(currentText.length,textIndex+1);el.textContent=currentText.slice(0,textIndex);if(textIndex>=currentText.length){clearInterval(iv);el.classList.add('done')}},Math.max(1,18/textSpeed))}
-function type(s){setPanelMode(false);currentText=s;textIndex=0;const el=$('txt');el.classList.remove('done');el.textContent='';$('xc').style.display='none';startTyping();el.onclick=()=>{clearInterval(iv);textIndex=currentText.length;el.textContent=currentText;el.classList.add('done')}}
+function setPanelMode(showTools){}
+function startTyping(){clearInterval(iv);const el=$('txt');el.textContent=currentText;textIndex=currentText.length;el.classList.add('done')}
+function type(s){currentText=s;textIndex=s.length;const el=$('txt');el.classList.add('done');el.textContent=s}
 $('txspeed').onchange=e=>{textSpeed=Number(e.target.value)||1;if(textIndex<currentText.length)startTyping()};
-function xcSet(h){const x=$('xc');x.replaceChildren();x.style.display='none';if(typeof h.ui==='function'){h.el=h.el||h.ui();if(h.el)x.appendChild(h.el)}else if(h.ui){x.innerHTML=h.ui;if(h.bind)h.bind()}}
+function xcSet(h){const x=$('xc');x.replaceChildren();if(typeof h.ui==='function'){h.el=h.el||h.ui();if(h.el)x.appendChild(h.el)}else if(h.ui){x.innerHTML=h.ui;if(h.bind)h.bind()}x.style.display=x.childElementCount?'block':'none'}
 
 function go(c,s){setPanelMode(false);if(c!==ci||!CH[c].g.visible){CH[ci].g.visible=false;ci=c;const h=CH[c];h.g.visible=true;h.g.scale.setScalar(.01);h.enter&&h.enter()}si=s;const h=CH[c];h.go(s);xcSet(h);
  [...tabs.children].forEach((b,i)=>b.classList.toggle('on',i===c));$('ttl').textContent=h.n;{const fm=$('fm'),f=h.f&&h.f[s];fm.innerHTML=f||'';fm.style.display=f?'block':'none'}$('dots').innerHTML=h.s.map((_,i)=>`<i class="${i===s?'on':''}"></i>`).join('');type(h.s[s]);
@@ -377,7 +374,7 @@ let dx=0,dy=0;const cvs=$('c'),RC=new THREE.Raycaster();
 cvs.addEventListener('pointerdown',e=>{dx=e.clientX;dy=e.clientY});
 cvs.addEventListener('pointermove',e=>{mx=e.clientX/innerWidth-.5;my=e.clientY/innerHeight-.5});
 cvs.addEventListener('pointerup',e=>{if(Math.hypot(e.clientX-dx,e.clientY-dy)>8)return;
- if(ci===5){RC.setFromCamera(new THREE.Vector2(e.clientX/innerWidth*2-1,-(e.clientY/innerHeight)*2+1),Cam);const h=RC.intersectObjects(tiles)[0];if(h){const z=h.object.userData.z,s=SY[z-1],q=cfg(z);sel=z;type(`${s}${FA[s]?' ('+FA[s]+')':''} — عدد اتمی ${z} — ${ON[org(z)]}. آرایش الکترونی: \u2066${q.s}\u2069 — الکترون ظرفیت (بیرونی‌ترین لایه): ${q.v}`)}}else if(CH[ci].pick){RC.setFromCamera(new THREE.Vector2(e.clientX/innerWidth*2-1,-(e.clientY/innerHeight)*2+1),Cam);CH[ci].pick(RC)}else if(ci<14)next();setPanelMode(!$('panel').classList.contains('tools-mode'));});
+ if(ci===5){RC.setFromCamera(new THREE.Vector2(e.clientX/innerWidth*2-1,-(e.clientY/innerHeight)*2+1),Cam);const h=RC.intersectObjects(tiles)[0];if(h){const z=h.object.userData.z,s=SY[z-1],q=cfg(z);sel=z;type(`${s}${FA[s]?' ('+FA[s]+')':''} — عدد اتمی ${z} — ${ON[org(z)]}. آرایش الکترونی: \u2066${q.s}\u2069 — الکترون ظرفیت (بیرونی‌ترین لایه): ${q.v}`)}}else if(CH[ci].pick){RC.setFromCamera(new THREE.Vector2(e.clientX/innerWidth*2-1,-(e.clientY/innerHeight)*2+1),Cam);CH[ci].pick(RC)}});
 
 /* ---------- background music ---------- */
 addEventListener('DOMContentLoaded',()=>{try{
