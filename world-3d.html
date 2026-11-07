@@ -55,15 +55,25 @@
 <script>
 /* Always keep the first lesson visible if WebGL or the main script fails. */
 window.__world3dReady=false;
-window.addEventListener('error',function(){
+window.addEventListener('error',function(ev){
  if(window.__world3dReady)return;
  const title=document.getElementById('ttl'),txt=document.getElementById('txt'),fallback=document.getElementById('boot-fallback');
  if(title)title.textContent='جهان سه‌بعدی شیمی';
- if(txt){txt.textContent='موتور سه‌بعدی بارگذاری نشد؛ متن آموزشی پایه همچنان نمایش داده می‌شود.';txt.classList.add('done');}
+ if(txt){
+  const detail=ev&&ev.message?String(ev.message):'خطای نامشخص در اجرای جاوااسکریپت';
+  const where=ev&&ev.lineno?' (خط '+ev.lineno+')':'';
+  txt.textContent='اجرای صحنهٔ سه‌بعدی متوقف شد: '+detail+where;
+  txt.classList.add('done');
+ }
  if(fallback)fallback.style.display='block';
 });
-window.addEventListener('unhandledrejection',function(){
- if(!window.__world3dReady){const f=document.getElementById('boot-fallback');if(f)f.style.display='block';}
+window.addEventListener('unhandledrejection',function(ev){
+ if(!window.__world3dReady){
+  const txt=document.getElementById('txt'),f=document.getElementById('boot-fallback');
+  const reason=ev&&ev.reason,detail=reason&&reason.message?reason.message:String(reason||'خطای نامشخص');
+  if(txt)txt.textContent='خطا در راه‌اندازی سه‌بعدی: '+detail;
+  if(f)f.style.display='block';
+ }
 });
 </script>
 <script src="assets/three.min.js" onerror="document.getElementById('txt').textContent='بارگذاری موتور سه‌بعدی ناموفق بود؛ متن آموزشی همچنان در دسترس است.'"></script>
