@@ -367,17 +367,17 @@ function type(s){setPanelMode(false);currentText=s;textIndex=0;const el=$('txt')
 $('txspeed').onchange=e=>{textSpeed=Number(e.target.value)||1;if(textIndex<currentText.length)startTyping()};
 function xcSet(h){const x=$('xc');x.replaceChildren();x.style.display='none';if(typeof h.ui==='function'){h.el=h.el||h.ui();if(h.el)x.appendChild(h.el)}else if(h.ui){x.innerHTML=h.ui;if(h.bind)h.bind()}}
 
-function go(c,s){setPanelMode(false);if(c!==ci||!CH[c].g.visible){CH[ci].g.visible=false;ci=c;const h=CH[c];h.g.visible=true;h.g.scale.setScalar(.01);h.enter&&h.enter()}si=s;const h=CH[c];h.go(s);xcSet(h);
+function go(c,s){if(typeof cvs!=='undefined')cvs.style.touchAction=c>=14?'none':'auto';setPanelMode(false);if(c!==ci||!CH[c].g.visible){CH[ci].g.visible=false;ci=c;const h=CH[c];h.g.visible=true;h.g.scale.setScalar(.01);h.enter&&h.enter()}si=s;const h=CH[c];h.go(s);xcSet(h);
  [...tabs.children].forEach((b,i)=>b.classList.toggle('on',i===c));$('ttl').textContent=h.n;{const fm=$('fm'),f=h.f&&h.f[s];fm.innerHTML=f||'';fm.style.display=f?'block':'none'}$('dots').innerHTML=h.s.map((_,i)=>`<i class="${i===s?'on':''}"></i>`).join('');type(h.s[s]);
  const z=typeof h.z==='function'?h.z(Cam.aspect):h.z;camZ=z*(Cam.aspect<1&&c!==5?1.55:1)}
 const next=()=>si<CH[ci].s.length-1?go(ci,si+1):ci<CH.length-1&&go(ci+1,0),prev=()=>si>0?go(ci,si-1):ci>0&&go(ci-1,0);
 $('nx').onclick=next;$('pv').onclick=prev;$('xc').addEventListener('keydown',e=>e.stopPropagation());addEventListener('keydown',e=>{if(e.key==='ArrowLeft')next();if(e.key==='ArrowRight')prev()});
 function resize(){R.setSize(innerWidth,innerHeight);Cam.aspect=innerWidth/innerHeight;Cam.updateProjectionMatrix();const h=CH[ci];if(h){const z=typeof h.z==='function'?h.z(Cam.aspect):h.z;camZ=z*(Cam.aspect<1&&ci!==5?1.55:1)}}
 addEventListener('resize',resize);
-let dx=0,dy=0,dragging=false,dragged=false;const cvs=$('c'),RC=new THREE.Raycaster();cvs.style.touchAction='none';
-cvs.addEventListener('pointerdown',e=>{dx=e.clientX;dy=e.clientY;dragging=true;dragged=false;try{cvs.setPointerCapture(e.pointerId)}catch(_){}});
-cvs.addEventListener('pointermove',e=>{if(!dragging)return;const x=e.clientX-dx,y=e.clientY-dy;if(Math.hypot(x,y)>5)dragged=true;if(dragged){rotY+=x*.008;rotX=Math.max(-1.15,Math.min(1.15,rotX+y*.006))}dx=e.clientX;dy=e.clientY});
-cvs.addEventListener('pointerup',e=>{const wasDragged=dragged;dragging=false;dragged=false;if(wasDragged)return;
+let dx=0,dy=0,dragging=false,dragged=false,mx=0,my=0;const cvs=$('c'),RC=new THREE.Raycaster();cvs.style.touchAction='auto';
+cvs.addEventListener('pointerdown',e=>{dx=e.clientX;dy=e.clientY;dragging=true;dragged=false;if(ci>=14){try{cvs.setPointerCapture(e.pointerId)}catch(_){}}});
+cvs.addEventListener('pointermove',e=>{if(!dragging){if(ci<14){mx=e.clientX/innerWidth-.5;my=e.clientY/innerHeight-.5}return}const x=e.clientX-dx,y=e.clientY-dy;if(Math.hypot(x,y)>5)dragged=true;if(ci>=14&&dragged){rotY+=x*.008;rotX=Math.max(-1.15,Math.min(1.15,rotX+y*.006))}else if(ci<14){mx=e.clientX/innerWidth-.5;my=e.clientY/innerHeight-.5}dx=e.clientX;dy=e.clientY});
+cvs.addEventListener('pointerup',e=>{const wasDragged=dragged;dragging=false;dragged=false;if(ci>=14&&wasDragged)return;if(ci<14&&Math.hypot(e.clientX-dx,e.clientY-dy)>8)return;
  if(ci===5){RC.setFromCamera(new THREE.Vector2(e.clientX/innerWidth*2-1,-(e.clientY/innerHeight)*2+1),Cam);const h=RC.intersectObjects(tiles)[0];if(h){const z=h.object.userData.z,s=SY[z-1],q=cfg(z);sel=z;type(s+(FA[s]?' ('+FA[s]+')':'')+' — عدد اتمی '+z+' — '+ON[org(z)]+'. آرایش الکترونی: \u2066'+q.s+'\u2069 — الکترون ظرفیت (بیرونی‌ترین لایه): '+q.v)}}else if(CH[ci].pick){RC.setFromCamera(new THREE.Vector2(e.clientX/innerWidth*2-1,-(e.clientY/innerHeight)*2+1),Cam);CH[ci].pick(RC)}else if(ci<14)next();setPanelMode(!$('panel').classList.contains('tools-mode'));});
 cvs.addEventListener('pointercancel',()=>{dragging=false;dragged=false});
 /* ---------- background music ---------- */
@@ -419,7 +419,7 @@ resize();go(0,0);CH[0].g.visible=true;
 (function loop(){requestAnimationFrame(loop);const dt=Math.min(clk.getDelta(),.05),t=clk.elapsedTime,h=CH[ci];
  h.tick(t,dt);h.g.scale.setScalar(lerp(h.g.scale.x,1,.06));
  Cam.position.z=lerp(Cam.position.z,camZ,.05);Cam.position.y=-.2*Cam.position.z;
- G.rotation.y=lerp(G.rotation.y,rotY,.12);G.rotation.x=lerp(G.rotation.x,rotX,.12);bg.rotation.y=t*.004;R.render(S,Cam)})();
+ if(ci>=14){G.rotation.y=lerp(G.rotation.y,rotY,.12);G.rotation.x=lerp(G.rotation.x,rotX,.12)}else{G.rotation.y=lerp(G.rotation.y,mx*.5,.05);G.rotation.x=lerp(G.rotation.x,my*.3,.05)}bg.rotation.y=t*.004;R.render(S,Cam)})();
 </script><audio class="trk" preload="none"></audio>
 <audio class="trk" preload="none"></audio>
 <audio class="trk" preload="none"></audio>
